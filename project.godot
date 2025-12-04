@@ -144,11 +144,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/core/CardViewer/CardViewer.gd"
 }, {
-"base": "Popup",
-"class": "ChallengePanel",
-"language": "GDScript",
-"path": "res://src/new_card_game/ChallengePanel.gd"
-}, {
 "base": "Control",
 "class": "Counters",
 "language": "GDScript",
@@ -367,7 +362,6 @@ _global_script_class_icons={
 "CardLabel": "",
 "CardLibrary": "",
 "CardViewer": "",
-"ChallengePanel": "",
 "Counters": "",
 "CustomScripts": "",
 "DBDeckCardObject": "",

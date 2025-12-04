@@ -1,0 +1,65 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/core/CardViewer/CVCardListHeadersFont.tres" type="DynamicFont" id=1]
+
+[node name="TutorialPanel" type="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -805.0
+margin_bottom = -440.0
+rect_min_size = Vector2( 475, 280 )
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -228.0
+margin_top = -126.0
+margin_right = 233.0
+margin_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 450, 250 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 11.0
+margin_top = 25.0
+margin_right = 450.0
+margin_bottom = 225.0
+grow_vertical = 0
+rect_min_size = Vector2( 0, 200 )
+custom_constants/separation = 25
+
+[node name="TutorialLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_right = 439.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 400, 75 )
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "This is tutorial text. There are many things you can 
+do to make sure that
+ you feel comfortable with the text."
+valign = 1
+
+[node name="NextButton" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 100.0
+margin_right = 439.0
+margin_bottom = 175.0
+grow_horizontal = 2
+rect_min_size = Vector2( 350, 75 )
+size_flags_horizontal = 5
+text = "NEXT"
+icon_align = 1
+expand_icon = true
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer"]
+visible = false
+margin_top = 250.0
+margin_right = 400.0
+margin_bottom = 275.0
+rect_min_size = Vector2( 0, 25 )
+size_flags_horizontal = 5
+size_flags_vertical = 5
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/NextButton" to="." method="_on_NextButton_pressed"]
