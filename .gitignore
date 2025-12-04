@@ -1,0 +1,16 @@
+Export/*
+export_presets.cfg
+.DS_STORE
+.import/
+fonts/
+.vscode/
+android/
+assets/
+themes/
+BigFont.tres
+BigFontTheme.tres
+default_env.tres
+icon.png
+icon.png.import
+project.godot
+src/custom/*
