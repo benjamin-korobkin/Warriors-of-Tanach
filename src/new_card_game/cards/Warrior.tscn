@@ -1,12 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://src/new_card_game/Card.tscn" type="PackedScene" id=1]
-[ext_resource path="res://src/new_card_game/cards/Sage.gd" type="Script" id=2]
-[ext_resource path="res://src/new_card_game/cards/WarriorFront.tscn" type="PackedScene" id=3]
 
-[node name="Sage" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
-card_front_design = ExtResource( 3 )
+[node name="Warrior" instance=ExtResource( 1 )]
+script = null
 
 [node name="CollisionShape2D" parent="." index="0"]
 position = Vector2( 78, 86.4 )
