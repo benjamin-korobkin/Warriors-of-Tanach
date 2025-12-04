@@ -1,0 +1,58 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/new_card_game/GameOverPanel.gd" type="Script" id=1]
+
+[node name="GameOverPanel" type="Panel"]
+margin_right = 450.0
+margin_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource( 1 )
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_right = 446.0
+margin_bottom = 40.0
+size_flags_horizontal = 7
+
+[node name="GameOverLabel" type="Label" parent="CenterContainer"]
+margin_left = 165.0
+margin_top = 13.0
+margin_right = 281.0
+margin_bottom = 27.0
+text = "Somebody won!"
+align = 3
+valign = 1
+uppercase = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 14.2426
+margin_top = 86.4142
+margin_right = 429.243
+margin_bottom = 126.414
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="PlayAgainButton" type="Button" parent="HBoxContainer"]
+margin_right = 205.0
+margin_bottom = 39.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+text = "Play Again"
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
+visible = false
+margin_right = 205.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+
+[node name="MenuButton" type="Button" parent="HBoxContainer"]
+margin_left = 209.0
+margin_right = 415.0
+margin_bottom = 39.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+text = "Menu"
+
+[connection signal="pressed" from="HBoxContainer/PlayAgainButton" to="." method="_on_PlayAgainButton_pressed"]
+[connection signal="pressed" from="HBoxContainer/MenuButton" to="." method="_on_MenuButton_pressed"]

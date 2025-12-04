@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/core/CardTemplate.tscn" type="PackedScene" id=2]
+
+[node name="Card" instance=ExtResource( 2 )]
+
+[node name="CollisionShape2D" parent="." index="0"]
+position = Vector2( 75, 90 )
+
+[node name="Control" parent="." index="1"]
+margin_right = 150.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 150, 180 )
