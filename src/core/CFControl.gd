@@ -246,12 +246,12 @@ func instance_card(card_name: String) -> Card:
 	var template
 	var card_type
 	match card_definitions[card_name][CardConfig.SCENE_PROPERTY]:
-		"Tanach":
-			template = TANACH_CARD_SCENE
-			card_type = "Tanach"
+		"Warrior":
+			template = WARRIOR_CARD_SCENE
+			card_type = "Warrior"
 		_:
-			template = SAGE_CARD_SCENE
-			card_type = "Sage"
+			template = WARRIOR_CARD_SCENE
+			card_type = "Warrior"
 	var card = template.instance()
 	# We set the card_name variable so that it's able to be used later
 	card.canonical_name = card_name

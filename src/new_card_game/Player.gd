@@ -23,7 +23,7 @@ func play_turn():
 	pass
 	
 func finish_turn():
-	has_moved = false
+	has_moved = true
 	
 func draw_card():
 	hand.draw_card()
