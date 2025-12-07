@@ -9,7 +9,7 @@ var current_card : Card
 var hand : Area2D
 var field : PanelContainer
 var opponent : Node2D
-var has_moved : bool
+var has_moved : bool setget set_has_moved, get_has_moved
 var points : int = 0
 var player_name : String
 
@@ -20,10 +20,11 @@ func _ready() -> void:
 	
 
 func play_turn():
-	pass
+	set_has_moved(false)
 	
 func finish_turn():
-	has_moved = true
+	set_has_moved(true)
+	get_parent().turn_over()
 	
 func draw_card():
 	hand.draw_card()
@@ -31,9 +32,6 @@ func draw_card():
 # TODO
 func update_points(amt : int):
 	pass
-
-func turn_over():
-	get_parent().check_turn_over()
 
 func set_current_card(card):
 	current_card = card
@@ -43,3 +41,9 @@ func get_field():
 	
 func get_hand():
 	return hand
+	
+func set_has_moved(moved : bool):
+	has_moved = moved
+
+func get_has_moved():
+	return has_moved

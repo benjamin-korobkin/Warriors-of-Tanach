@@ -15,8 +15,8 @@ func _ready() -> void:
 	if not cfc.are_all_nodes_mapped:
 		yield(cfc, "all_nodes_mapped")
 	board = cfc.NMAP.board
-	field = board.get_node("FieldTimelineContainer/FieldHBox1/FieldGrid1")
-	timeline = board.get_node("FieldTimelineContainer/TimelineGrid")
+	field = board.get_node("FieldContainer/FieldHBox1/FieldGrid1")
+	timeline = board.get_node("FieldContainer/TimelineGrid")
 	p1 = board.get_node("TurnQueue/Player1")
 	p2 = board.get_node("TurnQueue/Player2")
 	challenge_panel = board.get_node("ChallengePanel")
@@ -31,7 +31,7 @@ func _on_FieldButton_pressed() -> void:
 		p1.current_card.set_in_p1_field(true)
 		hide()
 		emit_signal("moved_to_field", 1)
-		p1.check_turn_over()
+		p1.turn_over()
 		## TUTORIAL
 		board.advance_tutorial()
 	else:
@@ -57,7 +57,7 @@ func _on_TimelineButton_pressed() -> void:
 		p1.current_card.set_is_faceup(true)
 		p1.cards_in_timeline += 1
 		hide()
-		p1.check_turn_over()
+		p1.turn_over()
 		## TUTORIAL
 		board.advance_tutorial()
 

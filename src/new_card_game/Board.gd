@@ -7,15 +7,15 @@ func _ready() -> void:
 	cfc.game_settings.fancy_movement = false
 	cfc.game_settings.hand_use_oval_shape = false
 	cfc.game_settings.focus_style = CFInt.FocusStyle.VIEWPORT
-	$FancyMovementToggle.pressed = cfc.game_settings.fancy_movement
-	$OvalHandToggle.pressed = cfc.game_settings.hand_use_oval_shape
-	$ScalingFocusOptions.selected = cfc.game_settings.focus_style
-	$Debug.pressed = cfc._debug
+	#$FancyMovementToggle.pressed = cfc.game_settings.fancy_movement
+#	$OvalHandToggle.pressed = cfc.game_settings.hand_use_oval_shape
+#	$ScalingFocusOptions.selected = cfc.game_settings.focus_style
+#	$Debug.pressed = cfc._debug
 	
 
 	load_cards()
 	# warning-ignore:return_value_discarded
-	$DeckBuilderPopup.connect('popup_hide', self, '_on_DeckBuilder_hide')
+#	$DeckBuilderPopup.connect('popup_hide', self, '_on_DeckBuilder_hide')
 	
 	$TurnQueue.initialize()
 

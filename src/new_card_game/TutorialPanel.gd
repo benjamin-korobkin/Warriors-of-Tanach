@@ -9,7 +9,7 @@ onready var tutorial_steps = [
 		This grid <show grid> in the center is the Torah Timeline. 
 		It contains 5 slots, one for each of the following 5 eras: 
 			Tanna, Amora, Gaon, Rishon, and Acharon.
-		""", "state": "WAITING_FOR_NEXT", "reveal_node":$FieldTimelineContainer/TimelineGrid},
+		""", "state": "WAITING_FOR_NEXT", "reveal_node":$FieldContainer/TimelineGrid},
 	{"text": """
 		You start the game with 3 cards. You get 2 actions per turn. Actions include:
 		1. Drawing a card

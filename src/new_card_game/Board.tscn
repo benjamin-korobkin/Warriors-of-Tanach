@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://src/new_card_game/ActionsMenu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/core/Pile.tscn" type="PackedScene" id=2]
@@ -11,11 +11,8 @@
 [ext_resource path="res://src/new_card_game/Hand1.tscn" type="PackedScene" id=15]
 [ext_resource path="res://src/new_card_game/Hand2.tscn" type="PackedScene" id=16]
 [ext_resource path="res://src/new_card_game/TurnQueue.gd" type="Script" id=17]
-[ext_resource path="res://src/new_card_game/ChallengePanel.tscn" type="PackedScene" id=18]
 [ext_resource path="res://src/core/Hand.gd" type="Script" id=20]
-[ext_resource path="res://src/new_card_game/DiscardPanel.tscn" type="PackedScene" id=22]
 [ext_resource path="res://src/new_card_game/GameOverPanel.tscn" type="PackedScene" id=23]
-[ext_resource path="res://src/new_card_game/TorahChallengePanel.tscn" type="PackedScene" id=25]
 
 [node name="Board" type="Control"]
 anchor_right = 1.0
@@ -30,7 +27,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0705882, 0.203922, 0.254902, 0.156863 )
 
-[node name="FieldTimelineContainer" type="VBoxContainer" parent="."]
+[node name="FieldContainer" type="VBoxContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -43,60 +40,60 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="MarginContainer3" type="MarginContainer" parent="FieldTimelineContainer"]
-margin_top = 78.0
+[node name="MarginContainer3" type="MarginContainer" parent="FieldContainer"]
+margin_top = 36.0
 margin_right = 624.0
-margin_bottom = 78.0
+margin_bottom = 36.0
 
-[node name="FieldHBox2" type="HBoxContainer" parent="FieldTimelineContainer"]
-margin_top = 81.0
+[node name="FieldHBox2" type="HBoxContainer" parent="FieldContainer"]
+margin_top = 39.0
 margin_right = 624.0
 margin_bottom = 235.0
 grow_vertical = 2
 
-[node name="FieldGrid2" parent="FieldTimelineContainer/FieldHBox2" groups=["field"] instance=ExtResource( 8 )]
+[node name="FieldGrid2" parent="FieldContainer/FieldHBox2" groups=["field"] instance=ExtResource( 8 )]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 0.0
 margin_top = 0.0
-margin_right = 254.0
-margin_bottom = 154.0
+margin_right = 624.0
+margin_bottom = 196.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer2" type="MarginContainer" parent="FieldTimelineContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="FieldContainer"]
 margin_top = 238.0
 margin_right = 624.0
 margin_bottom = 238.0
 
-[node name="FieldHBox1" type="HBoxContainer" parent="FieldTimelineContainer"]
+[node name="FieldHBox1" type="HBoxContainer" parent="FieldContainer"]
 margin_top = 241.0
 margin_right = 624.0
-margin_bottom = 395.0
+margin_bottom = 437.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FieldGrid1" parent="FieldTimelineContainer/FieldHBox1" groups=["field"] instance=ExtResource( 8 )]
+[node name="FieldGrid1" parent="FieldContainer/FieldHBox1" groups=["field"] instance=ExtResource( 8 )]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 0.0
 margin_top = 0.0
-margin_right = 254.0
-margin_bottom = 154.0
+margin_right = 624.0
+margin_bottom = 196.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 card_size = Vector2( 150, 170 )
 
-[node name="MarginContainer" type="MarginContainer" parent="FieldTimelineContainer"]
-margin_top = 398.0
+[node name="MarginContainer" type="MarginContainer" parent="FieldContainer"]
+margin_top = 440.0
 margin_right = 624.0
-margin_bottom = 398.0
+margin_bottom = 440.0
 
 [node name="TurnQueue" type="Node2D" parent="."]
 script = ExtResource( 17 )
@@ -248,7 +245,6 @@ __meta__ = {
 }
 
 [node name="ActionsMenu" parent="." instance=ExtResource( 1 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -263,11 +259,6 @@ focus_mode = 1
 margin_top = 8.0
 margin_bottom = 82.0
 
-[node name="TimelineButton" parent="ActionsMenu/VBoxContainer/HBoxContainer" index="0"]
-margin_left = 74.0
-margin_right = 249.0
-margin_bottom = 74.0
-
 [node name="MarginContainer2" parent="ActionsMenu/VBoxContainer/HBoxContainer" index="1"]
 margin_bottom = 74.0
 
@@ -276,24 +267,8 @@ margin_left = 280.0
 margin_right = 455.0
 margin_bottom = 74.0
 
-[node name="ChallengePanel" parent="." instance=ExtResource( 18 )]
-anchor_top = 0.55
-anchor_bottom = 0.55
-margin_top = -33.55
-margin_right = 181.0
-margin_bottom = 33.45
-
-[node name="DiscardPanel" parent="." instance=ExtResource( 22 )]
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 128
-
-[node name="TorahChallengePanel" parent="CanvasLayer" instance=ExtResource( 25 )]
-visible = false
-margin_left = -500.053
-margin_top = -249.71
-margin_right = 499.947
-margin_bottom = 250.29
 
 [node name="GameOverPanel" parent="CanvasLayer" instance=ExtResource( 23 )]
 visible = false
@@ -308,11 +283,8 @@ margin_right = 225.0
 margin_bottom = 75.0
 
 [connection signal="game_won" from="TurnQueue" to="CanvasLayer/GameOverPanel" method="_on_game_won"]
-[connection signal="tdeck_empty" from="TurnQueue" to="." method="_on_TurnQueue_tdeck_empty"]
-[connection signal="turn_counter_updated" from="TurnQueue" to="." method="_on_TurnQueue_turn_counter_updated"]
 [connection signal="action_completed" from="TurnQueue/Player1" to="." method="_on_Player1_action_completed"]
 [connection signal="action_completed" from="TurnQueue/Player2" to="TurnQueue/Player2" method="_on_Player2_action_completed"]
-[connection signal="replacing_p1_card" from="TurnQueue/Player2" to="CanvasLayer/TorahChallengePanel" method="_on_Player2_replacing_p1_card"]
 [connection signal="is_empty" from="Deck" to="." method="_on_Deck_is_empty"]
 [connection signal="gui_input" from="Deck/Control" to="TurnQueue/Player1" method="_on_DeckPanel_gui_input"]
 [connection signal="item_selected" from="ScalingFocusOptions" to="." method="_on_ScalingFocusOptions_item_selected"]

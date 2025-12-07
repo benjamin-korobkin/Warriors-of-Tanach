@@ -8,7 +8,7 @@ signal replacing_p1_card(card)
 
 func _ready() -> void:
 	hand = board.get_node("Hand2")
-	field = board.get_node("FieldTimelineContainer/FieldHBox2/FieldGrid2")
+	field = board.get_node("FieldContainer/FieldHBox2/FieldGrid2")
 	opponent = get_parent().get_node("Player1")
 	player_name = get_name()
 
@@ -39,4 +39,4 @@ func put_in_field(card):
 	yield(card._tween, "tween_all_completed")
 	card.set_in_p2_field(true)
 #	update_counter()
-	turn_over()
+	finish_turn()

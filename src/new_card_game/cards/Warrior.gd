@@ -8,15 +8,14 @@ var select_button : Button
 var in_p1_field: bool = false setget set_in_p1_field,get_in_p1_field
 var in_p2_field: bool = false setget set_in_p2_field,get_in_p1_field
 
-## TODO: Refactor this later, update the control flow
+
 func _on_Card_gui_input(event) -> void:
 	board = cfc.NMAP.board
 	var player1 = board.get_node("TurnQueue/Player1")
-
-	if event is InputEventMouseButton and cfc.NMAP.has("board") and not player1.turn_over:
+	if event is InputEventMouseButton and cfc.NMAP.has("board") and not player1.get_has_moved():
 		var hand1 = board.get_node("Hand1")
 		
-		#var field = board.get_node("FieldTimelineContainer/FieldHBox1/FieldGrid1")
+		#var field = board.get_node("FieldContainer/FieldHBox1/FieldGrid1")
 		actions_menu = board.get_node("ActionsMenu")
 		select_button = actions_menu.get_node("VBoxContainer/HBoxContainer/SelectButton")
 		player1.set_current_card(self)
@@ -25,6 +24,7 @@ func _on_Card_gui_input(event) -> void:
 		
 		## TUTORIAL CODE
 		tutorial_checks()
+		player1.finish_turn()
 
 # TODO: Might use for the tutorial
 func tutorial_checks():

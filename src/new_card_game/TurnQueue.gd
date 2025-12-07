@@ -25,7 +25,7 @@ func initialize():
 	active_player.play_turn()
 
 
-func check_turn_over():
+func turn_over():
 	if TOTAL_TURNS >= current_turn:
 		var winner
 		if p1.points > p2.points:
@@ -37,21 +37,17 @@ func check_turn_over():
 		if winner:
 			emit_signal("game_won", winner.get_name())
 		else: ## TODO: Game ends in draw
-			emit_signal("game_over")
+			emit_signal("game_won", "No one")
 		game_over = true
-		finish_turn() ## Prevent game from continuing
-	elif active_player.get_actions_remaining() <= 0 and not game_over:
-		finish_turn()
+	else:
+		current_turn += 1
 		if get_active_player() == p1:
 			set_active_player(p2)
 		else:
 			set_active_player(p1)
-		active_player.play_turn()
+			active_player.play_turn()
 
-func finish_turn():
-	turn_over = true
-	current_turn += 1
-		
+
 func set_active_player(player):
 	active_player = player
 	

@@ -15,7 +15,7 @@ onready var tutorial_steps = [
 		This grid in the center is the Torah Timeline. 
 		It contains 5 slots, one for each of the following
 		5 eras: Tanna, Amora, Gaon, Rishon, and Acharon. 
-		""", "state": "WAITING_FOR_NEXT", "reveal_node": $FieldTimelineContainer/TimelineGrid,
+		""", "state": "WAITING_FOR_NEXT", "reveal_node": $FieldContainer/TimelineGrid,
 		"preset":"center_top"},
 	{"text": """
 		 To put cards in the Timeline,
@@ -46,10 +46,10 @@ onready var tutorial_steps = [
 		The grid below the Timeline is your BEIT MIDRASH. 
 		At the start of each of your turns, you earn
 		1 merits for each Sage here, up to 3 Merits. 
-		""", "state": "WAITING_FOR_NEXT", "reveal_node": $FieldTimelineContainer/FieldHBox1, 
+		""", "state": "WAITING_FOR_NEXT", "reveal_node": $FieldContainer/FieldHBox1, 
 		"preset":""},
 	{"text": """Your opponent has a Beit Midrash as well
-		""", "state": "WAITING_FOR_NEXT", "reveal_node": $FieldTimelineContainer/FieldHBox2, 
+		""", "state": "WAITING_FOR_NEXT", "reveal_node": $FieldContainer/FieldHBox2, 
 		"preset":"top_right"},
 	{"text": """Now, click your Sage card and click Beit Midrash. 
 		""", "state": "WAITING_FOR_BM", "reveal_node": null, "preset":""},

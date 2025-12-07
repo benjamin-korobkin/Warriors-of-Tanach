@@ -37,7 +37,7 @@ func _on_Player2_replacing_p1_card(replacement_card) -> void:
 	opening_label.set_visible(true)
 	sage_options_container.set_visible(true)
 	correct_sage = replacement_card.get_property("Name")
-	var p2_beit_din = cfc.NMAP.board.get_node("FieldTimelineContainer/FieldHBox2/FieldGrid2")
+	var p2_beit_din = cfc.NMAP.board.get_node("FieldContainer/FieldHBox2/FieldGrid2")
 	var sage_names = []
 	for card in p2_beit_din.get_occupying_cards():
 		sage_names.append(card.get_property("Name"))

@@ -18,7 +18,7 @@ func initialize():
 	active_player.play_turn()
 
 
-func check_turn_over():
+func turn_over():
 	if active_player.is_timeline_complete():
 		var winner
 		if p1.cards_in_timeline > p2.cards_in_timeline:

@@ -8,8 +8,7 @@ var is_discarding : bool = false setget set_is_discarding,get_is_discarding
 
 func _ready() -> void:
 	hand = board.get_node("Hand1")
-	timeline = board.get_node("FieldTimelineContainer/TimelineGrid")
-	field = board.get_node("FieldTimelineContainer/FieldHBox1/FieldGrid1")
+	field = board.get_node("FieldContainer/FieldHBox1/FieldGrid1")
 	opponent = get_parent().get_node("Player2")
 	player_name = get_name()
 
