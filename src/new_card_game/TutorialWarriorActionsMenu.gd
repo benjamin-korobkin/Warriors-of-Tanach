@@ -1,4 +1,4 @@
-class_name TutorialSageActionsMenu
+class_name TutorialActionsMenu
 extends PopupMenu
 
 var board

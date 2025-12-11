@@ -24,6 +24,8 @@ func play_turn():
 	
 func finish_turn():
 	set_has_moved(true)
+	yield(get_tree().create_timer(0.6), "timeout")
+	get_hand().draw_card()
 	get_parent().turn_over()
 	
 func draw_card():

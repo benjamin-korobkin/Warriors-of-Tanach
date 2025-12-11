@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "PopupMenu",
+"class": "ActionsMenu",
+"language": "GDScript",
+"path": "res://src/new_card_game/ActionsMenu.gd"
+}, {
 "base": "Reference",
 "class": "AlterantEngine",
 "language": "GDScript",
@@ -254,11 +259,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/new_card_game/SP.gd"
 }, {
-"base": "PopupMenu",
-"class": "SageActionsMenu",
-"language": "GDScript",
-"path": "res://src/new_card_game/ActionsMenu.gd"
-}, {
 "base": "ScriptObject",
 "class": "ScriptAlter",
 "language": "GDScript",
@@ -320,7 +320,7 @@ _global_script_classes=[ {
 "path": "res://src/new_card_game/TurnQueue.gd"
 }, {
 "base": "PopupMenu",
-"class": "TutorialSageActionsMenu",
+"class": "TutorialActionsMenu",
 "language": "GDScript",
 "path": "res://src/new_card_game/TutorialWarriorActionsMenu.gd"
 }, {
@@ -335,6 +335,7 @@ _global_script_classes=[ {
 "path": "res://src/core/ScriptingEngine/perMessage.gd"
 } ]
 _global_script_class_icons={
+"ActionsMenu": "",
 "AlterantEngine": "",
 "Board": "",
 "BoardPlacementGrid": "",
@@ -384,7 +385,6 @@ _global_script_class_icons={
 "Player": "",
 "QuantityNumberButton": "",
 "SP": "",
-"SageActionsMenu": "",
 "ScriptAlter": "",
 "ScriptObject": "",
 "ScriptPer": "",
@@ -397,7 +397,7 @@ _global_script_class_icons={
 "Token": "",
 "TokenDrawer": "",
 "TurnQueue": "",
-"TutorialSageActionsMenu": "",
+"TutorialActionsMenu": "",
 "ViewportCardFocus": "",
 "perMessage": ""
 }

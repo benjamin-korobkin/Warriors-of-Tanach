@@ -61,5 +61,5 @@ margin_top = 85.0
 margin_right = 529.0
 margin_bottom = 85.0
 
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/SelectButton" to="." method="_on_TimelineButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/SelectButton" to="." method="_on_SelectButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
