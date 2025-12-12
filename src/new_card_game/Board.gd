@@ -1,23 +1,31 @@
 extends Board
 
-func _ready() -> void:
-	#counters = $Counters
-	cfc.map_node(self)
+onready var field_grid1 = $FieldContainer/FieldHBox1/FieldGrid1
+onready var field_grid2 = $FieldContainer/FieldHBox2/FieldGrid2
+onready var player1_points_label = field_grid1.get_node("Control/PointsLabel")
+onready var player2_points_label = field_grid2.get_node("Control/PointsLabel")
 
+
+func _ready() -> void:
+	cfc.map_node(self)
 	cfc.game_settings.fancy_movement = false
 	cfc.game_settings.hand_use_oval_shape = false
 	cfc.game_settings.focus_style = CFInt.FocusStyle.VIEWPORT
-	#$FancyMovementToggle.pressed = cfc.game_settings.fancy_movement
-#	$OvalHandToggle.pressed = cfc.game_settings.hand_use_oval_shape
-#	$ScalingFocusOptions.selected = cfc.game_settings.focus_style
-#	$Debug.pressed = cfc._debug
+	# Initialize labels
+	player1_points_label.text = "Points: 0"
+	player2_points_label.text = "Points: 0"
+	# Connect point update signals
+	$TurnQueue/Player1.connect("points_updated", self, "_on_Player1_points_updated")
+	$TurnQueue/Player2.connect("points_updated", self, "_on_Player2_points_updated")
 	
-
 	load_cards()
-	# warning-ignore:return_value_discarded
-#	$DeckBuilderPopup.connect('popup_hide', self, '_on_DeckBuilder_hide')
-	
 	$TurnQueue.initialize()
+
+func _on_Player1_points_updated(points: int) -> void:
+	player1_points_label.text = "Points: %d" % points
+
+func _on_Player2_points_updated(points: int) -> void:
+	player2_points_label.text = "Points: %d" % points
 
 
 func _on_OvalHandToggle_toggled(_button_pressed: bool) -> void:

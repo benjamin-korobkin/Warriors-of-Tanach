@@ -16,6 +16,7 @@ onready var current_round : int = 1
 
 
 func initialize():
+
 	for _i in range(CARDS_DRAWN_AT_START):
 		yield(get_tree().create_timer(0.4), "timeout")
 		p1.hand.draw_card()
@@ -33,15 +34,17 @@ func turn_over():
 		set_active_player(p2)
 		get_active_player().play_turn()
 	if p1.get_has_moved() and p2.get_has_moved():
+		p1.reveal_card()
+		p2.reveal_card()
 		round_over()
 
 
 func round_over():
 	if current_round >= TOTAL_ROUNDS:
 		var winner
-		if p1.points > p2.points:
+		if p1.total_points > p2.total_points:
 			winner = p1
-		elif p1.points < p2.points:
+		elif p1.total_points < p2.total_points:
 			winner = p2
 		else:
 			winner = null

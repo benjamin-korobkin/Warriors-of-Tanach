@@ -54,10 +54,5 @@ rect_min_size = Vector2( 120, 192 )
 margin_right = 622.0
 margin_bottom = 194.0
 
-[node name="Label" parent="Control" index="0"]
-margin_left = -113.0
-margin_top = 0.0
-margin_right = -1.0
-margin_bottom = 20.0
-text = "Field"
+[node name="PointsLabel" parent="Control" index="0"]
 valign = 1

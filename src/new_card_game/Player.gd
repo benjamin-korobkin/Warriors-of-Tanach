@@ -2,6 +2,7 @@ class_name Player
 extends Node2D
 
 signal action_completed
+signal points_updated(new_total)
 
 onready var board = get_parent().get_parent()
  
@@ -10,7 +11,7 @@ var hand : Area2D
 var field : PanelContainer
 var opponent : Node2D
 var has_moved : bool setget set_has_moved, get_has_moved
-var points : int = 0
+var total_points : int = 0
 var player_name : String
 
 
@@ -31,9 +32,19 @@ func finish_turn():
 func draw_card():
 	hand.draw_card()
 
-# TODO
+func reveal_card():
+	current_card.set_is_faceup(true)
+	calculate_points()
+	
+func calculate_points():
+	var points : int = 0
+	points = current_card.get_property("Power")
+	update_points(points)
+
+
 func update_points(amt : int):
-	pass
+	total_points += amt
+	emit_signal("points_updated", total_points)
 
 func set_current_card(card):
 	current_card = card

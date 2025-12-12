@@ -12,13 +12,12 @@ func play_turn():
 	.play_turn()  # set_has_moved(false)
 	yield(get_tree().create_timer(1.0), "timeout")
 	action()
-#	for card in hand.get_all_cards():
-#		card.set_is_faceup(false)
-		
-func action():  ## Optimize. create method(s) for getting card type
-	var current_hand = hand.get_all_cards()
+
+
+func action():
 	# Put in random card from hand
-	put_in_field(hand.get_rightmost_card())
+	current_card = hand.get_rightmost_card()
+	put_in_field(current_card)
 
 
 
