@@ -8,6 +8,8 @@ func _ready() -> void:
 	card_label_min_sizes["Name"] = Vector2(CFConst.CARD_SIZE.x - 4, STANDARD_FONT_SIZE + 2)
 	card_labels["Power"] = find_node("Power")
 	card_label_min_sizes["Power"] = Vector2(CFConst.CARD_SIZE.x - 4,STANDARD_FONT_SIZE)
+	card_labels["Description"] = find_node("Description")
+	card_label_min_sizes["Description"] = Vector2(CFConst.CARD_SIZE.x - 4,STANDARD_FONT_SIZE)
 	# Repeat these methods to get in the card_labels.rect_min_size
 	# and original_font_sizes iterables
 	set_card_rect_min_size()

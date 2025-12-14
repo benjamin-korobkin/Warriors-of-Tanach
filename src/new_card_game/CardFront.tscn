@@ -85,19 +85,6 @@ align = 1
 valign = 2
 autowrap = true
 
-[node name="Description" type="Label" parent="Margin/CardText"]
-visible = false
-margin_top = 24.0
-margin_right = 146.0
-margin_bottom = 45.0
-grow_horizontal = 2
-rect_min_size = Vector2( 146, 14 )
-custom_colors/font_color = Color( 0.32549, 0.627451, 0.541176, 1 )
-text = "Description"
-align = 1
-valign = 1
-autowrap = true
-
 [node name="Name" type="Label" parent="Margin/CardText"]
 margin_top = 30.0
 margin_right = 146.0
@@ -112,3 +99,14 @@ align = 1
 valign = 1
 autowrap = true
 uppercase = true
+
+[node name="Description" type="Label" parent="Margin/CardText"]
+margin_top = 65.0
+margin_right = 146.0
+margin_bottom = 92.0
+grow_horizontal = 2
+rect_min_size = Vector2( 146, 14 )
+text = "Description"
+align = 1
+valign = 1
+autowrap = true

@@ -32,8 +32,8 @@ func attach_card_labels():
 				original_font_sizes[label] = STANDARD_FONT_SIZE
 			"Type":
 				original_font_sizes[label] = STANDARD_FONT_SIZE
-			"Effect":
-				original_font_sizes[label] = STANDARD_FONT_SIZE + 4
+			"Description":
+				original_font_sizes[label] = STANDARD_FONT_SIZE
 			"Name":
 				original_font_sizes[label] = STANDARD_FONT_SIZE + 2
 			_:
