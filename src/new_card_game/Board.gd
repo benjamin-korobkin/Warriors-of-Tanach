@@ -1,9 +1,10 @@
 extends Board
 
+
 onready var field_grid1 = $FieldContainer/FieldHBox1/FieldGrid1
 onready var field_grid2 = $FieldContainer/FieldHBox2/FieldGrid2
-onready var player1_points_label = field_grid1.get_node("Control/PointsLabel")
-onready var player2_points_label = field_grid2.get_node("Control/PointsLabel")
+onready var p1_points_label = field_grid1.get_node("Control/Label")
+onready var p2_points_label = field_grid2.get_node("Control/Label")
 
 
 func _ready() -> void:
@@ -11,22 +12,17 @@ func _ready() -> void:
 	cfc.game_settings.fancy_movement = false
 	cfc.game_settings.hand_use_oval_shape = false
 	cfc.game_settings.focus_style = CFInt.FocusStyle.VIEWPORT
-	# Initialize labels
-	player1_points_label.text = "Points: 0"
-	player2_points_label.text = "Points: 0"
-	# Connect point update signals
-	$TurnQueue/Player1.connect("points_updated", self, "_on_Player1_points_updated")
-	$TurnQueue/Player2.connect("points_updated", self, "_on_Player2_points_updated")
-	
+	$TurnQueue/Player1.connect("points_updated", self, "_on_points_updated")
+	$TurnQueue/Player2.connect("points_updated", self, "_on_points_updated")
 	load_cards()
 	$TurnQueue.initialize()
+	
 
-func _on_Player1_points_updated(points: int) -> void:
-	player1_points_label.text = "Points: %d" % points
-
-func _on_Player2_points_updated(points: int) -> void:
-	player2_points_label.text = "Points: %d" % points
-
+func _on_points_updated(player, total_points : int):
+	if player == $TurnQueue/Player1:
+		p1_points_label.text = "Points: " + str(total_points)
+	if player == $TurnQueue/Player2:
+		p2_points_label.text = "Points: " + str(total_points)
 
 func _on_OvalHandToggle_toggled(_button_pressed: bool) -> void:
 	pass

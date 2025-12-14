@@ -54,11 +54,12 @@ margin_right = 152.0
 margin_bottom = 152.0
 rect_min_size = Vector2( 0, 120 )
 
-[node name="PointsLabel" type="Label" parent="Control"]
+[node name="Label" type="Label" parent="Control"]
 modulate = Color( 1, 1, 1, 0.627451 )
 margin_left = -58.5
 margin_top = -21.5
 margin_right = 170.5
 margin_bottom = -1.5
 custom_fonts/font = SubResource( 2 )
-text = "Points:"
+text = "Points: 0"
+uppercase = true

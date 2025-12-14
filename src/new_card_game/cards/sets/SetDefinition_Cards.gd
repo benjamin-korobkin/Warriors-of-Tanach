@@ -10,6 +10,7 @@ const CARDS := {
 # For sake of tutorial, leave this card here.
 	"Avraham Avinu": {
 		"Type": "Tanach",
+		"Power": 1,
 		"Effect": "Gain extra action"
 	},
 	### SAGE CARDS BEGIN ###
@@ -208,6 +209,7 @@ const CARDS := {
 	},
 	"Yosef HaTzadik": { # P1 - draw, use, get above 2 cards, put 1 in BM.
 		"Type": "Tanach",
+		"Power": 1,
 		"Effect": "Draw 2 cards"
 	},
 	"Rambam (Maimonides)": { # P2 - draw and put in BM
@@ -229,34 +231,42 @@ const CARDS := {
 	
 	"Yitzchak Avinu": {
 		"Type": "Tanach",
+		"Power": 1,
 		"Effect": "Increase max Merits by 5"
 	},
 	"Yaakov Avinu": {
 		"Type": "Tanach",
+		"Power": 1,
 		"Effect": "Gain 1 Merit for each Sage in the BM"
 	},
 	"Aharon": {
 		"Type": "Tanach",
+		"Power": 1,
 		"Effect": "Your opponent loses 1 Action for 2 turns"
 	},
 	"Yehoshua": {
 		"Type": "Tanach",
+		"Power": 1,
 		"Effect": "View opponent's cards in the Beit Midrash"
 	},
 	"Shlomo HaMelech": {
 		"Type": "Tanach",
+		"Power": 1,
 		"Effect": "Take up to 2 merits from your opponent"
 	},
 	"Eliyahu HaNavi": {
 		"Type": "Tanach",
+		"Power": 1,
 		"Effect": "Can fill the final timeline slot with this card"
 	},
 	"Elisha HaNavi": {
 		"Type": "Tanach",
+		"Power": 1,
 		"Effect": "Draw the top card from the discard pile"
 	},
 	"Moshe Rabbeinu": { # P1 receives, and uses next turn
 		"Type": "Tanach",
+		"Power": 1,
 		"Effect": "Put a Sage in the Timeline for no merits or action"
 	},
 	## TODO: Implement David and other cards in the future

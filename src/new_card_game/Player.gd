@@ -1,8 +1,8 @@
 class_name Player
 extends Node2D
 
+signal points_updated(player, total_points)
 signal action_completed
-signal points_updated(new_total)
 
 onready var board = get_parent().get_parent()
  
@@ -44,7 +44,7 @@ func calculate_points():
 
 func update_points(amt : int):
 	total_points += amt
-	emit_signal("points_updated", total_points)
+	emit_signal("points_updated", self, total_points)
 
 func set_current_card(card):
 	current_card = card
