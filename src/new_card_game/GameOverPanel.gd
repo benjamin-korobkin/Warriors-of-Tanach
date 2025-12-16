@@ -3,8 +3,13 @@ extends Panel
 
 func _on_game_won(player) -> void:
 	set_visible(true)
-	var winner = "You" if player=="Player1" else "Opponent"
-	$CenterContainer/GameOverLabel.text = "{p} won!".format({"p": winner})
+	if player == "DRAW":
+		$CenterContainer/GameOverLabel.text = "DRAW!"
+	else:
+		var winner = "You"
+		if player == "Player2":
+			winner = "Opponent"
+		$CenterContainer/GameOverLabel.text = "{p} won!".format({"p": winner})
 	_set_on_top(true)
 
 

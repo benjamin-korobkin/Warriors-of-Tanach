@@ -16,7 +16,6 @@ onready var current_round : int = 1
 
 
 func initialize():
-
 	for _i in range(CARDS_DRAWN_AT_START):
 		yield(get_tree().create_timer(0.4), "timeout")
 		p1.hand.draw_card()
@@ -51,7 +50,7 @@ func round_over():
 		if winner:
 			emit_signal("game_won", winner.get_name())
 		else: ## TODO: Game ends in draw
-			emit_signal("game_won", "No one")
+			emit_signal("game_won", "DRAW")
 		game_over = true
 	else:
 		current_round += 1

@@ -569,6 +569,7 @@ func setup() -> void:
 	# If the card properties have already been populated, we use them
 	# This might happen in case the card is modified outside the game
 	# For example, with legacy elements.
+
 	var read_properties := properties.duplicate(true)
 	# The name property will almost always exist, due to being set by _init_name()
 	# Therefore we remove this property, to ensure the next check works properly
@@ -693,6 +694,13 @@ func modify_property(
 					else:
 						properties[property].append(value)
 			refresh_property_label(property)
+# Also refresh the viewport duplicate if it exists
+			if state != CardState.VIEWED_IN_PILE\
+					and cfc.NMAP.get("main", null)\
+					and cfc.NMAP.main._previously_focused_cards.has(self):
+				var dupe_card : Card = cfc.NMAP.main._previously_focused_cards[self]
+				if is_instance_valid(dupe_card):
+					dupe_card.refresh_property_label(property)
 	return(retcode)
 
 

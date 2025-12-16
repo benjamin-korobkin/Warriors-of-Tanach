@@ -70,8 +70,8 @@ func implement_condition(current_card) -> void:
 	var opponent_cards = opponent.field.get_occupying_cards()
 	var card_type = current_card.get_property("Type")
 	var power = current_card.get_property("Power")
-	## TODO: Update the method such that it increases the value of each Shofet by 1. But 
-	## the current Shofet should be increased by 1 multiplied by the number of other shofets.
+	
+	## Shofet Effect
 	if "Shofet" in card_type:
 		var bonus = shofet_bonus()
 		for card in field_cards:
@@ -83,6 +83,7 @@ func implement_condition(current_card) -> void:
 			if "Avraham Avinu" in card.get_property("Name") and not_same_card(current_card, card):
 				add_pow(card, 3)
 	
+	## General/Soldier to King Effect
 	if is_general_or_soldier(current_card):
 		for card in field_cards:
 			var name = card.get_property("Name")
@@ -123,12 +124,11 @@ func implement_condition(current_card) -> void:
 				if "Moshe Rabbeinu" in card.get_property("Name"):
 					add_pow(card, 5)
 		"David HaMelech":
-			for card in field_cards:
-				if is_general_or_soldier(card):
-					add_pow(current_card, 3)
-			for card in opponent_cards:
-				if is_general_or_soldier(card):
-					add_pow(current_card, -2)
+			king_effect(3, -2)
+		"Shaul HaMelech":
+			king_effect(2, -1)
+		"Asa":
+			king_effect(2, 0)
 		"Yoav":
 			for card in opponent_cards:
 				if "Benaiah" in card.get_property("Name"):
@@ -164,6 +164,14 @@ func implement_condition(current_card) -> void:
 func add_pow(card, power):
 	var p = card.get_property("Power")
 	card.modify_property("Power", p + power)
+	
+func king_effect(amt_add, amt_sub):
+	for card in field.get_occupying_cards():
+		if is_general_or_soldier(card):
+			add_pow(current_card, amt_add)
+	for card in opponent.field.get_occupying_cards():
+		if is_general_or_soldier(card):
+			add_pow(current_card, amt_sub)
 
 func is_general_or_soldier(card) -> bool:
 	var type = card.get_property("Type")
