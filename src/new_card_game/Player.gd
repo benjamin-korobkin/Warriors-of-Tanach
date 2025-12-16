@@ -67,18 +67,36 @@ func get_has_moved():
 func implement_condition(current_card) -> void:
 	## TODO Use current_card.modify_property("Power", 0) function to update the value
 	var field_cards = field.get_occupying_cards()
-	var opponet_cards = opponent.field.get_occupying_cards()
+	var opponent_cards = opponent.field.get_occupying_cards()
 	var card_type = current_card.get_property("Type")
 	var power = current_card.get_property("Power")
+	## TODO: Update the method such that it increases the value of each Shofet by 1. But 
+	## the current Shofet should be increased by 1 multiplied by the number of other shofets.
 	if "Shofet" in card_type:
+		var bonus = shofet_bonus()
 		for card in field_cards:
 			if "Shofet" in card.get_property("Type"):
-				card.modify_property("Power", power + 1)
+				card.modify_property("Power", power + bonus)
 				
 	if "Prophet" in card_type:
 		for card in field_cards:
 			if "Avraham Avinu" in card.get_property("Name") and not_same_card(current_card, card):
 				add_pow(card, 3)
+	
+	if is_general_or_soldier(current_card):
+		for card in field_cards:
+			var name = card.get_property("Name")
+			if "David" in name:
+				add_pow(card, 3)
+			elif "Shaul" in name or "Asa" in name:
+				add_pow(card, 2)
+		for card in opponent_cards:
+			var name = card.get_property("Name")
+			if "David" in name:
+				add_pow(card, -2)
+			elif "Shaul" in name:
+				add_pow(card, -1)
+			
 	
 	var card_name = current_card.get_property("Name")
 	
@@ -100,13 +118,45 @@ func implement_condition(current_card) -> void:
 			for card in field_cards:
 				if "Moshe Rabbeinu" in card.get_property("Name"):
 					add_pow(card, 5)
+		"Chur":
+			for card in field_cards:
+				if "Moshe Rabbeinu" in card.get_property("Name"):
+					add_pow(card, 5)
 		"David HaMelech":
 			for card in field_cards:
 				if is_general_or_soldier(card):
 					add_pow(current_card, 3)
-			for card in opponet_cards:
+			for card in opponent_cards:
 				if is_general_or_soldier(card):
 					add_pow(current_card, -2)
+		"Yoav":
+			for card in opponent_cards:
+				if "Benaiah" in card.get_property("Name"):
+					add_pow(current_card, -1)
+		"Benaiah":
+			for card in opponent_cards:
+				if "Yoav" in card.get_property("Name"):
+					add_pow(card, -1)
+		"Barak":
+			for card in field_cards:
+				if "Devorah" in card.get_property("Name"):
+					add_pow(current_card, 3)
+		"Eliyahu HaNavi":
+			for card in field_cards:
+				if "Pinchas" in card.get_property("Name"):
+					add_pow(card, 3)
+		"Pinchas":
+			for card in field_cards:
+				if "Eliyahu" in card.get_property("Name"):
+					add_pow(current_card, 3)
+		## TODO: reset to 2 whenever we put down a general. modify_property()
+#		"Elazar ben Dodo":
+#			var generals_found = false
+#			for card in field_cards:
+#				if "General" in card.get_property("Type"):
+#					generals_found = true
+#			if not generals_found:
+#				add_pow(current_card, 5)
 		_:
 			pass
 			
@@ -121,3 +171,17 @@ func is_general_or_soldier(card) -> bool:
 
 func not_same_card(card1, card2) -> bool:
 	return card1.get_property("Name") != card2.get_property("Name")
+	
+#func is_only_shofet(card) -> bool:
+#	for c in field.get_occupying_cards():
+#		if "Shofet" in c.get_property("Type") and not_same_card(card, c):
+#			return false
+#	return true
+	
+func shofet_bonus() -> int:
+	var bonus = -1
+	for card in field.get_occupying_cards():
+		if "Shofet" in card.get_property("Type"):
+			bonus += 1
+	return bonus
+

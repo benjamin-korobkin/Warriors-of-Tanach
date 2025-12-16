@@ -57,19 +57,19 @@ const CARDS := {
 	
 	"David HaMelech": {
 		"Type": "King",
-		"Power": 4,
+		"Power": 5,
 		"Description": "+3 for each General or Soldier in your field\n-2 for each in opponent field"
 	},
 	
 	"Shaul HaMelech": {
 		"Type": "King",
-		"Power": 3,
+		"Power": 4,
 		"Description": "+2 for each Soldier or General in your field\n-1 for each in opponent field"
 	},
 	
 	"Asa": {
 		"Type": "King",
-		"Power": 2,
+		"Power": 3,
 		"Description": "+2 for each Soldier or General in your field"
 	},
 	
@@ -80,19 +80,16 @@ const CARDS := {
 		"Power": 3,
 		"Description": "-1 if Benaiah is in opponent field"
 	},
-	
-	"Barak": {
-		"Type": "General",
-		"Power": 2,
-		"Description": "+3 If Devorah HaNeviah in your field"
-	},
-	
 	"Benaiah": {
 		"Type": "General",
 		"Power": 3,
 		"Description": ""
 	},
-	
+	"Barak": {
+		"Type": "General",
+		"Power": 2,
+		"Description": "+3 If Devorah HaNeviah in your field"
+	},
 	"Avner": {
 		"Type": "General",
 		"Power": 3,
@@ -101,8 +98,8 @@ const CARDS := {
 	
 	"Elazar ben Dodo": {
 		"Type": "General",
-		"Power": 2,
-		"Description": "+5 if only general in your field"
+		"Power": 3,
+		"Description": "" ## TODO: "+5 if only general in your field"
 	},
 	
 	"Avishai": {
@@ -120,7 +117,7 @@ const CARDS := {
 	"Yonatan": {
 		"Type": "General",
 		"Power": 3,
-		"Description": "+1: King David in your field"
+		"Description": ""
 	},
 	
 	# ========== SHOFTIM ==========
@@ -190,7 +187,7 @@ const CARDS := {
 	"Pinchas": {
 		"Type": "Soldier",
 		"Power": 2,
-		"Description": "if Eliyahu hanavi in play, +2"
+		"Description": "+3 if Eliyahu HaNavi in play"
 	},
 }
 
