@@ -61,16 +61,10 @@ func load_cards() -> void:
 	for c in card_options:
 		card_array.append(cfc.instance_card(c))
 	## Randomize card_array
-	card_array.shuffle()
-	# We want only 2 Tanach cards in our deck. Rest to go in separate pile.
-	var tcard_counter = 0
+	#card_array.shuffle()
+
 	for card in card_array:
 		var target_deck = cfc.NMAP.deck
-		if card.card_type == "Tanach":
-			if tcard_counter < 2:
-				tcard_counter += 1
-			else:
-				target_deck = cfc.NMAP.tdeck
 		target_deck.add_child(card)
 		card._determine_idle_state()
 

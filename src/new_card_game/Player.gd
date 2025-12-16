@@ -34,6 +34,7 @@ func draw_card():
 func reveal_card():
 	current_card.set_is_faceup(true)
 	calculate_points()
+	current_card.set_is_newly_placed(false)
 	
 func calculate_points():
 	var points : int = 0
@@ -65,7 +66,6 @@ func get_has_moved():
 	
 	
 func implement_condition(current_card) -> void:
-	## TODO Use current_card.modify_property("Power", 0) function to update the value
 	var field_cards = field.get_occupying_cards()
 	var opponent_cards = opponent.field.get_occupying_cards()
 	var card_type = current_card.get_property("Type")
@@ -149,7 +149,10 @@ func implement_condition(current_card) -> void:
 			for card in field_cards:
 				if "Eliyahu" in card.get_property("Name"):
 					add_pow(current_card, 3)
-		## TODO: reset to 2 whenever we put down a general. modify_property()
+		"Devorah HaNeviah":
+			for card in field_cards:
+				if "Barak" in card.get_property("Name"):
+					add_pow(card, 3)
 #		"Elazar ben Dodo":
 #			var generals_found = false
 #			for card in field_cards:
@@ -170,7 +173,7 @@ func king_effect(amt_add, amt_sub):
 		if is_general_or_soldier(card):
 			add_pow(current_card, amt_add)
 	for card in opponent.field.get_occupying_cards():
-		if is_general_or_soldier(card):
+		if is_general_or_soldier(card) and not card.get_is_newly_placed():
 			add_pow(current_card, amt_sub)
 
 func is_general_or_soldier(card) -> bool:
@@ -180,11 +183,6 @@ func is_general_or_soldier(card) -> bool:
 func not_same_card(card1, card2) -> bool:
 	return card1.get_property("Name") != card2.get_property("Name")
 	
-#func is_only_shofet(card) -> bool:
-#	for c in field.get_occupying_cards():
-#		if "Shofet" in c.get_property("Type") and not_same_card(card, c):
-#			return false
-#	return true
 	
 func shofet_bonus() -> int:
 	var bonus = -1

@@ -53,6 +53,7 @@ func round_over():
 			emit_signal("game_won", "DRAW")
 		game_over = true
 	else:
+		
 		current_round += 1
 		set_active_player(p1)
 		get_active_player().play_turn()

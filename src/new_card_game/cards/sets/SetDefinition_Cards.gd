@@ -7,6 +7,7 @@ extends Reference
 const SET = "Core Set"
 const CARDS := {
 
+
 	# ========== PROPHETS ==========
 	
 	"Avraham Avinu": {
@@ -61,11 +62,7 @@ const CARDS := {
 		"Description": "+3 for each General or Soldier in your field\n-2 for each in opponent field"
 	},
 	
-	"Shaul HaMelech": {
-		"Type": "King",
-		"Power": 4,
-		"Description": "+2 for each Soldier or General in your field\n-1 for each in opponent field"
-	},
+	
 	
 	"Asa": {
 		"Type": "King",
@@ -73,52 +70,7 @@ const CARDS := {
 		"Description": "+2 for each Soldier or General in your field"
 	},
 	
-	# ========== GENERALS ==========
 	
-	"Yoav": {
-		"Type": "General",
-		"Power": 3,
-		"Description": "-1 if Benaiah is in opponent field"
-	},
-	"Benaiah": {
-		"Type": "General",
-		"Power": 3,
-		"Description": ""
-	},
-	"Barak": {
-		"Type": "General",
-		"Power": 2,
-		"Description": "+3 If Devorah HaNeviah in your field"
-	},
-	"Avner": {
-		"Type": "General",
-		"Power": 3,
-		"Description": ""
-	},
-	
-	"Elazar ben Dodo": {
-		"Type": "General",
-		"Power": 3,
-		"Description": "" ## TODO: "+5 if only general in your field"
-	},
-	
-	"Avishai": {
-		"Type": "General",
-		"Power": 3,
-		"Description": ""
-	},
-	
-	"Amasa": {
-		"Type": "General",
-		"Power": 3,
-		"Description": ""
-	},
-	
-	"Yonatan": {
-		"Type": "General",
-		"Power": 3,
-		"Description": ""
-	},
 	
 	# ========== SHOFTIM ==========
 	
@@ -175,6 +127,53 @@ const CARDS := {
 		"Power": 2,
 		"Description": "Shofet effect: +1 for each other shofet in your field"
 	},
+
+	# ========== GENERALS ==========
+	
+	"Yoav": {
+		"Type": "General",
+		"Power": 3,
+		"Description": "-1 if Benaiah is in opponent field"
+	},
+	"Benaiah": {
+		"Type": "General",
+		"Power": 3,
+		"Description": ""
+	},
+	"Barak": {
+		"Type": "General",
+		"Power": 2,
+		"Description": "+3 If Devorah HaNeviah in your field"
+	},
+	"Avner": {
+		"Type": "General",
+		"Power": 3,
+		"Description": ""
+	},
+	
+	"Elazar ben Dodo": {
+		"Type": "General",
+		"Power": 3,
+		"Description": "" ## TODO: "+5 if only General in your field"
+	},
+	
+	"Avishai": {
+		"Type": "General",
+		"Power": 3,
+		"Description": ""
+	},
+	
+	"Amasa": {
+		"Type": "General",
+		"Power": 3,
+		"Description": ""
+	},
+	
+	"Yonatan": {
+		"Type": "General",
+		"Power": 3,
+		"Description": ""
+	},
 	
 	# ========== SOLDIERS ==========
 	
@@ -188,6 +187,13 @@ const CARDS := {
 		"Type": "Soldier",
 		"Power": 2,
 		"Description": "+3 if Eliyahu HaNavi in play"
+	},
+
+	# ========= DEBUGGING CARD ==========
+	"Shaul HaMelech": {
+		"Type": "King",
+		"Power": 4,
+		"Description": "+2 for each Soldier or General in your field\n-1 for each in opponent field"
 	},
 }
 
