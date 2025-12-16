@@ -36,7 +36,7 @@ const CARDS := {
 	"Moshe Rabbeinu": {
 		"Type": "Prophet",
 		"Power": 5,
-		"Description": "+3 If Aharon or Chur in your field. +10 If both"
+		"Description": "+5 If Aharon or Chur in your field. +10 If both"
 	},
 	
 	"Aharon": {
@@ -123,7 +123,7 @@ const CARDS := {
 		"Description": "+1: King David in your field"
 	},
 	
-	# ========== SHOFETIM ==========
+	# ========== SHOFTIM ==========
 	
 	"Gideon": {
 		"Type": "Shofet",
