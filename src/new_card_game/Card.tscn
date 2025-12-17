@@ -4,10 +4,12 @@
 
 [node name="Card" instance=ExtResource( 2 )]
 
-[node name="CollisionShape2D" parent="." index="0"]
-position = Vector2( 75, 90 )
-
 [node name="Control" parent="." index="1"]
 margin_right = 150.0
 margin_bottom = 180.0
 rect_min_size = Vector2( 150, 180 )
+
+[node name="Front" parent="Control" index="2"]
+__meta__ = {
+"_edit_use_anchors_": false
+}

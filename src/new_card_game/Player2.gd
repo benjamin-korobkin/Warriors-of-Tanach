@@ -26,5 +26,4 @@ func put_in_field(card):
 	card.set_is_faceup(false)
 	yield(card._tween, "tween_all_completed")
 	card.set_in_p2_field(true)
-#	update_counter()
 	finish_turn()

@@ -23,7 +23,7 @@ script = ExtResource( 2 )
 card_back_design = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 78, 86.4 )
+position = Vector2( 75, 120 )
 shape = SubResource( 1 )
 
 [node name="Control" type="Control" parent="."]
@@ -41,22 +41,21 @@ visible = true
 margin_left = 0.0
 margin_top = 0.0
 margin_right = 6.0
-margin_bottom = 6.00002
-rect_min_size = Vector2( 156, 176 )
+margin_bottom = 76.0
+rect_min_size = Vector2( 156, 246 )
 
 [node name="Back" type="MarginContainer" parent="Control"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_min_size = Vector2( 150, 240 )
 mouse_filter = 2
 
 [node name="Front" type="MarginContainer" parent="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_min_size = Vector2( 150, 240 )
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Tokens" type="Node2D" parent="Control"]
 visible = false
