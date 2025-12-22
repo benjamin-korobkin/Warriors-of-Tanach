@@ -4,8 +4,6 @@ var ready_for_next_action : bool = true
 
 export var test_mode : bool = false
 
-signal replacing_p1_card(card)
-
 func _ready() -> void:
 	hand = board.get_node("Hand2")
 	field = board.get_node("FieldContainer/FieldHBox2/FieldGrid2")

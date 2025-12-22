@@ -2,10 +2,11 @@ extends Player
 
 
 func _ready() -> void:
-	hand = board.get_node("Hand2")
-	field = board.get_node("FieldContainer/FieldHBox2/FieldGrid2")
-	opponent = get_parent().get_node("Player1")
-	player_name = get_name()
+	._ready()
+	hand = board.get_node("Hand2") as Area2D
+	field = board.get_node("FieldContainer/FieldHBox2/FieldGrid2") as BoardPlacementGrid
+	opponent = get_parent().get_node("Player1") as Node2D
+	player_name = get_name() as String
 
 	
 func play_turn():

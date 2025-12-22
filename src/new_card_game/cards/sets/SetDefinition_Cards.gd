@@ -10,191 +10,200 @@ const CARDS := {
 
 	# ========== PROPHETS ==========
 	
-	"Avraham Avinu": {
-		"Type": "Prophet",
-		"Power": 5,
-		"Description": "+3 for every other Prophet in your field"
-	},
+	# "Eliyahu HaNavi": {
+	# 	"Type": "Prophet",
+	# 	"Power": 0,
+	# 	"Description": "Discard your entire hand and draw 3 new cards"
+	# },
 	
-	"Eliyahu HaNavi": {
-		"Type": "Prophet",
-		"Power": 4,
-		"Description": ""
-	},
+	# "Shmuel HaNavi": {
+	# 	"Type": "Prophet",
+	# 	"Power": 0,
+	# 	"Description": "The cards played in this round are swapped."
+	# },
 	
-	"Shmuel HaNavi": {
-		"Type": "Prophet",
-		"Power": 5,
-		"Description": ""
-	},
+	# "Yehoshua": {
+	# 	"Type": "Prophet",
+	# 	"Power": 0,
+	# 	"Description": "Draw an extra card from the deck. You must use it by the end of next round or it will be discarded."
+	# },
 	
-	"Yehoshua": {
-		"Type": "Prophet",
-		"Power": 3,
-		"Description": "+3 If Moshe Rabbeinu in play"
-	},
+	# "Natan": {
+	# 	"Type": "Prophet",
+	# 	"Power": 0,
+	# 	"Description": "No bonuses/effects occur this round"
+	# },
 	
-	"Moshe Rabbeinu": {
-		"Type": "Prophet",
-		"Power": 5,
-		"Description": "+5 If Aharon or Chur in your field. +10 If both"
-	},
+	# "Hoshea": {
+	# 	"Type": "Prophet",
+	# 	"Power": 0,
+	# 	"Description": "Next round, your opponent reveals their chosen card before you select yours"
+	# },
 	
-	"Aharon": {
-		"Type": "Prophet",
-		"Power": 1,
-		"Description": ""
-	},
-	
-	# ========== PROPHET,SHOFET ==========
-	
-	"Devorah HaNeviah": {
-		"Type": "Prophet,Shofet",
-		"Power": 2,
-		"Description": "Shofet effect: +1 for each other shofet in your field"
-	},
 	
 	# ========== KINGS ==========
 	
 	"David HaMelech": {
 		"Type": "King",
 		"Power": 5,
-		"Description": "+3 for each General or Soldier in your field\n-2 for each in opponent field"
+		"Base_Power": 5,
+		"Description": "+2 for each General in your field\n-2 for each General in opponent field"
 	},
 	
-	
-	
-	"Asa": {
+	"Asa HaMelech": {
 		"Type": "King",
 		"Power": 3,
-		"Description": "+2 for each Soldier or General in your field"
+		"Base_Power": 3,
+		"Description": "+1 for each General in your field"
 	},
-	
+
+	"Chizkiyahu HaMelech": {
+		"Type": "King",
+		"Power": 4,
+		"Base_Power": 4,
+		"Description": "+3 for each General in your field\n-3 for each General in opponent field"
+	},
 	
 	
 	# ========== SHOFTIM ==========
+
+	"Devorah HaNeviah": {
+		"Type": "Shofet",
+		"Power": 2,
+		"Base_Power": 2,
+		"Description": "Shofet effect: +1 for each other Shofet in your field"
+	},
 	
 	"Gideon": {
 		"Type": "Shofet",
 		"Power": 2,
-		"Description": "Shofet effect: +1 for each other shofet in your field"
+		"Base_Power": 2,
+		"Description": "Shofet effect: +1 for each other Shofet in your field"
 	},
 	
 	"Shimshon": {
 		"Type": "Shofet",
 		"Power": 2,
-		"Description": "shofet effect: +1 for each other shofet in your field"
+		"Base_Power": 2,
+		"Description": "Shofet effect: +1 for each other Shofet in your field"
 	},
 	
 	"Ehud ben Geira": {
 		"Type": "Shofet",
 		"Power": 2,
-		"Description": "Shofet effect: +1 for each other shofet in your field"
+		"Base_Power": 2,
+		"Description": "Shofet effect: +1 for each other Shofet in your field"
 	},
 	
 	"Shamgar ben Anat": {
 		"Type": "Shofet",
 		"Power": 2,
-		"Description": "Shofet effect: +1 for each other shofet in your field"
+		"Base_Power": 2,
+		"Description": "Shofet effect: +1 for each other Shofet in your field"
 	},
 	
 	"Yiftach ben Gilad": {
 		"Type": "Shofet",
 		"Power": 2,
-		"Description": "Shofet effect: +1 for each other shofet in your field"
+		"Base_Power": 2,
+		"Description": "Shofet effect: +1 for each other Shofet in your field"
 	},
 	
-	"Osniel ben Knaz": {
+	"Osniel ben Kenaz": {
 		"Type": "Shofet",
-		"Power": 2,
-		"Description": "Shofet effect: +1 for each other shofet in your field"
+		"Power": 0,
+		"Base_Power": 0,
+		"Description": "Double the base value of each Shofet you played beforehand"
 	},
 	
 	"Toleh ben Puah": {
 		"Type": "Shofet",
-		"Power": 2,
-		"Description": "Shofet effect: +1 for each other shofet in your field"
+		"Power": 1,
+		"Base_Power": 1,
+		"Description": "If opponent plays a Shofet this round, +2"
 	},
 	
 	"Yair HaGiladi": {
 		"Type": "Shofet",
 		"Power": 2,
-		"Description": "Shofet effect: +1 for each other shofet in your field"
+		"Base_Power": 2,
+		"Description": "Shofet effect: +1 for each other Shofet in your field"
 	},
 	
 	"Avdon ben Hillel": {
 		"Type": "Shofet",
 		"Power": 2,
-		"Description": "Shofet effect: +1 for each other shofet in your field"
+		"Base_Power": 2,
+		"Description": "Shofet effect: +1 for each other Shofet in your field"
 	},
 
 	# ========== GENERALS ==========
 	
 	"Yoav": {
 		"Type": "General",
-		"Power": 3,
-		"Description": "-1 if Benaiah is in opponent field"
+		"Power": 2,
+		"Base_Power": 2,
+		"Description": "+4 if opponent played a King this round"
 	},
 	"Benaiah": {
 		"Type": "General",
-		"Power": 3,
-		"Description": ""
+		"Power": 2,
+		"Base_Power": 2,
+		"Description": "+3 if opponent plays a General this turn"
 	},
 	"Barak": {
 		"Type": "General",
 		"Power": 2,
-		"Description": "+3 If Devorah HaNeviah in your field"
+		"Base_Power": 2,
+		"Description": "+2 if placed after a Shofet. If that Shofet is Devorah, +3"
 	},
 	"Avner": {
 		"Type": "General",
 		"Power": 3,
+		"Base_Power": 3,
 		"Description": ""
 	},
 	
 	"Elazar ben Dodo": {
 		"Type": "General",
-		"Power": 3,
-		"Description": "" ## TODO: "+5 if only General in your field"
+		"Power": 2,
+		"Base_Power": 2,
+		"Description": "+5 if the only General in your field"
 	},
 	
 	"Avishai": {
 		"Type": "General",
 		"Power": 3,
+		"Base_Power": 3,
 		"Description": ""
 	},
 	
 	"Amasa": {
 		"Type": "General",
 		"Power": 3,
+		"Base_Power": 3,
 		"Description": ""
 	},
 	
 	"Yonatan": {
 		"Type": "General",
 		"Power": 3,
+		"Base_Power": 3,
 		"Description": ""
 	},
 	
-	# ========== SOLDIERS ==========
-	
-	"Chur": {
-		"Type": "Soldier",
-		"Power": 1,
-		"Description": ""
-	},
-	
-	"Pinchas": {
-		"Type": "Soldier",
+	"Ittai": {
+		"Type": "General",
 		"Power": 2,
-		"Description": "+3 if Eliyahu HaNavi in play"
+		"Base_Power": 2,
+		"Description": "+2 if you played a General last turn"
 	},
-
-	# ========= DEBUGGING CARD ==========
+	
+	# DEBUGGING CARD
 	"Shaul HaMelech": {
 		"Type": "King",
 		"Power": 4,
-		"Description": "+2 for each Soldier or General in your field\n-1 for each in opponent field"
+		"Base_Power": 4,
+		"Description": "+2 for each General in your field\n-1 for each General in opponent field"
 	},
 }
-
-

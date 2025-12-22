@@ -43,7 +43,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -1130.0
 margin_bottom = -480.0
-rect_min_size = Vector2( 150, 240 )
+rect_min_size = Vector2( 150, 200 )
 mouse_filter = 2
 size_flags_vertical = 3
 theme = ExtResource( 3 )
@@ -64,7 +64,7 @@ custom_constants/margin_left = 2
 [node name="CardText" type="VBoxContainer" parent="Margin"]
 margin_left = 2.0
 margin_right = 148.0
-margin_bottom = 240.0
+margin_bottom = 200.0
 grow_horizontal = 2
 rect_min_size = Vector2( 0, 139 )
 mouse_filter = 2

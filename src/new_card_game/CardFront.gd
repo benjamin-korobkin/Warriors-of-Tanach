@@ -30,6 +30,8 @@ func attach_card_labels():
 		match label:
 			"Power":
 				original_font_sizes[label] = STANDARD_FONT_SIZE
+			"Base_Power":
+				original_font_sizes[label] = STANDARD_FONT_SIZE
 			"Type":
 				original_font_sizes[label] = STANDARD_FONT_SIZE
 			"Description":

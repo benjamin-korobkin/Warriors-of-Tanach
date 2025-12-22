@@ -28,28 +28,6 @@ func _on_sage_option_button_pressed(button):
 	else:
 		display_failure()
 
-
-# Display the torah challenge panel with quote from card. Names from p2 BD.
-# Param1: card to replace player's
-func _on_Player2_replacing_p1_card(replacement_card) -> void:
-	## set_visible(true) in p2 script to ensure we wait for player
-	# get all names from the BD
-	opening_label.set_visible(true)
-	sage_options_container.set_visible(true)
-	correct_sage = replacement_card.get_property("Name")
-	var p2_beit_din = cfc.NMAP.board.get_node("FieldContainer/FieldHBox2/FieldGrid2")
-	var sage_names = []
-	for card in p2_beit_din.get_occupying_cards():
-		sage_names.append(card.get_property("Name"))
-	# Randomize order of names
-	sage_names.shuffle()
-	sage_options_container = get_node("VBoxContainer/SageOptionsContainer")
-	sage_options_container.get_node("SageOption1").text = sage_names[0]
-	sage_options_container.get_node("SageOption2").text = sage_names[1]
-	sage_options_container.get_node("SageOption3").text = sage_names[2]
-	var quote = replacement_card.get_property("Teaching")
-	center_label.text = quote
-	_set_on_top(true)
 	
 func display_reward_options():
 	center_label.text = "Correct! Select a reward below."

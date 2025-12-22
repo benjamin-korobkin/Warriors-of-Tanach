@@ -53,6 +53,3 @@ rect_min_size = Vector2( 120, 192 )
 [node name="Control" parent="." index="1"]
 margin_right = 622.0
 margin_bottom = 194.0
-
-[node name="PointsLabel" parent="Control" index="0"]
-valign = 1

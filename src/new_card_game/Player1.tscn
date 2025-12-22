@@ -4,5 +4,3 @@
 
 [node name="Player1" type="Node2D"]
 script = ExtResource( 1 )
-
-[connection signal="points_updated" from="." to="." method="_on_Player1_points_updated"]

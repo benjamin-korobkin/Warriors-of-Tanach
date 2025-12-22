@@ -4,11 +4,13 @@ extends Node2D
 signal points_updated(player, total_points)
 signal action_completed
 
+const ONLY_GENERAL_BONUS = 5
+
 onready var board = get_parent().get_parent()
  
 var current_card : Card
 var hand : Area2D
-var field : PanelContainer
+var field : BoardPlacementGrid
 var opponent : Node2D
 var has_moved : bool setget set_has_moved, get_has_moved
 var total_points : int = 0
@@ -78,117 +80,112 @@ func implement_condition(current_card) -> void:
 		for card in field_cards:
 			if "Shofet" in card.get_property("Type"):
 				card.modify_property("Power", power + bonus)
-				
-	if "Prophet" in card_type:
-		for card in field_cards:
-			if "Avraham Avinu" in card.get_property("Name") and not_same_card(current_card, card):
-				add_pow(card, 3)
+
 	
-	## General/Soldier to King Effect
-	if is_general_or_soldier(current_card):
+	## General to King Effect
+	if is_general(current_card):
 		for card in field_cards:
 			var name = card.get_property("Name")
 			if "David" in name:
 				add_pow(card, 3)
-			elif "Shaul" in name or "Asa" in name:
+			elif "Shaul" in name:
 				add_pow(card, 2)
+			elif "Asa" in name:
+				add_pow(card, 1)
+			## TODO test & improve the code for this card
+			elif "Elazar ben Dodo" in name and \
+				card.get_property("Power") == 7:
+				add_pow(card, -ONLY_GENERAL_BONUS)
 		for card in opponent_cards:
 			var name = card.get_property("Name")
 			if "David" in name:
 				add_pow(card, -2)
 			elif "Shaul" in name:
 				add_pow(card, -1)
-			
-	
+
 	var card_name = current_card.get_property("Name")
+	var opp_card = get_opponent_played_card()
+	var prev_card = get_prev_played_card()
 	
 	match card_name:
-		"Yehoshua":
-			for card in field_cards:
-				if "Moshe Rabbeinu" in card.get_property("Name"):
-					add_pow(current_card, 3)
-		"Moshe Rabbeinu":
-			for card in field_cards:
-				var name = card.get_property("Name")
-				if "Yehoshua" in name:
-					add_pow(card, 3)
-				elif "Aharon" in name:
-					add_pow(current_card, 5)
-				elif "Chur" in name:
-					add_pow(current_card, 5)
-		"Aharon":
-			for card in field_cards:
-				if "Moshe Rabbeinu" in card.get_property("Name"):
-					add_pow(card, 5)
-		"Chur":
-			for card in field_cards:
-				if "Moshe Rabbeinu" in card.get_property("Name"):
-					add_pow(card, 5)
 		"David HaMelech":
-			king_effect(3, -2)
+			king_effect(2, -2)
 		"Shaul HaMelech":
 			king_effect(2, -1)
-		"Asa":
-			king_effect(2, 0)
+		"Asa HaMelech":
+			king_effect(1, 0)
+		"Chizkiyahu HaMelech":
+			king_effect(3, -3)
 		"Yoav":
-			for card in opponent_cards:
-				if "Benaiah" in card.get_property("Name"):
-					add_pow(current_card, -1)
-		"Benaiah":
-			for card in opponent_cards:
-				if "Yoav" in card.get_property("Name"):
-					add_pow(card, -1)
+			if "King" in opp_card.get_property("Type"):
+				add_pow(current_card, 4)
 		"Barak":
-			for card in field_cards:
-				if "Devorah" in card.get_property("Name"):
+			
+			if "Shofet" in prev_card.get_property("Type"):
+				if "Devorah" in prev_card.get_property("Name"):
 					add_pow(current_card, 3)
-		"Eliyahu HaNavi":
+				else:
+					add_pow(current_card, 2)
+		"Elazar ben Dodo":
+			if is_only_general():
+				add_pow(current_card, ONLY_GENERAL_BONUS)
+		"Ittai":
+			if "General" in prev_card.get_property("Type"):
+				add_pow(current_card, 2)
+		"Benaiah":
+			if "General" in opp_card.get_property("Type"):
+				add_pow(current_card, 3)
+		"Osniel ben Kenaz":
 			for card in field_cards:
-				if "Pinchas" in card.get_property("Name"):
-					add_pow(card, 3)
-		"Pinchas":
-			for card in field_cards:
-				if "Eliyahu" in card.get_property("Name"):
-					add_pow(current_card, 3)
-		"Devorah HaNeviah":
-			for card in field_cards:
-				if "Barak" in card.get_property("Name"):
-					add_pow(card, 3)
-#		"Elazar ben Dodo":
-#			var generals_found = false
-#			for card in field_cards:
-#				if "General" in card.get_property("Type"):
-#					generals_found = true
-#			if not generals_found:
-#				add_pow(current_card, 5)
+				if "Shofet" in card.get_property("Type") and not_same_card(card, current_card):
+					var base_power = card.get_property("Base_Power")
+					card.modify_property("Power", base_power * 2)
+		"Toleh ben Puah":
+			if "Shofet" in opp_card.get_property("Type"):
+				add_pow(current_card, 2)
 		_:
 			pass
-			
+
+
+func get_opponent_played_card() -> Card:
+	for card in opponent.field.get_occupying_cards():
+		if card.get_is_newly_placed():
+			return card
+	print("ERROR: Couldn't get opponent's played card")
+	return null
+	
+func get_prev_played_card() -> Card:
+	return field.get_previous_card(current_card)
+	
+func is_only_general() -> bool:
+	var is_only_general = true
+	for card in field.get_occupying_cards():
+		if "General" in card.get_property("Type") and not_same_card(card, current_card): 
+			is_only_general = false
+	return is_only_general
 
 func add_pow(card, power):
 	var p = card.get_property("Power")
 	card.modify_property("Power", p + power)
-	
+
 func king_effect(amt_add, amt_sub):
 	for card in field.get_occupying_cards():
-		if is_general_or_soldier(card):
+		if is_general(card):
 			add_pow(current_card, amt_add)
 	for card in opponent.field.get_occupying_cards():
-		if is_general_or_soldier(card) and not card.get_is_newly_placed():
+		if is_general(card) and not card.get_is_newly_placed():
 			add_pow(current_card, amt_sub)
 
-func is_general_or_soldier(card) -> bool:
+func is_general(card) -> bool:
 	var type = card.get_property("Type")
 	return "General" in type or "Soldier" in type 
 
 func not_same_card(card1, card2) -> bool:
 	return card1.get_property("Name") != card2.get_property("Name")
-	
-	
+
 func shofet_bonus() -> int:
 	var bonus = -1
 	for card in field.get_occupying_cards():
 		if "Shofet" in card.get_property("Type"):
 			bonus += 1
 	return bonus
-
