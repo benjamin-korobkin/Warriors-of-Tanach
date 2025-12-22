@@ -1,2 +1,3 @@
-# Warriror of Tanach
+# Warriors of Tanach
+A 2-player card game where you try to score the most points. Inspired by games like Marvel Snap.
 More info coming soon...
