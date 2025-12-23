@@ -6,8 +6,8 @@
 
 [node name="Control" parent="." index="1"]
 margin_right = 150.0
-margin_bottom = 180.0
-rect_min_size = Vector2( 150, 180 )
+margin_bottom = 200.0
+rect_min_size = Vector2( 150, 200 )
 
 [node name="Front" parent="Control" index="2"]
 __meta__ = {

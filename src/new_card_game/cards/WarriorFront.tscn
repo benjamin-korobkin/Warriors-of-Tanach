@@ -28,7 +28,7 @@ margin_right = 0.0
 margin_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
-rect_min_size = Vector2( 150, 170 )
+rect_min_size = Vector2( 150, 200 )
 
 [node name="CardText" parent="Margin" index="0"]
 margin_bottom = 239.0

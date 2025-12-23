@@ -30,8 +30,8 @@ shape = SubResource( 1 )
 margin_left = 2.0
 margin_top = 1.0
 margin_right = 152.0
-margin_bottom = 171.0
-rect_min_size = Vector2( 150, 170 )
+margin_bottom = 201.0
+rect_min_size = Vector2( 150, 200 )
 __meta__ = {
 "_edit_group_": true
 }

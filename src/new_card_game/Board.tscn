@@ -89,7 +89,7 @@ margin_bottom = 196.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-card_size = Vector2( 150, 170 )
+card_size = Vector2( 150, 200 )
 
 [node name="MarginContainer" type="MarginContainer" parent="FieldContainer"]
 margin_top = 445.0
