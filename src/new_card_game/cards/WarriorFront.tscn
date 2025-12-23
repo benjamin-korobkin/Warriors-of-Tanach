@@ -31,7 +31,7 @@ grow_vertical = 2
 rect_min_size = Vector2( 150, 170 )
 
 [node name="CardText" parent="Margin" index="0"]
-margin_bottom = 188.0
+margin_bottom = 239.0
 size_flags_vertical = 3
 
 [node name="Type" parent="Margin/CardText" index="0"]
@@ -41,11 +41,6 @@ valign = 0
 [node name="Name" parent="Margin/CardText" index="1"]
 custom_colors/font_color = Color( 0.952941, 0.94902, 0.956863, 0.788235 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
-
-[node name="Description" parent="Margin/CardText" index="2"]
-visible = true
-margin_top = 65.0
-margin_bottom = 92.0
 
 [node name="MarginContainer" type="MarginContainer" parent="Margin/CardText" index="3"]
 margin_top = 95.0
@@ -75,3 +70,9 @@ custom_fonts/font = SubResource( 4 )
 text = "0"
 align = 1
 valign = 2
+
+[node name="Base_Power" type="Label" parent="Margin/CardText/HB" index="1"]
+visible = false
+margin_left = 77.0
+margin_right = 83.0
+margin_bottom = 27.0

@@ -120,7 +120,7 @@ const CARDS := {
 		"Type": "Shofet",
 		"Power": 1,
 		"Base_Power": 1,
-		"Description": "If opponent plays a Shofet this round, +2"
+		"Description": "Shofet effect: +1 for each other Shofet in your field\nIf opponent plays a Shofet this round, +2"
 	},
 	
 	"Yair HaGiladi": {

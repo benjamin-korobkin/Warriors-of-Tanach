@@ -1,7 +1,7 @@
 class_name Player
 extends Node2D
 
-signal points_updated(player, total_points)
+signal points_updated(player, points)
 signal action_completed
 
 const ONLY_GENERAL_BONUS = 5
@@ -44,7 +44,7 @@ func calculate_points():
 	implement_condition(current_card)
 	for card in field.get_occupying_cards():
 		points += card.get_property("Power")
-	
+	yield(get_tree().create_timer(0.6), "timeout")
 	update_points(points)
 
 
@@ -79,7 +79,8 @@ func implement_condition(current_card) -> void:
 		var bonus = shofet_bonus()
 		for card in field_cards:
 			if "Shofet" in card.get_property("Type"):
-				card.modify_property("Power", power + bonus)
+				var base_power = card.get_property("Base_Power")
+				card.modify_property("Power", base_power + bonus)
 
 	
 	## General to King Effect
@@ -121,7 +122,7 @@ func implement_condition(current_card) -> void:
 				add_pow(current_card, 4)
 		"Barak":
 			
-			if "Shofet" in prev_card.get_property("Type"):
+			if prev_card != null and "Shofet" in prev_card.get_property("Type"):
 				if "Devorah" in prev_card.get_property("Name"):
 					add_pow(current_card, 3)
 				else:
@@ -130,7 +131,7 @@ func implement_condition(current_card) -> void:
 			if is_only_general():
 				add_pow(current_card, ONLY_GENERAL_BONUS)
 		"Ittai":
-			if "General" in prev_card.get_property("Type"):
+			if prev_card != null and "General" in prev_card.get_property("Type"):
 				add_pow(current_card, 2)
 		"Benaiah":
 			if "General" in opp_card.get_property("Type"):

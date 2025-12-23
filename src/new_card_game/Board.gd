@@ -18,11 +18,11 @@ func _ready() -> void:
 	$TurnQueue.initialize()
 	
 
-func _on_points_updated(player, total_points : int):
+func _on_points_updated(player, points : int):
 	if player == $TurnQueue/Player1:
-		p1_points_label.text = "Points: " + str(total_points)
+		p1_points_label.text = "Points: " + str(points)
 	if player == $TurnQueue/Player2:
-		p2_points_label.text = "Points: " + str(total_points)
+		p2_points_label.text = "Points: " + str(points)
 
 func _on_OvalHandToggle_toggled(_button_pressed: bool) -> void:
 	pass
