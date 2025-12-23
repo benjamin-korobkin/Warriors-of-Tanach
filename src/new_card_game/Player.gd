@@ -37,7 +37,6 @@ func reveal_card():
 	current_card.set_is_faceup(true)
 	current_card.set_card_rotation(0)
 	yield(calculate_points(), "completed")
-	current_card.set_is_newly_placed(false)
 	
 func calculate_points():
 	var points : int = 0
@@ -88,21 +87,27 @@ func implement_condition(current_card) -> void:
 		for card in field_cards:
 			var name = card.get_property("Name")
 			if "David" in name:
-				add_pow(card, 3)
+				add_pow(card, 2)
 			elif "Shaul" in name:
 				add_pow(card, 2)
 			elif "Asa" in name:
 				add_pow(card, 1)
+			elif "Chizkiyahu" in name:
+				add_pow(card, 3)
 			## TODO test & improve the code for this card
 			elif "Elazar ben Dodo" in name and \
 				card.get_property("Power") == 7:
 				add_pow(card, -ONLY_GENERAL_BONUS)
 		for card in opponent_cards:
-			var name = card.get_property("Name")
-			if "David" in name:
-				add_pow(card, -2)
-			elif "Shaul" in name:
-				add_pow(card, -1)
+			# Only affect opponent cards that are not newly played this round
+			if not card.get_is_newly_placed():
+				var name = card.get_property("Name")
+				if "David" in name:
+					add_pow(card, -2)
+				elif "Shaul" in name:
+					add_pow(card, -1)
+				elif "Chizkiyahu" in name:
+					add_pow(card, -3)
 
 	var card_name = current_card.get_property("Name")
 	var opp_card = get_opponent_played_card()
@@ -121,7 +126,6 @@ func implement_condition(current_card) -> void:
 			if "King" in opp_card.get_property("Type"):
 				add_pow(current_card, 4)
 		"Barak":
-			
 			if prev_card != null and "Shofet" in prev_card.get_property("Type"):
 				if "Devorah" in prev_card.get_property("Name"):
 					add_pow(current_card, 3)
@@ -174,7 +178,7 @@ func king_effect(amt_add, amt_sub):
 		if is_general(card):
 			add_pow(current_card, amt_add)
 	for card in opponent.field.get_occupying_cards():
-		if is_general(card) and not card.get_is_newly_placed():
+		if is_general(card):
 			add_pow(current_card, amt_sub)
 
 func is_general(card) -> bool:

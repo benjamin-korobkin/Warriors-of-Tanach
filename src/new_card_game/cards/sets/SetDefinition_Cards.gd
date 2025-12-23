@@ -43,26 +43,7 @@ const CARDS := {
 	
 	# ========== KINGS ==========
 	
-	"David HaMelech": {
-		"Type": "King",
-		"Power": 5,
-		"Base_Power": 5,
-		"Description": "+2 for each General in your field\n-2 for each General in opponent field"
-	},
 	
-	"Asa HaMelech": {
-		"Type": "King",
-		"Power": 3,
-		"Base_Power": 3,
-		"Description": "+1 for each General in your field"
-	},
-
-	"Chizkiyahu HaMelech": {
-		"Type": "King",
-		"Power": 4,
-		"Base_Power": 4,
-		"Description": "+3 for each General in your field\n-3 for each General in opponent field"
-	},
 	
 	
 	# ========== SHOFTIM ==========
@@ -171,39 +152,62 @@ const CARDS := {
 		"Description": "+5 if the only General in your field"
 	},
 	
-	"Avishai": {
-		"Type": "General",
+	
+	
+	
+	
+	
+	
+	# DEBUGGING
+	"Shaul HaMelech": {
+		"Type": "King",
 		"Power": 3,
 		"Base_Power": 3,
-		"Description": ""
+		"Description": "+2 for each General in your field\n-1 for each General in opponent field"
+	},
+
+	"David HaMelech": {
+		"Type": "King",
+		"Power": 5,
+		"Base_Power": 5,
+		"Description": "+2 for each General in your field\n-2 for each General in opponent field"
 	},
 	
-	"Amasa": {
-		"Type": "General",
+	"Asa HaMelech": {
+		"Type": "King",
 		"Power": 3,
 		"Base_Power": 3,
-		"Description": ""
+		"Description": "+1 for each General in your field"
 	},
-	
-	"Yonatan": {
-		"Type": "General",
-		"Power": 3,
-		"Base_Power": 3,
-		"Description": ""
+
+	"Chizkiyahu HaMelech": {
+		"Type": "King",
+		"Power": 4,
+		"Base_Power": 4,
+		"Description": "+3 for each General in your field\n-3 for each General in opponent field"
 	},
-	
 	"Ittai": {
 		"Type": "General",
 		"Power": 2,
 		"Base_Power": 2,
 		"Description": "+2 if you played a General last turn"
 	},
-	
-	# DEBUGGING CARD
-	"Shaul HaMelech": {
-		"Type": "King",
-		"Power": 4,
-		"Base_Power": 4,
-		"Description": "+2 for each General in your field\n-1 for each General in opponent field"
+	"Amasa": {
+		"Type": "General",
+		"Power": 3,
+		"Base_Power": 3,
+		"Description": ""
+	},
+	"Avishai": {
+		"Type": "General",
+		"Power": 3,
+		"Base_Power": 3,
+		"Description": ""
+	},
+	"Yonatan": {
+		"Type": "General",
+		"Power": 3,
+		"Base_Power": 3,
+		"Description": ""
 	},
 }

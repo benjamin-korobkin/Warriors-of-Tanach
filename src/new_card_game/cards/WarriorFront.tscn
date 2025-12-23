@@ -11,7 +11,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="DynamicFont" id=4]
-size = 15
+size = 18
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
@@ -36,6 +36,7 @@ size_flags_vertical = 3
 
 [node name="Type" parent="Margin/CardText" index="0"]
 rect_pivot_offset = Vector2( -136, -5 )
+text = "Type"
 valign = 0
 
 [node name="Name" parent="Margin/CardText" index="1"]
@@ -45,10 +46,11 @@ custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 [node name="MarginContainer" type="MarginContainer" parent="Margin/CardText" index="3"]
 margin_top = 95.0
 margin_right = 146.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 0, 5 )
+margin_bottom = 103.0
+rect_min_size = Vector2( 0, 8 )
 
 [node name="MarginContainer2" type="MarginContainer" parent="Margin/CardText" index="4"]
+visible = false
 margin_top = 103.0
 margin_right = 146.0
 margin_bottom = 103.0
@@ -56,15 +58,15 @@ margin_bottom = 103.0
 [node name="HB" type="HBoxContainer" parent="Margin/CardText" index="5"]
 margin_top = 106.0
 margin_right = 146.0
-margin_bottom = 125.0
+margin_bottom = 128.0
 mouse_filter = 2
 custom_constants/separation = -3
 alignment = 1
 
 [node name="Power" type="Label" parent="Margin/CardText/HB" index="0"]
-margin_left = 64.0
-margin_right = 81.0
-margin_bottom = 19.0
+margin_left = 63.0
+margin_right = 82.0
+margin_bottom = 22.0
 custom_colors/font_color = Color( 0.658824, 0.541176, 0, 1 )
 custom_fonts/font = SubResource( 4 )
 text = "0"

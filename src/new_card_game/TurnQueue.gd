@@ -36,6 +36,8 @@ func turn_over():
 		# Reveal both cards and wait for points calculation to complete
 		yield(p1.reveal_card(), "completed")
 		yield(p2.reveal_card(), "completed")
+		p1.current_card.set_is_newly_placed(false)
+		p2.current_card.set_is_newly_placed(false)
 		round_over()
 
 
