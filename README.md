@@ -2,8 +2,10 @@
 
 A fast, competitive digital card game built around characters from Tanach, with a primary focus on Shoftim and Melachim. Inspired by games like *Marvel Snap*.
 
-Playable in-browser and downloadable (Windows, Mac, Android):
+Play online or download (Windows, Mac, Android):
 https://korben12.itch.io/warriors-of-tanach
+
+(The game is in active development.)
 
 ---
 
@@ -39,11 +41,11 @@ After 5 turns, the player with the **highest total score wins**.
 
 ### Prophets
 - Each player starts with one
-- Introduce rule-bending and tactical disruption
+- Introduce tactical disruption
 
 ---
 
-## Planned Improvements
+## Future Plans
 
 - UI polish and clarity
 - Smarter, less predictable AI
