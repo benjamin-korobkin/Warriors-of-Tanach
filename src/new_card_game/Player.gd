@@ -36,7 +36,7 @@ func draw_card():
 func reveal_card():
 	current_card.set_is_faceup(true)
 	current_card.set_card_rotation(0)
-	calculate_points()
+	yield(calculate_points(), "completed")
 	current_card.set_is_newly_placed(false)
 	
 func calculate_points():

@@ -26,19 +26,20 @@ export var auto_extend := false
 # This size should match the
 export var card_size := CFConst.CARD_SIZE
 export var card_play_scale := CFConst.PLAY_AREA_SCALE
+export var grid_separation := 15
 
 # Sets a custom label for this grid
 onready var name_label = $Control/Label
 
 func _ready() -> void:
 	rect_size = (card_size * card_play_scale) + Vector2(4,4)
-	# We ensure the separation of the grid slots is always 1 pixel larger
-	# Than the radius of the mouse pointer collision area.
-	# This ensures that we don't highlight 2 slots at the same time.
-	$GridContainer.set("custom_constants/vseparation",
-			MousePointer.MOUSE_RADIUS * 2 + 1)
-	$GridContainer.set("custom_constants/hseparation",
-			MousePointer.MOUSE_RADIUS * 2 + 1)
+	# We ensure the separation of the grid slots uses the configured separation
+	# or falls back to a minimum based on mouse pointer radius to ensure
+	# we don't highlight 2 slots at the same time.
+	var min_separation = MousePointer.MOUSE_RADIUS * 2 + 1
+	var actual_separation = max(grid_separation, min_separation)
+	$GridContainer.set("custom_constants/vseparation", actual_separation)
+	$GridContainer.set("custom_constants/hseparation", actual_separation)
 	if not name_label.text:
 		name_label.text = name
 
