@@ -24,10 +24,10 @@ func _on_CancelButton_pressed() -> void:
 
 
 func _on_SelectButton_pressed() -> void:
-	p1.current_card.move_to(board, -1, field.find_available_slot())
-	p1.current_card.set_is_faceup(false)
-	p1.current_card.set_is_viewed(true)
-	p1.current_card.set_in_p1_field(true)
+	p1.get_current_card().move_to(board, -1, field.find_available_slot())
+	p1.get_current_card().set_is_faceup(false)
+	p1.get_current_card().set_is_viewed(true)
+	p1.get_current_card().set_in_p1_field(true)
 	hide()
 	emit_signal("moved_to_field", 1)
 	p1.finish_turn()

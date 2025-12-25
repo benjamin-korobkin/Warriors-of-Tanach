@@ -2,7 +2,6 @@ extends Card
 
 var board : Control
 var actions_menu : PopupMenu
-var is_newly_placed : bool = true setget set_is_newly_placed,get_is_newly_placed
 
 # No easy way to get grid as parent, so using attributes instead.
 var in_p1_field: bool = false setget set_in_p1_field,get_in_p1_field
@@ -45,8 +44,3 @@ func set_in_p2_field(value):
 func get_in_p2_field():
 	return in_p2_field
 
-func set_is_newly_placed(value):
-	is_newly_placed = value
-
-func get_is_newly_placed():
-	return is_newly_placed

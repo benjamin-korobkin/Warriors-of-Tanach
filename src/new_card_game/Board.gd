@@ -9,6 +9,7 @@ onready var p2_points_label = field_grid2.get_node("Control/Label")
 
 func _ready() -> void:
 	cfc.map_node(self)
+	cfc.game_rng_seed = CFUtils.generate_random_seed()
 	cfc.game_settings.fancy_movement = false
 	cfc.game_settings.hand_use_oval_shape = false
 	cfc.game_settings.focus_style = CFInt.FocusStyle.VIEWPORT
@@ -61,7 +62,7 @@ func load_cards() -> void:
 	for c in card_options:
 		card_array.append(cfc.instance_card(c))
 	## Randomize card_array
-	card_array.shuffle()
+	#CFUtils.shuffle_array(card_array)
 	for card in card_array:
 		cfc.NMAP.deck.add_child(card)
 		card._determine_idle_state()

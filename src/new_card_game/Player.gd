@@ -8,12 +8,12 @@ const ONLY_GENERAL_BONUS = 5
 
 onready var board = get_parent().get_parent()
  
-var current_card : Card
+var current_card : Card setget set_current_card, get_current_card
 var hand : Area2D
 var field : BoardPlacementGrid
 var opponent : Node2D
 var has_moved : bool setget set_has_moved, get_has_moved
-var total_points : int = 0
+var total_points : int = 0 setget set_total_points, get_total_points
 var player_name : String
 
 
@@ -32,41 +32,23 @@ func finish_turn():
 	
 func draw_card():
 	hand.draw_card()
+	
 
 func reveal_card():
-	current_card.set_is_faceup(true)
-	current_card.set_card_rotation(0)
-	yield(calculate_points(), "completed")
-	
-func calculate_points():
-	var points : int = 0
-	implement_condition(current_card)
+	var cc = get_current_card()
+	cc.set_is_faceup(true)
+	cc.set_card_rotation(0)
+	implement_condition(cc)
+
+
+func update_points():
+	var total_points : int = 0
 	for card in field.get_occupying_cards():
-		points += card.get_property("Power")
-	yield(get_tree().create_timer(0.6), "timeout")
-	update_points(points)
-
-
-func update_points(points : int):
-	total_points = points
+		total_points += card.get_property("Power")
+	set_total_points(total_points)
 	emit_signal("points_updated", self, total_points)
 
-func set_current_card(card):
-	current_card = card
-	
-func get_field():
-	return field
-	
-func get_hand():
-	return hand
-	
-func set_has_moved(moved : bool):
-	has_moved = moved
 
-func get_has_moved():
-	return has_moved
-	
-	
 func implement_condition(current_card) -> void:
 	var field_cards = field.get_occupying_cards()
 	var opponent_cards = opponent.field.get_occupying_cards()
@@ -81,36 +63,42 @@ func implement_condition(current_card) -> void:
 				var base_power = card.get_property("Base_Power")
 				card.modify_property("Power", base_power + bonus)
 
-	
 	## General to King Effect
 	if is_general(current_card):
 		for card in field_cards:
 			var name = card.get_property("Name")
 			if "David" in name:
 				add_pow(card, 2)
+				print("2 points added to King David")
 			elif "Shaul" in name:
 				add_pow(card, 2)
+				print("2 points added to King Shaul")
 			elif "Asa" in name:
 				add_pow(card, 1)
+				print("1 point added to King Asa")
 			elif "Chizkiyahu" in name:
 				add_pow(card, 3)
+				print("3 points added to King Chizkiyahu")
 			## TODO test & improve the code for this card
 			elif "Elazar ben Dodo" in name and \
 				card.get_property("Power") == 7:
 				add_pow(card, -ONLY_GENERAL_BONUS)
 		for card in opponent_cards:
-			# Only affect opponent cards that are not newly played this round
-			if not card.get_is_newly_placed():
+			# Only affect faceup Kings. Otherwise, effects get stacked.
+			if card.get_is_faceup():
 				var name = card.get_property("Name")
 				if "David" in name:
 					add_pow(card, -2)
+					print("2 points removed from King David")
 				elif "Shaul" in name:
 					add_pow(card, -1)
+					print("1 point removed from King Shaul")
 				elif "Chizkiyahu" in name:
 					add_pow(card, -3)
+					print("3 points removed from King Chizkiyahu")
 
 	var card_name = current_card.get_property("Name")
-	var opp_card = get_opponent_played_card()
+	var opp_card = opponent.get_current_card()
 	var prev_card = get_prev_played_card()
 	
 	match card_name:
@@ -152,16 +140,36 @@ func implement_condition(current_card) -> void:
 			pass
 
 
-func get_opponent_played_card() -> Card:
-	for card in opponent.field.get_occupying_cards():
-		if card.get_is_newly_placed():
-			return card
-	print("ERROR: Couldn't get opponent's played card")
-	return null
-	
+# func get_opponent_played_card() -> Card:
+# 	for card in opponent.field.get_occupying_cards():
+# 		if card.get_is_newly_placed():
+# 			return card
+# 	print("ERROR: Couldn't get opponent's played card")
+# 	return null
+
 func get_prev_played_card() -> Card:
 	return field.get_previous_card(current_card)
-	
+
+func add_pow(card, power):
+#	var p = card.get_property("Power")
+#	var new_p = p + power
+	card.modify_property("Power", str(power))
+
+func king_effect(amt_add, amt_sub):
+	var bonus : int = 0
+	var cc = current_card
+	for card in field.get_occupying_cards():
+		if is_general(card):
+			bonus += amt_add
+			# add_pow(current_card, amt_add)
+			# print(amt_add, " points added to ", current_card.get_property("Name"))
+	for card in opponent.field.get_occupying_cards():
+		if is_general(card) and card.get_is_faceup():
+			bonus += amt_sub
+			# add_pow(current_card, amt_sub)
+			# print(amt_sub, " points from ", current_card.get_property("Name"))
+	add_pow(cc, bonus)
+
 func is_only_general() -> bool:
 	var is_only_general = true
 	for card in field.get_occupying_cards():
@@ -169,21 +177,9 @@ func is_only_general() -> bool:
 			is_only_general = false
 	return is_only_general
 
-func add_pow(card, power):
-	var p = card.get_property("Power")
-	card.modify_property("Power", p + power)
-
-func king_effect(amt_add, amt_sub):
-	for card in field.get_occupying_cards():
-		if is_general(card):
-			add_pow(current_card, amt_add)
-	for card in opponent.field.get_occupying_cards():
-		if is_general(card):
-			add_pow(current_card, amt_sub)
-
 func is_general(card) -> bool:
 	var type = card.get_property("Type")
-	return "General" in type or "Soldier" in type 
+	return "General" in type
 
 func not_same_card(card1, card2) -> bool:
 	return card1.get_property("Name") != card2.get_property("Name")
@@ -194,3 +190,27 @@ func shofet_bonus() -> int:
 		if "Shofet" in card.get_property("Type"):
 			bonus += 1
 	return bonus
+
+func set_current_card(card):
+	current_card = card
+
+func get_current_card() -> Card:
+	return current_card
+	
+func get_field():
+	return field
+	
+func get_hand():
+	return hand
+	
+func set_has_moved(moved : bool):
+	has_moved = moved
+
+func get_has_moved():
+	return has_moved
+	
+func set_total_points(points):
+	total_points = points
+
+func get_total_points() -> int:
+	return total_points

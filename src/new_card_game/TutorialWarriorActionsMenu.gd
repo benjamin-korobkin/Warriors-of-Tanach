@@ -25,10 +25,10 @@ func _ready() -> void:
 func _on_FieldButton_pressed() -> void:
 	if p1.can_deduct_action():
 		p1.deduct_action()
-		p1.current_card.move_to(board, -1, field.find_available_slot())
-		p1.current_card.set_is_faceup(true)
-		p1.current_card.set_is_viewed(true)
-		p1.current_card.set_in_p1_field(true)
+		p1.get_current_card().move_to(board, -1, field.find_available_slot())
+		p1.get_current_card().set_is_faceup(true)
+		p1.get_current_card().set_is_viewed(true)
+		p1.get_current_card().set_in_p1_field(true)
 		hide()
 		emit_signal("moved_to_field", 1)
 		p1.turn_over()
@@ -38,7 +38,7 @@ func _on_FieldButton_pressed() -> void:
 		print("ERROR: Beit Midrash button pressed with no actions available")
 	
 func _on_TimelineButton_pressed() -> void:
-	var era = p1.current_card.get_property("Era")
+	var era = p1.get_current_card().get_property("Era")
 	var slot = timeline.get_slot_from_era(era)
 	if p1.can_deduct_action():  # TODO: Do we need this condition?
 		if p1.moshe_effect_enabled:
@@ -51,10 +51,10 @@ func _on_TimelineButton_pressed() -> void:
 			p2.cards_in_timeline -= 1
 			# TODO: TEST
 			yield(owner.get_tree().create_timer(0.75), "timeout")
-		p1.current_card.move_to(board, -1, slot)
+		p1.get_current_card().move_to(board, -1, slot)
 		# for when moving from BM to TT
-		p1.current_card.set_in_p1_field(false)
-		p1.current_card.set_is_faceup(true)
+		p1.get_current_card().set_in_p1_field(false)
+		p1.get_current_card().set_is_faceup(true)
 		p1.cards_in_timeline += 1
 		hide()
 		p1.turn_over()

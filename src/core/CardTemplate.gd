@@ -620,12 +620,12 @@ func modify_property(
 		retcode = CFConst.ReturnCode.OK
 	# This checks if the player is trying to reduce a card property below 0
 	# And if so, returns FAILED
-	elif check\
-			and property in CardConfig.PROPERTIES_NUMBERS\
-			and typeof(value) == TYPE_STRING\
-			and value.is_valid_integer()\
-			and properties.get(property,0) + int(value) < 0:
-		retcode = CFConst.ReturnCode.FAILED
+	# elif check\
+	# 		and property in CardConfig.PROPERTIES_NUMBERS\
+	# 		and typeof(value) == TYPE_STRING\
+	# 		and value.is_valid_integer(): \
+	# 		and properties.get(property,0) + int(value) < 0:
+	# 	retcode = CFConst.ReturnCode.FAILED
 	else:
 		# We store the values to send with the signal
 		var previous_value
@@ -710,9 +710,9 @@ func refresh_property_label(property: String) -> void:
 	var label_node = card_front.card_labels[property]
 	var value_for_label = str(properties[property])
 	if property in CardConfig.PROPERTIES_NUMBERS:
-		if typeof(properties[property]) == TYPE_INT and properties[property] < 0:
-			value_for_label = '0'
-		elif typeof(properties[property]) == TYPE_STRING and properties[property].is_valid_integer():
+		# if typeof(properties[property]) == TYPE_INT and properties[property] < 0:
+		# 	value_for_label = '0'
+		if typeof(properties[property]) == TYPE_STRING and properties[property].is_valid_integer():
 			value_for_label = str(int(properties[property]))
 		if value_for_label =='0' and property in CardConfig.NUMBERS_HIDDEN_ON_0:
 			card_front.set_label_text(label_node,"")
@@ -806,8 +806,8 @@ func get_property_and_alterants(property: String,
 			_is_property_being_altered = false
 			# The first element is always the total modifier from all alterants
 			property_value += alteration.value_alteration
-		if property_value < 0:
-			property_value = 0
+		# if property_value < 0:
+		# 	property_value = 0
 	var return_dict := {
 		"value": property_value,
 		"alteration": alteration,

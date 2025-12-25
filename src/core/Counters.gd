@@ -184,8 +184,8 @@ func get_counter_and_alterants(
 		temp_modifiers.modifier_details[modifiers_dict.requesting_object] =\
 				modifiers_dict.modifier.get(counter_name,0)
 	count += temp_modifiers.value_modification
-	if count < 0:
-		count = 0
+	# if count < 0:
+	# 	count = 0
 	var return_dict = {
 		"count": count,
 		"alteration": alteration,

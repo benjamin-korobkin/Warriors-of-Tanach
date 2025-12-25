@@ -43,14 +43,15 @@ func setup(token_name: String, _token_drawer = null) -> void:
 
 # Sets the token counter to the specified value
 func set_count(value := 1) -> void:
-	# We do not allow tokens to be set to negative values
-	if value < 0:
-		value = 0
-	count = value
-	# Solution taken from
-	# https://github.com/godotengine/godot/issues/30460#issuecomment-509697259
-	if is_inside_tree():
-		count_label.text = str(count)
+	pass
+	# # We do not allow tokens to be set to negative values
+	# if value < 0:
+	# 	value = 0
+	# count = value
+	# # Solution taken from
+	# # https://github.com/godotengine/godot/issues/30460#issuecomment-509697259
+	# if is_inside_tree():
+	# 	count_label.text = str(count)
 
 
 # Returns the amount of tokens of this type

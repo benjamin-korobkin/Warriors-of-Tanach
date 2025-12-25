@@ -34,19 +34,19 @@ func turn_over():
 		get_active_player().play_turn()
 	if p1.get_has_moved() and p2.get_has_moved():
 		# Reveal both cards and wait for points calculation to complete
-		yield(p1.reveal_card(), "completed")
-		yield(p2.reveal_card(), "completed")
-		p1.current_card.set_is_newly_placed(false)
-		p2.current_card.set_is_newly_placed(false)
+		p1.reveal_card()
+		p2.reveal_card()
+		p1.update_points()
+		p2.update_points()
 		round_over()
 
 
 func round_over():
 	if current_round >= TOTAL_ROUNDS:
 		var winner
-		if p1.total_points > p2.total_points:
+		if p1.get_total_points() > p2.get_total_points():
 			winner = p1
-		elif p1.total_points < p2.total_points:
+		elif p1.get_total_points() < p2.get_total_points():
 			winner = p2
 		else:
 			winner = null
@@ -56,7 +56,6 @@ func round_over():
 			emit_signal("game_won", "DRAW")
 		game_over = true
 	else:
-		
 		current_round += 1
 		set_active_player(p1)
 		get_active_player().play_turn()
