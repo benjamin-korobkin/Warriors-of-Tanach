@@ -76,37 +76,15 @@ const CARDS := {
 		"Description": "Shofet effect: +1 for each other Shofet in your field"
 	},
 	
-	"Shamgar ben Anat": {
-		"Type": "Shofet",
-		"Power": 2,
-		"Base_Power": 2,
-		"Description": "Shofet effect: +1 for each other Shofet in your field"
-	},
 	
 	
 	
-	"Osniel ben Kenaz": {
-		"Type": "Shofet",
-		"Power": 0,
-		"Base_Power": 0,
-		"Description": "Double the base value of each Shofet you played beforehand"
-	},
 	
 	
 	
-	"Yair HaGiladi": {
-		"Type": "Shofet",
-		"Power": 2,
-		"Base_Power": 2,
-		"Description": "Shofet effect: +1 for each other Shofet in your field"
-	},
 	
-	"Avdon ben Hillel": {
-		"Type": "Shofet",
-		"Power": 2,
-		"Base_Power": 2,
-		"Description": "Shofet effect: +1 for each other Shofet in your field"
-	},
+	
+	
 
 	# ========== GENERALS ==========
 	
@@ -175,7 +153,12 @@ const CARDS := {
 		"Description": "+2 for each General in your field\n-2 for each General in opponent field"
 	},
 	
-	
+	"Shamgar ben Anat": {
+		"Type": "Shofet",
+		"Power": 2,
+		"Base_Power": 2,
+		"Description": "Shofet effect: +1 for each other Shofet in your field"
+	},
 	"Barak": {
 		"Type": "General",
 		"Power": 2,
@@ -195,17 +178,35 @@ const CARDS := {
 		"Base_Power": 2,
 		"Description": "+2 if you played a General last turn"
 	},
+	"Osniel ben Kenaz": {
+		"Type": "Shofet",
+		"Power": 0,
+		"Base_Power": 0,
+		"Description": "Double the base value of each Shofet you played beforehand"
+	},
 	"Amasa": {
 		"Type": "General",
 		"Power": 3,
 		"Base_Power": 3,
 		"Description": ""
 	},
+	"Yair HaGiladi": {
+		"Type": "Shofet",
+		"Power": 2,
+		"Base_Power": 2,
+		"Description": "Shofet effect: +1 for each other Shofet in your field"
+	},
 	"Avishai": {
 		"Type": "General",
 		"Power": 3,
 		"Base_Power": 3,
 		"Description": ""
+	},
+	"Avdon ben Hillel": {
+		"Type": "Shofet",
+		"Power": 2,
+		"Base_Power": 2,
+		"Description": "Shofet effect: +1 for each other Shofet in your field"
 	},
 	"Yonatan": {
 		"Type": "General",

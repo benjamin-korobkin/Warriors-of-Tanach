@@ -96,7 +96,7 @@ func draw_card(pile : Pile = cfc.NMAP.deck) -> Card:
 	var card: Card = pile.get_top_card()
 	if card:
 		card.move_to(self)
-		card.set_is_faceup(true)
+		#card.set_is_faceup(true)
 		#yield(card._tween, "tween_all_completed")
 	return(card)
 

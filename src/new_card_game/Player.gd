@@ -55,14 +55,7 @@ func implement_condition(current_card) -> void:
 	var card_type = current_card.get_property("Type")
 	var power = current_card.get_property("Power")
 	
-	## Shofet Effect
-	if "Shofet" in card_type:
-		var bonus = shofet_bonus()
-		for card in field_cards:
-			if "Shofet" in card.get_property("Type"):
-				var base_power = card.get_property("Base_Power")
-				card.modify_property("Power", base_power + bonus)
-
+	
 	## General to King Effect
 	if is_general(current_card):
 		for card in field_cards:
@@ -128,24 +121,23 @@ func implement_condition(current_card) -> void:
 		"Benaiah":
 			if "General" in opp_card.get_property("Type"):
 				add_pow(current_card, 3)
-		"Osniel ben Kenaz":
-			for card in field_cards:
-				if "Shofet" in card.get_property("Type") and not_same_card(card, current_card):
-					var base_power = card.get_property("Base_Power")
-					card.modify_property("Power", base_power * 2)
 		"Toleh ben Puah":
 			if "Shofet" in opp_card.get_property("Type"):
 				add_pow(current_card, 2)
 		_:
 			pass
+	
+	## Shofet Effect
+	if "Shofet" in card_type:
+		var bonus = shofet_bonus()
+		for card in field_cards:
+			if "Shofet" in card.get_property("Type"):
+				var base_power = card.get_property("Base_Power")
+				if card_name == "Osniel ben Kenaz":
+					base_power *= 2
+					card.modify_property("Base_Power", base_power)
+				card.modify_property("Power", base_power + bonus)
 
-
-# func get_opponent_played_card() -> Card:
-# 	for card in opponent.field.get_occupying_cards():
-# 		if card.get_is_newly_placed():
-# 			return card
-# 	print("ERROR: Couldn't get opponent's played card")
-# 	return null
 
 func get_prev_played_card() -> Card:
 	return field.get_previous_card(current_card)
