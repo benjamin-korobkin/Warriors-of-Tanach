@@ -115,7 +115,7 @@ func count_filled_slots() -> int:
 func get_card_slot_index(card : Card) -> int:
 	return card._placement_slot.get_index()
 	
-func get_previous_card(current_card : Card) -> Card:
+func get_previous_card(current_card) -> Card:
 	if count_filled_slots() == 1:
 		return null
 	return get_slot(get_card_slot_index(current_card) - 1).occupying_card

@@ -153,7 +153,8 @@ func get_prev_played_card() -> Card:
 func add_pow(card, power):
 #	var p = card.get_property("Power")
 #	var new_p = p + power
-	card.modify_property("Power", str(power))
+	var power_str = ("+" if power >= 0 else "") + str(power)
+	card.modify_property("Power", power_str)
 
 func king_effect(amt_add, amt_sub):
 	var bonus : int = 0

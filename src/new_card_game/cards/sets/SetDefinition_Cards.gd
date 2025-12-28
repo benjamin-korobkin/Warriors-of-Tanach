@@ -83,12 +83,7 @@ const CARDS := {
 		"Description": "Shofet effect: +1 for each other Shofet in your field"
 	},
 	
-	"Yiftach ben Gilad": {
-		"Type": "Shofet",
-		"Power": 2,
-		"Base_Power": 2,
-		"Description": "Shofet effect: +1 for each other Shofet in your field"
-	},
+	
 	
 	"Osniel ben Kenaz": {
 		"Type": "Shofet",
@@ -115,6 +110,23 @@ const CARDS := {
 
 	# ========== GENERALS ==========
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	# DEBUGGING
+	"Chizkiyahu HaMelech": {
+		"Type": "King",
+		"Power": 4,
+		"Base_Power": 4,
+		"Description": "+3 for each General in your field\n-3 for each General in opponent field"
+	},
 	"Yoav": {
 		"Type": "General",
 		"Power": 2,
@@ -134,22 +146,13 @@ const CARDS := {
 		"Base_Power": 3,
 		"Description": ""
 	},
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	# DEBUGGING
 	"Asa HaMelech": {
 		"Type": "King",
 		"Power": 3,
 		"Base_Power": 3,
 		"Description": "+1 for each General in your field"
 	},
+	
 	"Shaul HaMelech": {
 		"Type": "King",
 		"Power": 3,
@@ -177,13 +180,13 @@ const CARDS := {
 		"Base_Power": 2,
 		"Description": "+2 if placed after a Shofet. If that Shofet is Devorah, +3"
 	},
-
-	"Chizkiyahu HaMelech": {
-		"Type": "King",
-		"Power": 4,
-		"Base_Power": 4,
-		"Description": "+3 for each General in your field\n-3 for each General in opponent field"
+	"Yiftach ben Gilad": {
+		"Type": "Shofet",
+		"Power": 2,
+		"Base_Power": 2,
+		"Description": "Shofet effect: +1 for each other Shofet in your field"
 	},
+	
 	"Ittai": {
 		"Type": "General",
 		"Power": 2,
