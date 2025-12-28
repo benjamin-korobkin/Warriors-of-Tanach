@@ -159,16 +159,17 @@ func add_pow(card, power):
 func king_effect(amt_add, amt_sub):
 	var bonus : int = 0
 	var cc = current_card
+	var n = cc.get_property("Name")
 	for card in field.get_occupying_cards():
 		if is_general(card):
 			bonus += amt_add
 			# add_pow(current_card, amt_add)
-			# print(amt_add, " points added to ", current_card.get_property("Name"))
+			print(amt_add, " points added to ", n)
 	for card in opponent.field.get_occupying_cards():
 		if is_general(card) and card.get_is_faceup():
 			bonus += amt_sub
 			# add_pow(current_card, amt_sub)
-			# print(amt_sub, " points from ", current_card.get_property("Name"))
+			print(amt_sub, " points from ", n)
 	add_pow(cc, bonus)
 
 func is_only_general() -> bool:

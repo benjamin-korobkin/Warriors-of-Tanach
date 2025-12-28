@@ -25,19 +25,19 @@ const CARDS := {
 	# "Yehoshua": {
 	# 	"Type": "Prophet",
 	# 	"Power": 0,
-	# 	"Description": "Draw an extra card from the deck. You must use it by the end of next round or it will be discarded."
+	# 	"Description": "Draw an extra card from the deck. Use it by the end of next round or it will be discarded."
 	# },
 	
 	# "Natan": {
 	# 	"Type": "Prophet",
 	# 	"Power": 0,
-	# 	"Description": "No bonuses/effects occur this round"
+	# 	"Description": "No effects occur this round"
 	# },
 	
 	# "Hoshea": {
 	# 	"Type": "Prophet",
 	# 	"Power": 0,
-	# 	"Description": "Next round, your opponent reveals their chosen card before you select yours"
+	# 	"Description": "Next round, your opponent reveals their card before you select yours"
 	# },
 	
 	
@@ -121,12 +121,7 @@ const CARDS := {
 	
 	
 	# DEBUGGING
-	"Chizkiyahu HaMelech": {
-		"Type": "King",
-		"Power": 4,
-		"Base_Power": 4,
-		"Description": "+3 for each General in your field\n-3 for each General in opponent field"
-	},
+	
 	"Yoav": {
 		"Type": "General",
 		"Power": 2,
@@ -138,6 +133,13 @@ const CARDS := {
 		"Power": 2,
 		"Base_Power": 2,
 		"Description": "+3 if opponent plays a General this turn"
+	},
+	
+	"Chizkiyahu HaMelech": {
+		"Type": "King",
+		"Power": 3,
+		"Base_Power": 3,
+		"Description": "+3 for each General in your field\n-3 for each General in opponent field"
 	},
 	
 	"Avner": {

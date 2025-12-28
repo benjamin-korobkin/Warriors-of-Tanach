@@ -33,7 +33,6 @@ func turn_over():
 		set_active_player(p2)
 		get_active_player().play_turn()
 	if p1.get_has_moved() and p2.get_has_moved():
-		# Reveal both cards and wait for points calculation to complete
 		p1.reveal_card()
 		p2.reveal_card()
 		p1.update_points()
