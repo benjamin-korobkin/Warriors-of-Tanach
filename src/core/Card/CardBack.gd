@@ -20,8 +20,8 @@ onready var card_owner = get_parent().get_parent().get_parent()
 func set_is_viewed_visible(value: bool) -> void:
 	if viewed_node:
 		viewed_node.visible = value
-	else:
-		print_debug("WARNING: viewed_node has not been defined in the card back: " + name)
+	# else:
+	# 	print_debug("WARNING: viewed_node has not been defined in the card back: " + name)
 
 
 # Each class which extends this has to overwrite this function

@@ -165,12 +165,6 @@ const CARDS := {
 		"Base_Power": 2,
 		"Description": "+2 if placed after a Shofet. If that Shofet is Devorah, +3"
 	},
-	"Yiftach ben Gilad": {
-		"Type": "Shofet",
-		"Power": 2,
-		"Base_Power": 2,
-		"Description": "Shofet effect: +1 for each other Shofet in your field"
-	},
 	
 	"Ittai": {
 		"Type": "General",
@@ -182,13 +176,19 @@ const CARDS := {
 		"Type": "Shofet",
 		"Power": 0,
 		"Base_Power": 0,
-		"Description": "Double the base value of each Shofet you played beforehand"
+		"Description": "+2 to each Shofet you played beforehand"
 	},
 	"Amasa": {
 		"Type": "General",
 		"Power": 3,
 		"Base_Power": 3,
 		"Description": ""
+	},
+	"Yiftach ben Gilad": {
+		"Type": "Shofet",
+		"Power": 2,
+		"Base_Power": 2,
+		"Description": "Shofet effect: +1 for each other Shofet in your field"
 	},
 	"Yair HaGiladi": {
 		"Type": "Shofet",
