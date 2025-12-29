@@ -11,10 +11,12 @@
 class_name CardConfig
 extends Reference
 
+# The property name which holds the unique ID of the card
+const ID_PROPERTY := "CardID"
 # Properties which are placed as they are in appropriate labels
 const PROPERTIES_STRINGS := ["Type", "Description"]
 # Properties which are converted into string using a format defined in setup()
-const PROPERTIES_NUMBERS := ["Power", "Base_Power"]
+const PROPERTIES_NUMBERS := ["Power", "BasePower"]
 # The name of these properties will be prepended before their value to their label.
 const NUMBER_WITH_LABEL := []
 # Properties provided in a list which are converted into a string for the

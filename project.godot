@@ -134,6 +134,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/core/Card/CardFront.gd"
 }, {
+"base": "Node",
+"class": "CardID",
+"language": "GDScript",
+"path": "res://src/new_card_game/cards/CardID.gd"
+}, {
 "base": "RichTextLabel",
 "class": "CardLabel",
 "language": "GDScript",
@@ -360,6 +365,7 @@ _global_script_class_icons={
 "CardContainer": "",
 "CardFilter": "",
 "CardFront": "",
+"CardID": "",
 "CardLabel": "",
 "CardLibrary": "",
 "CardViewer": "",
@@ -411,6 +417,7 @@ config/icon="res://icon.png"
 [autoload]
 
 cfc="*res://src/core/CFControl.gd"
+CardId="*res://src/new_card_game/cards/CardID.gd"
 
 [debug]
 

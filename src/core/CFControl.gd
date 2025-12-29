@@ -241,8 +241,7 @@ func instance_card(card_name: String) -> Card:
 	# We discover the template from the "Type"  property defined
 	# in each card. Any property can be used
 	# Example template: "res://src/new_card_game/cards/Tanach.tscn"
-#	var template = load(CFConst.PATH_CARDS
-#			+ card_definitions[card_name][CardConfig.SCENE_PROPERTY] + ".tscn")
+
 	var template
 	var card_type
 	match card_definitions[card_name][CardConfig.SCENE_PROPERTY]:
@@ -256,6 +255,7 @@ func instance_card(card_name: String) -> Card:
 	# We set the card_name variable so that it's able to be used later
 	card.canonical_name = card_name
 	card.card_type = card_type
+	card.card_id = card_definitions[card_name][CardConfig.ID_PROPERTY]
 	emit_signal("new_card_instanced", card)
 	return(card)
 

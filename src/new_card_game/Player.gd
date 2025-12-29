@@ -52,7 +52,7 @@ func update_points():
 	emit_signal("points_updated", self, total_points)
 	
 func calc_shofet_pow(card):
-	var power = card.get_property("Base_Power")
+	var power = card.get_property("BasePower")
 	for value in card.shofet_modifiers.values():
 		power += value
 	
@@ -60,9 +60,10 @@ func calc_shofet_pow(card):
 
 
 func implement_condition(current_card) -> void:
+	## TODO: make these parameters in the functions
 	field_cards = field.get_occupying_cards()
 	opponent_cards = opponent.field.get_occupying_cards()
-	card_type = current_card.get_property("Type")
+	#card_type = current_card.get_property("Type")
 	# power = current_card.get_property("Power")
 	apply_general_auras(current_card)
 	apply_named_card_effects(current_card)
@@ -73,74 +74,77 @@ func apply_general_auras(current_card) -> void:
 	## General to King Effect
 	if is_general(current_card):
 		for card in field_cards:
-			var name = card.get_property("Name")
-			if "David" in name:
-				add_pow(card, 2)
-			elif "Shaul" in name:
-				add_pow(card, 2)
-			elif "Asa" in name:
-				add_pow(card, 1)
-			elif "Chizkiyahu" in name:
-				add_pow(card, 3)
-			elif "Elazar ben Dodo" in name and \
-				card.get_property("Power") == 7:
-				add_pow(card, -ONLY_GENERAL_BONUS)
+			match card.card_id:
+				CardID.ID.KING_DAVID:
+					add_pow(card, 2)
+				CardID.ID.KING_SHAUL:
+					add_pow(card, 2)
+				CardID.ID.KING_ASA:
+					add_pow(card, 1)
+				CardID.ID.KING_CHIZKIYAHU:
+					add_pow(card, 3)
+				CardID.ID.GENERAL_ELAZAR:
+					if card.get_property("Power") == 7:
+						add_pow(card, -ONLY_GENERAL_BONUS)
 		for card in opponent_cards:
 			# Only affect faceup Kings. Otherwise, effects get stacked.
 			if card.get_is_faceup():
-				var name = card.get_property("Name")
-				if "David" in name:
-					add_pow(card, -2)
-				elif "Shaul" in name:
-					add_pow(card, -1)
-				elif "Chizkiyahu" in name:
-					add_pow(card, -3)
+				match card.card_id:
+					CardID.ID.KING_DAVID:
+						add_pow(card, -2)
+					CardID.ID.KING_SHAUL:
+						add_pow(card, -1)
+					CardID.ID.KING_CHIZKIYAHU:
+						add_pow(card, -3)
 
 
 func apply_named_card_effects(current_card) -> void:
-	var card_id = current_card.get_property("CardID")
+	var card_id = current_card.card_id
+	if card_id == 0:
+		push_error("CardID not set for card: " + current_card.name)
+		return
 	var opp_card = opponent.get_current_card()
 	var prev_card = get_prev_played_card()
 
 	match card_id:
-		"David HaMelech":
+		CardID.ID.KING_DAVID:
 			king_effect(2, -2)
-		"Shaul HaMelech":
+		CardID.ID.KING_SHAUL:
 			king_effect(2, -1)
-		"Asa HaMelech":
+		CardID.ID.KING_ASA:
 			king_effect(1, 0)
-		"Chizkiyahu HaMelech":
+		CardID.ID.KING_CHIZKIYAHU:
 			king_effect(3, -3)
-		"Yoav":
-			if "King" in opp_card.get_property("Type"):
+		CardID.ID.GENERAL_YOAV:
+			if CardID.is_king(opp_card.card_id):
 				add_pow(current_card, 4)
-		"Barak":
-			if prev_card != null and "Shofet" in prev_card.get_property("Type"):
-				if "Devorah" in prev_card.get_property("Name"):
+		CardID.ID.GENERAL_BARAK:
+			if prev_card != null and CardID.is_shofet(prev_card.card_id):
+				if prev_card.card_id == CardID.ID.SHOFET_DEVORAH:
 					add_pow(current_card, 3)
 				else:
 					add_pow(current_card, 2)
-		"Elazar ben Dodo":
+		CardID.ID.GENERAL_ELAZAR:
 			if is_only_general_on_field():
 				add_pow(current_card, ONLY_GENERAL_BONUS)
-		"Ittai":
-			if prev_card != null and "General" in prev_card.get_property("Type"):
+		CardID.ID.GENERAL_ITTAI:
+			if prev_card != null and CardID.is_general(prev_card.card_id):
 				add_pow(current_card, 2)
-		"Benaiah":
-			if "General" in opp_card.get_property("Type"):
+		CardID.ID.GENERAL_BENAIAH:
+			if CardID.is_general(opp_card.card_id):
 				add_pow(current_card, 3)
-		"Toleh ben Puah":
-			if "Shofet" in opp_card.get_property("Type"):
+		CardID.ID.SHOFET_TOLEH:
+			if CardID.is_shofet(opp_card.card_id):
 				current_card.shofet_modifiers["toleh_bonus"] += 2
 		_:
 			pass
 	
 func apply_shofet_effects(current_card) -> void:
-	if "Shofet" in card_type:
+	if CardID.is_shofet(current_card.card_id):
 		var bonus = shofet_bonus()
 		for card in field_cards:
-			if "Shofet" in card.get_property("Type"):
-				if card_name == "Osniel ben Kenaz" and not_same_card(card, current_card):
+			if CardID.is_shofet(card.card_id):
+				if card.card_id == CardID.ID.SHOFET_OSNIEL and card != current_card:
 					card.shofet_modifiers["osniel_bonus"] += 2
 				card.shofet_modifiers["shofet_bonus"] = bonus
 				calc_shofet_pow(card)
@@ -151,45 +155,34 @@ func get_prev_played_card() -> Card:
 	return field.get_previous_card(current_card)
 
 func add_pow(card, add_power):
-	# var power_str = ("+" if power >= 0 else "") + str(power)
 	var p = card.get_property("Power")
 	var power = p + add_power
 	card.modify_property("Power", power)
 
 func king_effect(amt_add, amt_sub):
 	var bonus : int = 0
-	var cc = current_card
-	var n = cc.get_property("Name")
 	for card in field.get_occupying_cards():
 		if is_general(card):
 			bonus += amt_add
-			# add_pow(current_card, amt_add)
-			#print(amt_add, " points added to ", n)
 	for card in opponent.field.get_occupying_cards():
 		if is_general(card) and card.get_is_faceup():
 			bonus += amt_sub
-			# add_pow(current_card, amt_sub)
-#			print(amt_sub, " points from ", n)
-	add_pow(cc, bonus)
+	add_pow(current_card, bonus)
 
 func is_only_general_on_field() -> bool:
-	var is_only_general_on_field = true
 	for card in field.get_occupying_cards():
-		if "General" in card.get_property("Type") and not_same_card(card, current_card): 
-			is_only_general_on_field = false
-	return is_only_general_on_field
+		if CardID.is_general(card.card_id) and card != current_card:
+			return false
+	return true
 
 func is_general(card) -> bool:
-	var type = card.get_property("Type")
-	return "General" in type
+	return CardID.is_general(card.card_id)
 
-func not_same_card(card1, card2) -> bool:
-	return card1.get_property("Name") != card2.get_property("Name")
 
 func shofet_bonus() -> int:
 	var bonus = -1
 	for card in field.get_occupying_cards():
-		if "Shofet" in card.get_property("Type"):
+		if CardID.is_shofet(card.card_id):
 			bonus += 1
 	return bonus
 

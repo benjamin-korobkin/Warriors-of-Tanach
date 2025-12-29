@@ -7,6 +7,7 @@
 [node name="Warrior" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
 card_front_design = ExtResource( 2 )
+card_id = 0
 
 [node name="CollisionShape2D" parent="." index="0"]
 position = Vector2( 78, 86.4 )

@@ -1,5 +1,7 @@
 extends Card
 
+export(CardID.ID) var card_id := 0
+
 var board : Control
 var actions_menu : PopupMenu
 
@@ -13,6 +15,13 @@ var shofet_modifiers = {
 	"toleh_bonus": 0
 }
 
+func _ready() -> void:
+	._ready()
+	assert(card_id != 0, "CardID not set for card: " + name)
+	# warning-ignore:return_value_discarded
+	connect("gui_input", self, "_on_Card_gui_input")
+
+
 func _on_Card_gui_input(event) -> void:
 	board = cfc.NMAP.board
 	var p1 = board.get_node("TurnQueue/Player1")
@@ -25,7 +34,6 @@ func _on_Card_gui_input(event) -> void:
 		
 		## TUTORIAL CODE
 		#tutorial_checks()
-
 
 func tutorial_checks():
 	if board.get_name() == "Tutorial":
