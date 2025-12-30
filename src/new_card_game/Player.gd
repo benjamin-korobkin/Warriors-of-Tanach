@@ -65,12 +65,12 @@ func implement_condition(current_card) -> void:
 	opponent_cards = opponent.field.get_occupying_cards()
 	#card_type = current_card.get_property("Type")
 	# power = current_card.get_property("Power")
-	apply_general_auras(current_card)
-	apply_named_card_effects(current_card)
-	apply_shofet_effects(current_card)
+	apply_general_auras(current_card, field_cards, opponent_cards)
+	apply_named_card_effects(current_card, field_cards, opponent_cards)
+	apply_shofet_effects(current_card, field_cards, opponent_cards)
 
 	
-func apply_general_auras(current_card) -> void:
+func apply_general_auras(current_card, field_cards, opponent_cards) -> void:
 	## General to King Effect
 	if is_general(current_card):
 		for card in field_cards:
@@ -98,7 +98,7 @@ func apply_general_auras(current_card) -> void:
 						add_pow(card, -3)
 
 
-func apply_named_card_effects(current_card) -> void:
+func apply_named_card_effects(current_card, field_cards, opponent_cards) -> void:
 	var card_id = current_card.card_id
 	if card_id == 0:
 		push_error("CardID not set for card: " + current_card.name)
@@ -139,7 +139,7 @@ func apply_named_card_effects(current_card) -> void:
 		_:
 			pass
 	
-func apply_shofet_effects(current_card) -> void:
+func apply_shofet_effects(current_card, field_cards, opponent_cards) -> void:
 	if CardID.is_shofet(current_card.card_id):
 		var bonus = shofet_bonus()
 		for card in field_cards:
@@ -159,12 +159,12 @@ func add_pow(card, add_power):
 	var power = p + add_power
 	card.modify_property("Power", power)
 
-func king_effect(amt_add, amt_sub):
+func king_effect(field_cards, opponent_cards, amt_add, amt_sub):
 	var bonus : int = 0
-	for card in field.get_occupying_cards():
+	for card in field_cards:
 		if is_general(card):
 			bonus += amt_add
-	for card in opponent.field.get_occupying_cards():
+	for card in opponent_cards:
 		if is_general(card) and card.get_is_faceup():
 			bonus += amt_sub
 	add_pow(current_card, bonus)
