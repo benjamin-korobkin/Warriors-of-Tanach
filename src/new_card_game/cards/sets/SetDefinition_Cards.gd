@@ -154,13 +154,6 @@ const CARDS := {
 		"BasePower": 3,
 		"Description": "+2 for each General in your field\n-1 for each General in opponent field"
 	},
-	"Elazar ben Dodo": {
-		"CardID": CardID.ID.GENERAL_ELAZAR,
-		"Type": "General",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "+5 if the only General in your field"
-	},
 
 	"David HaMelech": {
 		"CardID": CardID.ID.KING_DAVID,
@@ -197,7 +190,7 @@ const CARDS := {
 		"Type": "Shofet",
 		"Power": 0,
 		"BasePower": 0,
-		"Description": "+2 to each Shofet you played beforehand"
+		"Description": "+2 to each Shofet you played beforehand\n(Shofet effect does not apply to Osniel)"
 	},
 	"Amasa": {
 		"CardID": CardID.ID.GENERAL_AMASA,
@@ -247,5 +240,12 @@ const CARDS := {
 		"Power": 1,
 		"BasePower": 1,
 		"Description": "Shofet effect: +1 for each other Shofet in your field\nIf opponent plays a Shofet this round, +2"
+	},
+	"Elazar ben Dodo": {
+		"CardID": CardID.ID.GENERAL_ELAZAR,
+		"Type": "General",
+		"Power": 2,
+		"BasePower": 2,
+		"Description": "+5 if the only General in your field"
 	},
 }

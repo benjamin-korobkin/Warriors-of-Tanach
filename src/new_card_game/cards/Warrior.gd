@@ -9,10 +9,9 @@ var actions_menu : PopupMenu
 var in_p1_field: bool = false setget set_in_p1_field,get_in_p1_field
 var in_p2_field: bool = false setget set_in_p2_field,get_in_p1_field
 
-var shofet_modifiers = {
+var modifiers = {
 	"shofet_bonus": 0,
-	"osniel_bonus": 0,
-	"toleh_bonus": 0
+	"king_bonus": 0,
 }
 
 func _ready() -> void:
