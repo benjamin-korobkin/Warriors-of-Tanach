@@ -97,7 +97,7 @@ func set_label_text(node: Label, value, scale: float = 1):
 		# We always start shrinking the size, starting from the original size.
 #		print_debug(scaled_fonts.get(node.name, 1))
 		_cache_font_size(node,value,starting_font_size + font_adjustment,scale)
-		label_font.size = starting_font_size + font_adjustment
+		label_font.size = starting_font_size #+ font_adjustment
 	set_card_label_font(node, label_font)
 	node.text = value
 	resizing_labels.erase(node)
@@ -190,7 +190,7 @@ func set_rich_label_text(node: RichTextLabel, value: String, is_resize := false,
 		var starting_font_size: int = font_sizes[node.name]
 		var font_adjustment:= 0
 	#	label_font.size = font_sizes[node.name]
-		var label_size = node.rect_min_size
+		var label_size = node.rect_size #node.rect_min_size
 		_set_card_rtl_fonts(node, label_fonts, starting_font_size + font_adjustment)
 		_assign_bbcode_text(node, value, starting_font_size + font_adjustment)
 		# Rich Text has no way to grab its total size without setting the bbcode first
@@ -217,7 +217,7 @@ func set_rich_label_text(node: RichTextLabel, value: String, is_resize := false,
 		if bbcode_height > label_size.y:
 			font_adjustment = _adjust_font_size(label_fonts["normal_font"], node.text, label_size)
 			_set_card_rtl_fonts(node, label_fonts, starting_font_size + font_adjustment)
-			yield(get_tree(), "idle_frame")
+			#yield(get_tree(), "idle_frame")
 			bbcode_height = node.get_content_height()
 #			print_debug(["Font Adjustment", font_adjustment, "Code Height", bbcode_height])
 	#		print_debug(bbcode_height, ':', font_adjustment, ':', label_size.y)

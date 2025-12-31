@@ -146,7 +146,7 @@ const FOCUSED_SCALE := 1.5
 # More than 0 and the card will appear hidden under the display area.
 #
 # Less than 0 and it will float higher than the bottom of the viewport
-const BOTTOM_MARGIN_MULTIPLIER := 0.25 # 0.33
+const BOTTOM_MARGIN_MULTIPLIER := 0.25
 # Here you can adjust the amount of offset towards a side of their host card
 # that attachments are placed.
 #

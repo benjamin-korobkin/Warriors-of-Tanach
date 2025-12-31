@@ -6,7 +6,7 @@
 # provided scripts available.
 # If your card node type is not Area2D, make sure you change the extends type.
 class_name Card
-extends Area2D
+extends Control
 
 # All the Card's Finite State Machine states
 #
@@ -19,8 +19,6 @@ enum CardState {
 	MOVING_TO_CONTAINER		#2
 	REORGANIZING			#3
 	PUSHED_ASIDE			#4
-	DRAGGED					#5
-	DROPPING_TO_BOARD		#6
 	ON_PLAY_BOARD			#7
 	FOCUSED_ON_BOARD		#8
 	IN_PILE					#9
@@ -29,7 +27,6 @@ enum CardState {
 	FOCUSED_IN_POPUP		#12
 	VIEWPORT_FOCUS			#13
 	PREVIEW					#14
-	DECKBUILDER_GRID		#15
 	MOVING_TO_SPAWN_DESTINATION		#16
 }
 # Specifies where a card is allowed to drop on the board
@@ -103,8 +100,6 @@ signal card_targeted(card,trigger,details)
 ## These signals are not connected to the signal propagator and are expected to be
 ## used internally from this object
 
-# Sent when the player start dragging the card
-signal dragging_started(card)
 # Sent when the card's state changes
 signal state_changed(card, old_state, new_state)
 signal scripts_executed(card, sceng, trigger)
@@ -312,6 +307,8 @@ onready var highlight = $Control/Highlight
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	mouse_filter = Control.MOUSE_FILTER_STOP
+
 #	targeting_arrow = targeting_arrow_scene.instance()
 #	add_child(targeting_arrow)
 	set_card_size(card_size)
@@ -323,7 +320,9 @@ func _ready() -> void:
 	_init_card_name()
 	setup()
 	# warning-ignore:return_value_discarded
-	$Control.connect("gui_input", self, "_on_Card_gui_input")
+	connect("gui_input", self, "_on_Card_gui_input")
+	connect("mouse_entered", self, "_on_Card_mouse_entered")
+	connect("mouse_exited", self, "_on_Card_mouse_exited")
 	$Control.connect("tree_exiting", self, "_on_tree_exiting")
 	cfc.signal_propagator.connect_new_card(self)
 
@@ -382,34 +381,6 @@ func _process(delta) -> void:
 	## TODO: Not a huge fan of this being in the _process function. 
 	## Will try to optimize and reorganize.
 	_process_card_state()
-	# Having to do all these checks due to godotengine/godot#16854
-#	if cfc._debug and not get_parent().is_in_group("piles"):
-#		var stateslist = [
-#			"IN_HAND",
-#			"FOCUSED_IN_HAND",
-#			"MOVING_TO_CONTAINER",
-#			"REORGANIZING",
-#			"PUSHED_ASIDE",
-#			"DRAGGED",
-#			"DROPPING_TO_BOARD",
-#			"ON_PLAY_BOARD",
-#			"FOCUSED_ON_BOARD",
-#			"IN_PILE",
-#			"VIEWED_IN_PILE",
-#			"IN_POPUP",
-#			"FOCUSED_IN_POPUP",
-#			"VIEWPORT_FOCUS",
-#			"PREVIEW",
-#			"DECKBUILDER_GRID",
-#			"MOVING_TO_SPAWN_DESTINATION"
-#		]
-#		$Debug.visible = true
-#		$Debug/id.text = "ID:  " + str(self)
-#		$Debug/state.text = "STATE: " + stateslist[state]
-#		$Debug/index.text = "INDEX: " + str(get_index())
-#		$Debug/parent.text = "PARENT: " + str(get_parent().name)
-#	else:
-#		$Debug.visible = false
 
 
 # Triggers the focus-in effect on the card
@@ -418,33 +389,12 @@ func _on_Card_mouse_entered() -> void:
 	#print(state,":enter:",get_index(), ":", buttons._are_hovered()) # Debug
 	#print($Control/Tokens/Drawer/VBoxContainer.rect_size) # debug
 	match state:
-		CardState.IN_HAND, CardState.REORGANIZING, CardState.PUSHED_ASIDE:
-			if not cfc.card_drag_ongoing:
-				#print("focusing:",get_my_card_index()) # debug
-				interruptTweening()
-				set_state(CardState.FOCUSED_IN_HAND)
 		CardState.ON_PLAY_BOARD:
 			set_state(CardState.FOCUSED_ON_BOARD)
 		# The only way to mouse over a card in a pile, is when
 		# it's in a the grid popup
 		CardState.IN_POPUP:
 			set_state(CardState.FOCUSED_IN_POPUP)
-
-
-func _input(event) -> void:
-	if event is InputEventMouseButton and not event.is_pressed():
-#		if targeting_arrow.is_targeting:
-#			targeting_arrow.complete_targeting()
-		if  event.get_button_index() == 1:
-			# On depressed left mouse click anywhere on the board
-			# We stop all attempts at dragging this card
-			# We cannot do this in gui_input, because some thing
-			# like the targetting arrow, will trigger dragging
-			# because the click depress will not trigger on the card for some reason
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			#$Control.set_default_cursor_shape(Input.CURSOR_ARROW)
-			#cfc.card_drag_ongoing = null
-
 
 # A signal for whenever the player clicks on a card
 func _on_Card_gui_input(event) -> void:
@@ -462,72 +412,7 @@ func _on_Card_gui_input(event) -> void:
 				and event.get_button_index() == 1 \
 				and not buttons.are_hovered() \
 				and not tokens.are_hovered():
-			# If it's a double-click, then it's not a card drag
-			# But rather it's script execution
-			if event.doubleclick\
-					and ((check_play_costs() != CFConst.CostsState.IMPOSSIBLE
-					and get_state_exec() == "hand")
-					or get_state_exec() == "board"):
-				cfc.card_drag_ongoing = null
-#				execute_scripts()
-			# If it's a long click it might be because
-			# they want to drag the card
-			else:
-				if state in [CardState.FOCUSED_IN_HAND,
-						CardState.FOCUSED_ON_BOARD,
-						CardState.FOCUSED_IN_POPUP]:
-					# But first we check if the player does a long-press.
-					# We don't want to start dragging the card immediately.
-					cfc.card_drag_ongoing = self
-					# We need to wait a bit to make sure the other card has a chance
-					# to go through their scripts
-					yield(get_tree().create_timer(0.1), "timeout")
-					# If this variable is still set to true,
-					# it means the mouse-button is still pressed
-					# We also check if another card is already selected for dragging,
-					# to prevent from picking 2 cards at the same time.
-					if cfc.card_drag_ongoing == self:
-						if state == CardState.FOCUSED_IN_HAND\
-								and  _has_targeting_cost_hand_script()\
-								and check_play_costs() != CFConst.CostsState.IMPOSSIBLE:
-							cfc.card_drag_ongoing = null
-#							var _sceng = execute_scripts()
-						elif state == CardState.FOCUSED_IN_HAND\
-								and (disable_dragging_from_hand
-								or check_play_costs() == CFConst.CostsState.IMPOSSIBLE):
-							cfc.card_drag_ongoing = null
-						elif state == CardState.FOCUSED_ON_BOARD \
-								and disable_dragging_from_board:
-							cfc.card_drag_ongoing = null
-						elif state == CardState.FOCUSED_IN_POPUP \
-								and disable_dragging_from_pile:
-							cfc.card_drag_ongoing = null
-						else:
-							# While the mouse is kept pressed, we tell the engine
-							# that a card is being dragged
-							_start_dragging(event.position)
-		# If the mouse button was released we drop the dragged card
-		# This also means a card clicked once won't try to immediately drag
-		elif not event.is_pressed() and event.get_button_index() == 1:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			$Control.set_default_cursor_shape(Input.CURSOR_ARROW)
-			cfc.card_drag_ongoing = null
-			match state:
-				CardState.DRAGGED:
-					# if the card was being dragged, it's index is very high
-					# to always draw above other objects
-					# We need to reset it to the default of 0
-					z_index = 0
-					for attachment in self.attachments:
-						attachment.z_index = 0
 
-					var destination = cfc.NMAP.board
-					if potential_container:
-						destination = potential_container
-						potential_container.highlight.set_highlight(false)
-					move_to(destination)
-					_focus_completed = false
-		else:
 			_process_more_card_inputs(event)
 
 
@@ -618,14 +503,6 @@ func modify_property(
 	elif typeof(properties.get(property)) != typeof(value)\
 			and str(properties.get(property)) == str(value):
 		retcode = CFConst.ReturnCode.OK
-	# This checks if the player is trying to reduce a card property below 0
-	# And if so, returns FAILED
-	# elif check\
-	# 		and property in CardConfig.PROPERTIES_NUMBERS\
-	# 		and typeof(value) == TYPE_STRING\
-	# 		and value.is_valid_integer(): \
-	# 		and properties.get(property,0) + int(value) < 0:
-	# 	retcode = CFConst.ReturnCode.FAILED
 	else:
 		# We store the values to send with the signal
 		var previous_value
@@ -824,7 +701,7 @@ func resize_recursively(control_node: Node, requested_scale: float) -> void:
 	if card_size != canonical_size * requested_scale:
 		card_size = canonical_size * requested_scale
 	if _original_layouts.has(control_node)\
-			and CFUtils.compare_floats(requested_scale, _original_layouts[control_node].get('scale')):
+			and CFUtils.compare_floats(requested_scale, _original_layouts[control_node].get('rect_scale')):
 		return
 	if control_node as Control and not _original_layouts.has(control_node):
 		_original_layouts[control_node] = {}
@@ -850,7 +727,7 @@ func resize_recursively(control_node: Node, requested_scale: float) -> void:
 
 
 # Sets the card size and adjusts all nodes depending on it.
-func set_card_size(value: Vector2, ignore_area = false) -> void:
+func set_card_size(value: Vector2) -> void:
 	card_size = value
 	_control.rect_min_size = value
 	# We set the card to always pivot from its center.
@@ -866,10 +743,6 @@ func set_card_size(value: Vector2, ignore_area = false) -> void:
 		# As the engine won't allow it, as the min_size change has not happened yet
 		node.call_deferred('set_size', node.rect_min_size)
 	highlight.rect_position = Vector2(-3, -3)
-	if not ignore_area:
-		$CollisionShape2D.shape.extents = value / 2
-		$CollisionShape2D.position = value / 2
-
 
 # Setter for is_faceup
 #
@@ -889,7 +762,6 @@ func set_is_faceup(
 	# If it is not, this is a viewport dupe card that has not finished
 	# it's ready() process
 	elif not check and is_instance_valid(get_parent()):
-		tokens.is_drawer_open = false
 		# We make sure to remove other tweens of the same type to avoid a deadlock
 		is_faceup = value
 		# When we change faceup state, we reset the is_viewed to false
@@ -1026,8 +898,6 @@ func set_name(value : String) -> void:
 
 # Sets the card state and sends a signal.
 func set_state(value: int) -> void:
-#	if state == CardState.DRAGGED:
-#		pass
 	var prev_state = state
 	state = value
 	emit_signal("state_changed", self, prev_state, state)
@@ -1066,7 +936,7 @@ func set_card_rotation(
 		# does not change the card_rotation property
 		# so we ensure that the displayed rotation of a card
 		# which is not in hand, matches our expectations
-		if not state in [CardState.PREVIEW, CardState.DECKBUILDER_GRID]\
+		if not state in [CardState.PREVIEW]\
 				and not get_parent().is_in_group("hands") \
 				and cfc.game_settings.hand_use_oval_shape \
 				and $Control.rect_rotation != 0.0 \
@@ -1089,7 +959,6 @@ func set_card_rotation(
 					and get_parent().is_in_group("hands") \
 					and cfc.game_settings.hand_use_oval_shape:
 				value = int(_recalculate_rotation())
-			$CollisionShape2D.rotation_degrees = value
 			# We make sure to remove other tweens of the same type
 			# to avoid a deadlock
 			# There's no way to rotate the Area2D node,
@@ -1142,21 +1011,16 @@ func move_to(targetHost: Node,
 		index := -1,
 		board_position = null,
 		tags := ["Manual"]) -> void:
-#	if cfc.game_settings.focus_style:
-#		# We make to sure to clear the viewport focus because
-#		# the mouse exited signal will not fire after drag&drop in a container
-#		cfc.NMAP.main.unfocus()
 	# We clear all caches every time the board state changes
 	cfc.flush_cache()
 	# We need to store the parent, because we won't be able to know it later
 	var parentHost = get_parent()
-	# We want to keep the token drawer closed during movement
-	tokens.is_drawer_open = false
+
 	# This checks ensure we don't change parent to the board,
 	# if the placement to the board requested is invalid
 	# depending on the board_placement variable
 	targetHost = targetHost.get_final_placement_node(self)
-	targetHost = common_pre_move_scripts(targetHost, parentHost, tags)
+
 	if targetHost == cfc.NMAP.board and not board_position:
 		match board_placement:
 			BoardPlacement.NONE:
@@ -1203,8 +1067,9 @@ func move_to(targetHost: Node,
 	if targetHost != parentHost:
 		# When changing parent, it resets the position of the child it seems
 		# So we store it to know where the card used to be, before moving it
-		var previous_pos = global_position
-		var global_pos = global_position
+		var previous_pos = rect_global_position
+		var global_pos = rect_global_position
+
 		# If the parent and the target are on different scales, we want to
 		# adjust the scale of the card before moving.
 		# The MOVING_TO_CONTAINER state will adjust the scale with a tween automatically
@@ -1212,7 +1077,7 @@ func move_to(targetHost: Node,
 		var parent_scale: Vector2
 		var target_scale: Vector2
 		if parentHost as Control:
-			parent_scale = parentHost.rect_scale
+			parent_scale = parentHost.scale
 		else:
 			parent_scale = parentHost.scale
 		if targetHost as Control:
@@ -1220,9 +1085,9 @@ func move_to(targetHost: Node,
 		else:
 			target_scale = targetHost.scale
 		if parent_scale > target_scale:
-			scale = parent_scale / target_scale
+			rect_scale = parent_scale / target_scale
 		elif parent_scale < target_scale:
-			scale *= parent_scale * target_scale
+			rect_scale *= parent_scale * target_scale
 		# We need to remove the current parent node before adding a different one
 		parentHost.remove_child(self)
 		targetHost.add_child(self)
@@ -1233,14 +1098,14 @@ func move_to(targetHost: Node,
 			targetHost.move_child(self,
 					targetHost.translate_card_index_to_node_index(index))
 		# Ensure card stays where it was before it changed parents
-		global_position = previous_pos
+		rect_global_position = previous_pos
 		if targetHost.is_in_group("hands"):
-			## TODO: Test setting the card_owner property
-#			_tween_interpolate_visibility(1,0.3)
 			# We need to adjust the start position based on the global position
 			# coordinates as they would be inside the hand control node
 			# So we transform global coordinates to hand rect coordinates.
 			previous_pos = targetHost.to_local(global_pos)
+			rect_position = previous_pos
+
 			# The end position is always the final position the card would be
 			# inside the hand
 			_target_position = recalculate_position()
@@ -1319,23 +1184,17 @@ func move_to(targetHost: Node,
 		else:
 			interruptTweening()
 			_target_rotation = _recalculate_rotation()
-			if potential_host:
-				# The _potential_cards are always organized so that the card higher
-				# in index that we were hovering over, is the last in the array.
-				attach_to_host(potential_host)
-			else:
-				# The developer is allowed to pass a position override to the
-				# card placement which also bypasses manual drop placement
-				# restrictions
-				if typeof(board_position) == TYPE_VECTOR2:
-					_target_position = board_position
-				elif board_position as BoardPlacementSlot:
-					_target_position = board_position.rect_global_position
-					board_position.occupying_card = self
-					_placement_slot = board_position
-				else:
-					_determine_target_position_from_mouse()
-				raise()
+			
+			# The developer is allowed to pass a position override to the
+			# card placement which also bypasses manual drop placement
+			# restrictions
+			if typeof(board_position) == TYPE_VECTOR2:
+				_target_position = board_position
+			elif board_position as BoardPlacementSlot:
+				_target_position = board_position.rect_global_position
+				board_position.occupying_card = self
+				_placement_slot = board_position
+			raise()
 			set_state(CardState.DROPPING_TO_BOARD)
 			emit_signal("card_moved_to_board",
 					self,
@@ -1351,13 +1210,10 @@ func move_to(targetHost: Node,
 			for c in parentHost.get_all_cards():
 				# But this time we don't want to rearrange ourselves, as we're
 				# in a different container by now
-				if c != self and c.state != CardState.DRAGGED:
+				if c != self:
 					c.interruptTweening()
 					c.reorganize_self()
 		elif parentHost and parentHost == cfc.NMAP.board:
-			# If the card was or had attachments and it is removed from the table,
-			# all attachments status is cleared
-			_clear_attachment_status()
 			# If the card has tokens, and tokens_only_on_board is true
 			# we remove all tokens
 			# (The cfc._ut_tokens_only_on_board is there for unit testing)
@@ -1377,15 +1233,9 @@ func move_to(targetHost: Node,
 			set_state(CardState.IN_HAND)
 			reorganize_self()
 		elif parentHost == cfc.NMAP.board:
-			# Checking if this is an attachment and we're looking for a new host
-			if potential_host:
-				attach_to_host(potential_host)
-			# If we are an attachment and were moved elsewhere
-			# We reset the position.
-				set_state(CardState.ON_PLAY_BOARD)
-			elif current_host_card:
+			if current_host_card:
 				var attach_index = current_host_card.attachments.find(self)
-				_target_position = (current_host_card.global_position
+				_target_position = (current_host_card.rect_global_position
 						+ Vector2(
 						(attach_index + 1) * card_size.x
 						* CFConst.ATTACHMENT_OFFSET[attachment_offset].x,
@@ -1399,11 +1249,11 @@ func move_to(targetHost: Node,
 				# where the player is trying to drop the card
 				# and revert the placement if it's invalid
 				if board_position is BoardPlacementSlot:
-					# This will trigger is the card can only be placed
-					# in specific grids, and the player tried to drag it
-					# Manually to a different grid
-					if _placement_slot != null:
-						_placement_slot.occupying_card = null
+#					# This will trigger is the card can only be placed
+#					# in specific grids, and the player tried to drag it
+#					# Manually to a different grid
+#					if _placement_slot != null:
+#						_placement_slot.occupying_card = null
 					_target_position = board_position.rect_global_position
 					board_position.occupying_card = self
 					_placement_slot = board_position
@@ -1412,9 +1262,6 @@ func move_to(targetHost: Node,
 					if typeof(board_position) == TYPE_VECTOR2:
 						_target_position = board_position
 						set_state(CardState.DROPPING_TO_BOARD)
-					else:
-						_determine_target_position_from_mouse()
-					#set_state(CardState.ON_PLAY_BOARD)
 					if _placement_slot:
 							_placement_slot.occupying_card = null
 							_placement_slot = null
@@ -1596,61 +1443,6 @@ func get_state_exec() -> String:
 	return(state_exec)
 
 
-# Handles the card becoming an attachment for a specified host Card object
-func attach_to_host(
-			host: Card,
-			is_following_previous_host = false,
-			tags := ["Manual"]) -> void:
-	# First we check if the selected host is not the current host anyway.
-	# If it is, we do nothing else
-	if host != current_host_card:
-		# If the card is not yet on the board, we move it there
-		if get_parent() != cfc.NMAP.board:
-			move_to(cfc.NMAP.board, -1, host.position)
-		# If we already had a host, we clear our state with it
-		# I don't know why, but logic breaks if I don't use the is_following_previous_host flag
-		# It should work without it, but it doesn't
-		# The is_following_previous_host var signifies that this card
-		# is being attached to this host, because its previous host
-		# also became an attachment here.
-		if current_host_card and not is_following_previous_host:
-			current_host_card.attachments.erase(self)
-			emit_signal("card_unattached",
-					self,
-					"card_unattached",
-					{"host": current_host_card, "tags": tags})
-		# If card was on a grid slot, we clear that occupation
-		if _placement_slot:
-			_placement_slot.occupying_card = null
-			_placement_slot = null
-		current_host_card = host
-		# Once we selected the host, we don't need anything in the array anymore
-		potential_host = null
-		# We also clear the highlights on our new host
-		current_host_card.highlight.set_highlight(false)
-		# We set outselves as an attachment on the target host for easy iteration
-		current_host_card.attachments.append(self)
-		#print(current_host_card.attachments)
-		# We make existing attachments reattach to the new host directly
-		# Otherwise it becomes too complex to handle attachment indexes
-		for card in attachments:
-			card.attach_to_host(host,true)
-		attachments.clear()
-		# The position below the host is based on how many other attachments it has
-		# We offset our position below the host based on a percentage of
-		# the card size, times the index among other attachments
-		var attach_index = current_host_card.attachments.find(self)
-		_target_position = (current_host_card.global_position
-				+ Vector2(
-				(attach_index + 1) * card_size.x
-				* CFConst.ATTACHMENT_OFFSET[attachment_offset].x,
-				(attach_index + 1)* card_size.y
-				* CFConst.ATTACHMENT_OFFSET[attachment_offset].y))
-		emit_signal("card_attached",
-				self,
-				"card_attached",
-				{"host": host, "tags": tags})
-
 
 # Overrides the built-in get_class to
 # Returns "Card" instead of "Area2D"
@@ -1670,12 +1462,7 @@ func reorganize_self() ->void:
 			_target_position = recalculate_position()
 			_target_rotation = _recalculate_rotation()
 			set_state(CardState.REORGANIZING)
-	# This second match is  to prevent from changing the state
-	# when we're doing fancy movement
-	# and we're still in the first part (which is waiting on an animation yield).
-	# Instead, we just change the target position transparently,
-	# and when the second part of the animation begins
-	# it will automatically pick up the right location.
+
 	match state:
 		CardState.MOVING_TO_CONTAINER:
 			_target_position = recalculate_position()
@@ -1708,7 +1495,7 @@ func set_focus(requestedFocus: bool, colour := CFConst.FOCUS_HOVER_COLOUR) -> vo
 		highlight.set_highlight(requestedFocus,colour)
 	# focus_style value 0 means only scaling focus
 	# We also recheck that main exists, as sometimes GUT messes it up
-	if not state in [CardState.PREVIEW, CardState.DECKBUILDER_GRID]\
+	if not state in [CardState.PREVIEW]\
 			and cfc.game_settings.focus_style\
 			and cfc.NMAP.has("main"):
 		if requestedFocus:
@@ -1719,13 +1506,6 @@ func set_focus(requestedFocus: bool, colour := CFConst.FOCUS_HOVER_COLOUR) -> vo
 			cfc.NMAP.main.focus_card(self, show_preview)
 		else:
 			cfc.NMAP.main.unfocus(self)
-	# Tokens drawer is an optional node, so we check if it exists
-	# We also generally only have tokens on the table
-	if state in [CardState.ON_PLAY_BOARD, CardState.FOCUSED_ON_BOARD]:
-		if $Control.has_node("Tokens"):
-			tokens.is_drawer_open = requestedFocus
-#		if name == "Card" and get_parent() == cfc.NMAP.board:
-#			print(requestedFocus)
 
 
 # Ensures the card's state is in idle mode.
@@ -1733,15 +1513,11 @@ func set_focus(requestedFocus: bool, colour := CFConst.FOCUS_HOVER_COLOUR) -> vo
 # This is useful when the game is paused, but we don't want
 # cards to stay focused
 func set_to_idle() -> void:
-	if not state in [
-		CardState.VIEWPORT_FOCUS,
-		CardState.PREVIEW,
-		CardState.DECKBUILDER_GRID
-	]:
-		if state in [CardState.FOCUSED_IN_HAND, CardState.PUSHED_ASIDE]:
+
+	if not state in [CardState.VIEWPORT_FOCUS,CardState.PREVIEW] and state in [CardState.FOCUSED_IN_HAND, CardState.PUSHED_ASIDE]:
 			reorganize_self()
-		elif not state == CardState.REORGANIZING:
-			_determine_idle_state()
+	elif not state == CardState.REORGANIZING:
+		_determine_idle_state()
 
 
 # Tells us the focus-state of a card
@@ -1775,23 +1551,18 @@ func set_control_mouse_filters(value = true) -> void:
 	# We do a comparison first, to make sure we avoid unnecessary operations
 	if $Control.mouse_filter != control_filter:
 		$Control.mouse_filter = control_filter
-	if monitorable != value:
-#		print_debug('monitorable')
-		monitorable = value
 
 
 # Get card position in hand by index
 # if use oval shape, the card has a certain offset according to the angle
 func recalculate_position(index_diff = null) -> Vector2:
-	if cfc.game_settings.hand_use_oval_shape:
-		return _recalculate_position_use_oval(index_diff)
 	return _recalculate_position_use_rectangle(index_diff)
 
 
 # Animates a card semi-randomly to make it looks like it's being shuffled
 # Then it returns it to its original location
 func animate_shuffle(anim_speed : float, style : int) -> void:
-	var starting_card_position = position
+	var starting_card_position = rect_position
 	var csize : Vector2
 	var random_x : float
 	var random_y : float
@@ -1861,18 +1632,6 @@ func animate_shuffle(anim_speed : float, style : int) -> void:
 	_tween.start()
 
 
-# This function can be overriden by any class extending Card, in order to provide
-# a way of checking if a card can be played before dragging it out of the hand.
-#
-# This method will be called while the card is being focused by the player
-# If it returns true, the card will be highlighted as normal and the player
-# will be able to drag it out of the hand
-#
-# If it returns false, the card will be highlighted with a red tint, and the
-# player will not be able to drag it out of the hand.
-func check_play_costs() -> Color:
-	return(CFConst.CostsState.OK)
-
 
 # This function can be overriden by any class extending Card, in order to provide
 # a way of running scripts which might change where a card moves
@@ -1884,8 +1643,8 @@ func check_play_costs() -> Color:
 # to instead be redirected to a pile.
 # warning-ignore:unused_argument
 # warning-ignore:unused_argument
-func common_pre_move_scripts(new_host: Node, old_host: Node, move_tags: Array) -> Node:
-	return(new_host)
+#func common_pre_move_scripts(new_host: Node, old_host: Node, move_tags: Array) -> Node:
+#	return(new_host)
 
 # This function can be overriden by any class extending Card, in order to provide
 # a way of running scripts for a whole class of cards, based on where the card moves.
@@ -1894,8 +1653,7 @@ func common_pre_move_scripts(new_host: Node, old_host: Node, move_tags: Array) -
 # container, or the same. new_host is where it moved to, and old_host
 # is where it moved from. They can be the same, such as when a card changes
 # places on the table.
-# warning-ignore:unused_argument
-# warning-ignore:unused_argument
+
 # warning-ignore:unused_argument
 func common_post_move_scripts(new_host: String, old_host: String, move_tags: Array) -> void:
 	pass
@@ -1939,136 +1697,28 @@ func ensure_proper() -> void:
 		to_invisible = _card_front_container
 	_flip_card(to_invisible, to_visible, true)
 
-# Returns true is the card has hand_drag_starts_targeting set to true
-# is currently in hand, and has a targetting task.
-#
-# This is used by the _on_Card_gui_input to determine if it should fire
-# scripts on the card during an attempt to drag it from hand.
-func _has_targeting_cost_hand_script() -> bool:
-	var ret := false
-	var hand_scripts = retrieve_scripts("manual").get("hand",[])
-	# We don't check multiple choice cards
-	if hand_drag_starts_targeting and typeof(hand_scripts) == TYPE_ARRAY:
-		for task in hand_scripts:
-			if task.get(SP.KEY_SUBJECT) == SP.KEY_SUBJECT_V_TARGET:
-				ret = true
-	return(ret)
-
 
 # Overridable function for formatting card text
 func _get_formatted_text(value) -> String:
 	return(str(value))
 
 
-# Makes attachments always move with their parent around the board
-func _organize_attachments() -> void:
-	# We only do this if the parent is still on the board
-	if get_parent() == cfc.NMAP.board:
-		for card in attachments:
-			# We use the index of the attachment among other attachments
-			# to figure out its index and placement
-			var attach_index = attachments.find(card)
-
-			# offset the attachment's position in the boards hierarchy
-			# by the attachment offset
-			if (card.attachment_mode == AttachmentMode.ATTACH_BEHIND and
-				card.get_index() > (self.get_index()-attach_index)):
-				get_parent().move_child(card, self.get_index()-attach_index)
-			elif(card.attachment_mode == AttachmentMode.ATTACH_IN_FRONT and
-				card.get_index() < (self.get_index()+attach_index)):
-				get_parent().move_child(card, self.get_index()+attach_index)
-
-			# We don't want to try and move it if it's still tweening.
-			# But if it isn't, we make sure it always follows its parent
-			if not card.get_node('Tween').is_active() and \
-					card.state in \
-					[CardState.ON_PLAY_BOARD,CardState.FOCUSED_ON_BOARD]:
-				card.global_position = global_position + \
-						Vector2(
-						(attach_index + 1) * card_size.x
-						* CFConst.ATTACHMENT_OFFSET[attachment_offset].x,
-						(attach_index + 1) * card_size.y \
-						* CFConst.ATTACHMENT_OFFSET[attachment_offset].y)
 
 # Returns the global mouse position but ensures it does not exit the
 # viewport limits when including the card rect
 #
 # Returns the adjusted global_mouse_position
 func _determine_board_position_from_mouse() -> Vector2:
-	var targetpos: Vector2 = cfc.NMAP.board.mouse_pointer.determine_global_mouse_pos() - (_drag_offset * scale)
-	if targetpos.x + card_size.x * scale.x >= get_viewport().size.x:
-		targetpos.x = get_viewport().size.x - card_size.x * scale.x
+	var targetpos: Vector2 = cfc.NMAP.board.mouse_pointer.determine_global_mouse_pos()
+	if targetpos.x + card_size.x * rect_scale.x >= get_viewport().size.x:
+		targetpos.x = get_viewport().size.x - card_size.x * rect_scale.x
 	if targetpos.x < 0:
 		targetpos.x = 0
-	if targetpos.y + card_size.y * scale.y >= get_viewport().size.y:
-		targetpos.y = get_viewport().size.y - card_size.y * scale.y
+	if targetpos.y + card_size.y * rect_scale.y >= get_viewport().size.y:
+		targetpos.y = get_viewport().size.y - card_size.y * rect_scale.y
 	if targetpos.y < 0:
 		targetpos.y = 0
 	return targetpos
-
-
-# This function figures out where on the table a card should be placed
-# based on the mouse position
-# It takes extra care not to drop the card outside viewport margins
-func _determine_target_position_from_mouse() -> void:
-	_target_position = _determine_board_position_from_mouse()
-
-	# The below ensures the card doesn't leave the viewport dimentions
-	if _target_position.x + card_size.x * play_area_scale \
-			> get_viewport().size.x:
-		_target_position.x = get_viewport().size.x \
-				- card_size.x \
-				* play_area_scale
-	if _target_position.y + card_size.y * play_area_scale \
-			> get_viewport().size.y:
-		_target_position.y = get_viewport().size.y \
-				- card_size.y \
-				* play_area_scale
-
-
-# Instructs the card to move aside for another card enterring focus
-func _pushAside(targetpos: Vector2, target_rotation: float) -> void:
-	interruptTweening()
-	_target_position = targetpos
-	_target_rotation = target_rotation
-	set_state(CardState.PUSHED_ASIDE)
-
-
-# Pick up a card to drag around with the mouse.
-func _start_dragging(drag_offset: Vector2) -> void:
-	_drag_offset = drag_offset
-	# When dragging we want the dragged card and attachments to always be drawn above all else
-	z_index = 99
-	for attachment in self.attachments:
-		attachment.z_index = 99
-	# We have use parent viewport to calculate global_position
-	# due to godotengine/godot#30215
-	# This is caused because we're using a viewport node and scaling the game
-	# in full-creen.
-	# This is not supported in browsers.
-	if not cfc.ut and not OS.has_feature("web"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-#		if ProjectSettings.get("display/window/stretch/mode") != 'disabled':
-#			get_tree().current_scene.get_viewport().warp_mouse(global_position + Vector2(5,5))
-		# However the above messes things if we don't have stretch mode,
-		# so we ignore it then
-#		else:
-#			get_viewport().warp_mouse(global_position + _drag_anchor)
-	set_state(CardState.DRAGGED)
-	# We check if the card was already overlapping with other card
-	# before we started dragging. If so, we activate the code
-	# which checks for potential hosts, on all these cards to make sure
-	# we don't miss any.
-#	for obj in get_overlapping_areas():
-#		_on_Card_area_entered(obj)
-	if get_parent().is_in_group("hands"):
-		# While we're dragging the card from hand, we want the other cards
-		# to move to their expected position in hand
-		for c in get_parent().get_all_cards():
-			if c != self:
-				c.interruptTweening()
-				c.reorganize_self()
-	emit_signal("dragging_started", self)
 
 
 # Determines the state a card should have,
@@ -2096,39 +1746,6 @@ func _tween_interpolate_visibility(visibility: float, time: float) -> void:
 		$Tween.interpolate_property(self,'modulate',
 				modulate, Color(1, 1, 1, visibility), time,
 				Tween.TRANS_QUAD, Tween.EASE_OUT)
-
-
-# Clears all attachment/hosting status.
-# It is typically called when a card is removed from the table
-func _clear_attachment_status(tags := ["Manual"]) -> void:
-	if current_host_card:
-		emit_signal("card_unattached",
-				self,
-				"card_unattached",
-				{"host": current_host_card, "tags": tags})
-		current_host_card.attachments.erase(self)
-		current_host_card = null
-	for card in attachments:
-		card.current_host_card = null
-		# Attachments typically follow their parents to the same container
-		card.move_to(get_parent())
-		# We do a small wait to make the attachment drag look nicer
-		yield(get_tree().create_timer(0.1), "timeout")
-	attachments.clear()
-
-
-# Detects when the mouse is still hovering over the card
-#
-# We need to detect this extra, for the same reasons as the targetting buttons
-# In case the mouse was hovering over the tokens area and just exited
-#
-# Returns true if the mouse is hovering over the card, else false
-func _is_card_hovered() -> bool:
-	var ret = false
-	if cfc.NMAP.board.mouse_pointer in get_overlapping_areas():
-		ret = true
-	#print(ret)
-	return(ret)
 
 
 # Flips the visible parts of the card control nodes
@@ -2215,8 +1832,8 @@ func _add_tween_position(
 		runtime := 0.3,
 		trans_type = Tween.TRANS_CUBIC,
 		ease_type = Tween.EASE_OUT):
-	$Tween.remove(self,'position')
-	$Tween.interpolate_property(self,'position',
+	$Tween.remove(self,'rect_position')
+	$Tween.interpolate_property(self,'rect_position',
 			expected_position, target_position, runtime,
 			trans_type, ease_type)
 
@@ -2228,8 +1845,8 @@ func _add_tween_global_position(
 		runtime := 0.5,
 		trans_type = Tween.TRANS_BACK,
 		ease_type = Tween.EASE_IN_OUT):
-	$Tween.remove(self,'global_position')
-	$Tween.interpolate_property(self,'global_position',
+	$Tween.remove(self,'rect_global_position')
+	$Tween.interpolate_property(self,'rect_global_position',
 			expected_position, target_position, runtime,
 			trans_type, ease_type)
 
@@ -2241,8 +1858,8 @@ func _add_tween_scale(
 		runtime := 0.3,
 		trans_type = Tween.TRANS_CUBIC,
 		ease_type = Tween.EASE_OUT):
-	$Tween.remove(self,'scale')
-	$Tween.interpolate_property(self,'scale',
+	$Tween.remove(self,'rect_scale')
+	$Tween.interpolate_property(self,'rect_scale',
 			expected_scale, target_scale, runtime,
 			trans_type, ease_type)
 
@@ -2254,30 +1871,17 @@ func _add_tween_scale(
 func _process_card_state() -> void:
 	match state:
 		CardState.IN_HAND:
-			z_index = 0
+			# z_index = 0
 			set_focus(false)
 			set_control_mouse_filters(true)
 			buttons.set_active(false)
-			# warning-ignore:return_value_discarded
-			#set_card_rotation(0)
-			# warning-ignore:return_value_discarded
-			# When we have an oval shape, we ensure the cards stay
-			# in the rotation expected of their position
-			if cfc.game_settings.hand_use_oval_shape:
-				_target_rotation  = _recalculate_rotation()
-				if not $Tween.is_active() \
-						and not CFUtils.compare_floats($Control.rect_rotation, _target_rotation):
-					_add_tween_rotation($Control.rect_rotation,_target_rotation,
-						in_hand_tween_duration)
-					$Tween.start()
 
 		CardState.FOCUSED_IN_HAND:
 			# Used when card is focused on by the mouse hovering over it.
 			# We increase the z_index to allow the focused card appear
 			# always over its neighbours
-			z_index = 10
-#			print(global_position + _control.rect_size)
-			set_focus(true,check_play_costs())
+			# z_index = 10
+#			print(rect_global_position + _control.rect_size)
 			set_control_mouse_filters(true)
 			buttons.set_active(false)
 			# warning-ignore:return_value_discarded
@@ -2323,7 +1927,7 @@ func _process_card_state() -> void:
 							+ card_size.y * 1.5 > get_viewport().size.y:
 						_target_position.y -= 1
 				else:
-					while get_parent().position.y \
+					while get_parent().rect_position.y \
 						+ get_parent().bottom_margin \
 						+ _target_position.y \
 						+ card_size.y > get_viewport().size.y:
@@ -2334,7 +1938,7 @@ func _process_card_state() -> void:
 				# We make sure to remove other tweens of the same type
 				# to avoid a deadlock
 				_add_tween_position(expected_position, _target_position, focus_tween_duration)
-				_add_tween_scale(scale, Vector2(1.5,1.5), focus_tween_duration)
+				_add_tween_scale(rect_scale, Vector2(1.5,1.5), focus_tween_duration)
 
 				if cfc.game_settings.hand_use_oval_shape:
 					_add_tween_rotation($Control.rect_rotation, 0, focus_tween_duration)
@@ -2351,7 +1955,7 @@ func _process_card_state() -> void:
 		CardState.MOVING_TO_CONTAINER:
 			# Used when moving card between places
 			# (i.e. deck to hand, hand to discard etc)
-			z_index = 0
+			#z_index = 0
 			set_focus(false)
 			set_control_mouse_filters(false)
 			buttons.set_active(false)
@@ -2359,8 +1963,8 @@ func _process_card_state() -> void:
 			# set_card_rotation(0,false,false)
 			if not $Tween.is_active():
 				var intermediate_position: Vector2
-				if not scale.is_equal_approx(Vector2(1,1)):
-					_add_tween_scale(scale, Vector2(1,1),to_container_tween_duration)
+				if not rect_scale.is_equal_approx(Vector2(1,1)):
+					_add_tween_scale(rect_scale, Vector2(1,1),to_container_tween_duration)
 				if cfc.game_settings.fancy_movement:
 					# The below calculations figure out
 					# the intermediate position as a spot,
@@ -2372,7 +1976,7 @@ func _process_card_state() -> void:
 					if get_parent() != cfc.NMAP.board:
 						# We determine its center position on the viewport
 						var controlNode_center_position := \
-								Vector2(global_position + card_size/2)
+								Vector2(rect_global_position + card_size/2)
 						# We then direct this position towards the viewport center
 						# If we are to the left/top of viewport center,
 						# we offset towards the right/bottom (+offset)
@@ -2407,7 +2011,7 @@ func _process_card_state() -> void:
 					# Instead we use directly the viewport coords.
 					else:
 						intermediate_position = get_viewport().size/2
-					_add_tween_global_position(global_position, intermediate_position,
+					_add_tween_global_position(rect_global_position, intermediate_position,
 						to_container_tween_duration)
 					$Tween.start()
 					yield($Tween, "tween_all_completed")
@@ -2415,7 +2019,7 @@ func _process_card_state() -> void:
 					_fancy_move_second_part = true
 				# We need to check again, just in case it's been reorganized instead.
 				if state == CardState.MOVING_TO_CONTAINER:
-					_add_tween_position(position, _target_position,
+					_add_tween_position(rect_position, _target_position,
 						to_container_tween_duration, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 					_add_tween_rotation($Control.rect_rotation,_target_rotation,
 						to_container_tween_duration)
@@ -2426,17 +2030,17 @@ func _process_card_state() -> void:
 
 		CardState.REORGANIZING:
 			# Used when reorganizing the cards in the hand
-			z_index = 0
+			#z_index = 0
 			set_focus(false)
 			set_control_mouse_filters(true)
 			buttons.set_active(false)
 			# warning-ignore:return_value_discarded
 			set_card_rotation(0,false,false)
 			if not $Tween.is_active():
-				$Tween.remove(self,'position') #
-				_add_tween_position(position, _target_position, reorganization_tween_duration)
-				if not scale.is_equal_approx(Vector2(1,1)):
-					_add_tween_scale(scale, Vector2(1,1), reorganization_tween_duration)
+				$Tween.remove(self,'rect_position')
+				_add_tween_position(rect_position, _target_position, reorganization_tween_duration)
+				if not rect_scale.is_equal_approx(Vector2(1,1)):
+					_add_tween_scale(rect_scale, Vector2(1,1), reorganization_tween_duration)
 				_add_tween_rotation($Control.rect_rotation,_target_rotation,
 					reorganization_tween_duration)
 				$Tween.start()
@@ -2444,113 +2048,57 @@ func _process_card_state() -> void:
 
 		CardState.PUSHED_ASIDE:
 			# Used when card is being pushed aside due to the focusing of a neighbour.
-			z_index = 0
+			# z_index = 0
 			set_focus(false)
 			set_control_mouse_filters(true)
 			buttons.set_active(false)
 			# warning-ignore:return_value_discarded
 			if not $Tween.is_active() and \
-					not position.is_equal_approx(_target_position):
-				_add_tween_position(position, _target_position,
+					not rect_position.is_equal_approx(_target_position):
+				_add_tween_position(rect_position, _target_position,
 					pushed_aside_tween_duration, Tween.TRANS_QUART, Tween.EASE_IN)
 				_add_tween_rotation($Control.rect_rotation, _target_rotation,
 					pushed_aside_tween_duration)
-				if not scale.is_equal_approx(Vector2(1,1)):
-					_add_tween_scale(scale, Vector2(1,1), pushed_aside_tween_duration,
+				if not rect_scale.is_equal_approx(Vector2(1,1)):
+					_add_tween_scale(rect_scale, Vector2(1,1), pushed_aside_tween_duration,
 						Tween.TRANS_QUART, Tween.EASE_IN)
 				$Tween.start()
 				# We don't change state yet,
 				# only when the focus is removed from the neighbour
 
-#		CardState.DRAGGED:
-#			# Used when the card is dragged around the game with the mouse
-#			set_focus(true)
-#			set_control_mouse_filters(true)
-#			buttons.set_active(false)
-#			if (not $Tween.is_active() and
-#				not scale.is_equal_approx(CFConst.CARD_SCALE_WHILE_DRAGGING) and
-#				get_parent() != cfc.NMAP.board):
-#				_add_tween_scale(scale, CFConst.CARD_SCALE_WHILE_DRAGGING,
-#					dragged_tween_duration, Tween.TRANS_SINE, Tween.EASE_IN)
-#				$Tween.start()
-#			# We need to capture the mouse cursos in the window while dragging
-#			# because if the player drags the cursor outside the window and unclicks
-#			# The control will not receive the mouse input
-#			# and this will stay dragging forever
-#			$Control.set_default_cursor_shape(Input.CURSOR_CROSS)
-#			# We set the card to be centered on the mouse cursor to allow
-#			# the player to properly understand where it will go once dropped.
-#			global_position = _determine_board_position_from_mouse() - Vector2(5,5)
-#			_organize_attachments()
-#			# We want to keep the token drawer closed during movement
-#			tokens.is_drawer_open = false
+
 
 		CardState.ON_PLAY_BOARD:
 			# Used when the card is idle on the board
-			z_index = 0
-
-			# if this card is an attachment and it's host is being dragged
-			# then we want this card to be above everything like the host
-			if current_host_card and current_host_card.state == CardState.DRAGGED:
-				z_index = 99
+			# z_index = 0
 
 			set_focus(false)
 			set_control_mouse_filters(true)
 			buttons.set_active(false)
 			if not $Tween.is_active() and \
-					not scale.is_equal_approx(Vector2(1,1) * play_area_scale):
-				_add_tween_scale(scale, Vector2(1,1) * play_area_scale,
+					not rect_scale.is_equal_approx(Vector2(1,1) * play_area_scale):
+				_add_tween_scale(rect_scale, Vector2(1,1) * play_area_scale,
 					on_board_tween_duration, Tween.TRANS_SINE, Tween.EASE_OUT)
 				$Tween.start()
-			_organize_attachments()
 
-		CardState.DROPPING_TO_BOARD:
-			z_index = 0
-			set_control_mouse_filters(true)
-			buttons.set_active(false)
-			# Used when dropping the cards to the table
-			# When dragging the card, the card is slightly behind the mouse cursor
-			# so we tween it to the right location
-			if not $Tween.is_active():
-				$Tween.remove(self,'position') # We make sure to remove other tweens of the same type to avoid a deadlock
-#				_target_position = _determine_board_position_from_mouse()
-#				# The below ensures the card doesn't leave the viewport dimentions
-#				if _target_position.x + card_size.x * play_area_scale.x > get_viewport().size.x:
-#					_target_position.x = get_viewport().size.x - card_size.x * play_area_scale.x
-#				if _target_position.y + card_size.y * play_area_scale.y > get_viewport().size.y:
-#					_target_position.y = get_viewport().size.y - card_size.y * play_area_scale.y
-				_add_tween_position(position, _target_position, to_board_tween_duration)
-				# The below ensures a card dropped from the hand will not
-				# retain a slight rotation.
-				# We check if the card already has been rotated to a different
-				# card_cotation
-				if not int($Control.rect_rotation) in [0,90,180,270]:
-					_add_tween_rotation($Control.rect_rotation, _target_rotation, to_board_tween_duration)
-				# We want cards on the board to be slightly smaller than in hand.
-				if not scale.is_equal_approx(Vector2(1,1) * play_area_scale):
-					_add_tween_scale(scale, Vector2(1,1) * play_area_scale, to_board_tween_duration,
-							Tween.TRANS_BOUNCE, Tween.EASE_OUT)
-				$Tween.start()
-				set_state(CardState.ON_PLAY_BOARD)
-
+		
 		CardState.FOCUSED_ON_BOARD:
-			z_index = 0
+			# z_index = 0
 			# Used when card is focused on by the mouse hovering over it while it is on the board.
 			set_focus(true)
 			set_control_mouse_filters(true)
 			buttons.set_active(true)
 			# We don't change state yet, only when the focus is removed from this card
-			_organize_attachments()
 
 		CardState.IN_PILE:
-			z_index = 0
+			# z_index = 0
 			set_focus(false)
 			set_control_mouse_filters(false)
 			buttons.set_active(false)
 			# warning-ignore:return_value_discarded
 			set_card_rotation(0)
-			if scale != Vector2(1,1):
-				scale = Vector2(1,1)
+			if rect_scale != Vector2(1,1):
+				rect_scale = Vector2(1,1)
 			if get_parent() in get_tree().get_nodes_in_group("piles"):
 				if card_front.resizing_labels.size() and not get_parent().faceup_cards:
 					return
@@ -2558,19 +2106,19 @@ func _process_card_state() -> void:
 				ensure_proper()
 
 		CardState.VIEWED_IN_PILE:
-			z_index = 0
+			# z_index = 0
 			cfc.NMAP.main.focus_card(self)
 			set_control_mouse_filters(false)
 			buttons.set_active(false)
 			# warning-ignore:return_value_discarded
 			set_card_rotation(0)
-			if scale != Vector2(1,1):
-				scale = Vector2(1,1)
+			if rect_scale != Vector2(1,1):
+				rect_scale = Vector2(1,1)
 			if get_parent() in get_tree().get_nodes_in_group("piles"):
 				set_is_faceup(get_parent().faceup_cards, true)
 
 		CardState.IN_POPUP:
-			z_index = 0
+			# z_index = 0
 			# We make sure that a card in a popup stays in its position
 			# Unless moved
 			set_focus(false)
@@ -2580,13 +2128,13 @@ func _process_card_state() -> void:
 			set_card_rotation(0)
 			if modulate[3] != 1:
 				modulate[3] = 1
-			if scale != Vector2(0.75,0.75):
-				scale = Vector2(0.75,0.75)
-			if position != Vector2(0,0):
-				position = Vector2(0,0)
+			if rect_scale != Vector2(0.75,0.75):
+				rect_scale = Vector2(0.75,0.75)
+			if rect_position != Vector2(0,0):
+				rect_position = Vector2(0,0)
 
 		CardState.FOCUSED_IN_POPUP:
-			z_index = 0
+			# z_index = 0
 			# Used when the card is displayed in the popup grid container
 			set_focus(true)
 			# warning-ignore:return_value_discarded
@@ -2604,13 +2152,13 @@ func _process_card_state() -> void:
 			$Control/Tokens.visible = false
 			# We scale the card dupe to allow the player a better viewing experience
 			if CFConst.VIEWPORT_FOCUS_ZOOM_TYPE == "scale":
-				scale = Vector2(1,1) * focused_scale * cfc.curr_scale
+				rect_scale = Vector2(1,1) * focused_scale * cfc.curr_scale
 			else:
 				# We need to reset its scale,
 				# in case it was already scaled due to being on the table etc.
-				scale = Vector2(1,1)
+				rect_scale = Vector2(1,1)
 				resize_recursively(_control, focused_scale * cfc.curr_scale)
-				set_card_size(CFConst.CARD_SIZE * CFConst.FOCUSED_SCALE, true)
+				set_card_size(CFConst.CARD_SIZE * CFConst.FOCUSED_SCALE)
 				card_front.scale_to(focused_scale * cfc.curr_scale)
 				card_back.scale_to(focused_scale * cfc.curr_scale)
 			# If the card has already been been viewed while down,
@@ -2629,39 +2177,22 @@ func _process_card_state() -> void:
 			$Control.rect_rotation = 0
 			# We scale the card to allow the player a better viewing experience
 			if CFConst.VIEWPORT_FOCUS_ZOOM_TYPE == "scale":
-				scale = Vector2(1,1) * preview_scale * cfc.curr_scale
+				rect_scale = Vector2(1,1) * preview_scale * cfc.curr_scale
 			else:
 				set_card_size(CFConst.CARD_SIZE * CFConst.PREVIEW_SCALE)
 				resize_recursively(_control, preview_scale * cfc.curr_scale)
 				card_front.scale_to(preview_scale * cfc.curr_scale)
 
-		CardState.DECKBUILDER_GRID:
-			$Control.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			set_focus(false)
-			set_control_mouse_filters(false)
-			buttons.set_active(false)
-			# warning-ignore:return_value_discarded
-			set_card_rotation(0)
-			$Control.rect_rotation = 0
-			# We scale the card to allow the player a better viewing experience
-			if CFConst.VIEWPORT_FOCUS_ZOOM_TYPE == "scale":
-				scale = Vector2(1,1) * thumbnail_scale * cfc.curr_scale
-			# Commenting this out because it is messing with RichTextLabel
-			# Font resizing
-			else:
-				set_card_size(CFConst.CARD_SIZE * thumbnail_scale)
-				resize_recursively(_control, thumbnail_scale * cfc.curr_scale)
-				card_front.scale_to(thumbnail_scale * cfc.curr_scale)
 
 		CardState.MOVING_TO_SPAWN_DESTINATION:
-			z_index = 99
+			# z_index = 99
 			set_focus(false)
 			set_control_mouse_filters(false)
 			buttons.set_active(false)
 			if not _tween.is_active()\
-					and not scale.is_equal_approx(Vector2(1,1)):
-				_add_tween_scale(scale, Vector2(1,1),0.75)
-				_add_tween_global_position(global_position, get_viewport().size/2 - CFConst.CARD_SIZE/2)
+					and not rect_scale.is_equal_approx(Vector2(1,1)):
+				_add_tween_scale(rect_scale, Vector2(1,1),0.75)
+				_add_tween_global_position(rect_global_position, get_viewport().size/2 - CFConst.CARD_SIZE/2)
 				_tween.start()
 				yield(_tween, "tween_all_completed")
 				_tween_stuck_time = 0
@@ -2691,78 +2222,7 @@ func _get_angle_by_index(index_diff = null) -> float:
 	else:
 		return 90 + (half - index) * card_angle
 
-
-# Get card angle in hand by index that use oval shape
-# The angle of the normal on the ellipse
-func _get_oval_angle_by_index(
-		angle = null,
-		index_diff = null,
-		hor_rad = null,
-		ver_rad = null) -> float:
-	if not angle:
-		# Get the angle from the point on the oval to the center of the oval
-		angle = _get_angle_by_index(index_diff)
-	var parent_control
-	if not hor_rad:
-		parent_control = get_parent().get_node('Control')
-		hor_rad = parent_control.rect_size.x * 0.5 * 1.5
-	if not ver_rad:
-		parent_control = get_parent().get_node('Control')
-		ver_rad = parent_control.rect_size.y * 1.5
-	var card_angle
-	if angle == 90:
-		card_angle = 90
-	# Convert oval angle to normal angle
-	else:
-		# To avoid div/0
-		if hor_rad == 0:
-			card_angle = 90
-		else:
-			card_angle = rad2deg(atan(- ver_rad / hor_rad / tan(deg2rad(angle))))
-			card_angle = card_angle + 90
-	return(card_angle)
-
-
-# Calculate the position after the rotation has been calculated that use oval shape
-func _recalculate_position_use_oval(index_diff = null)-> Vector2:
-	var card_position_x: float = 0.0
-	var card_position_y: float = 0.0
-	var parent_control = get_parent().get_node('Control')
-	# Oval hor rad, rect_size.x*0.5*1.5 it’s an empirical formula,
-	# that's been tested to feel good.
-	var hor_rad: float = parent_control.rect_size.x * 0.5 * 1.5
-	# Oval ver rad, rect_size.y * 1.5 it’s an empirical formula,
-	# that's been tested to feel good.
-	var ver_rad: float = parent_control.rect_size.y * 1.5
-	# Get the angle from the point on the oval to the center of the oval
-	var angle = _get_angle_by_index(index_diff)
-	var rad_angle = deg2rad(angle)
-	# Get the direction vector of a point on the oval
-	var oval_angle_vector = Vector2(hor_rad * cos(rad_angle),
-			- ver_rad * sin(rad_angle))
-	# Take the center point of the card as the starting point, the coordinates
-	# of the top left corner of the card
-	var left_top = Vector2(- card_size.x/2, - card_size.y/2)
-	# Place the top center of the card on the oval point
-	var center_top = Vector2(0, - card_size.y/2)
-	# Get the angle of the card, which is different from the oval angle,
-	# the card angle is the normal angle of a certain point
-	var card_angle = _get_oval_angle_by_index(angle, null, hor_rad,ver_rad)
-	# Displacement offset due to card rotation
-	var delta_vector = left_top - center_top.rotated(deg2rad(90 - card_angle))
-	# Oval center x
-	var center_x = parent_control.rect_size.x / 2 \
-			+ parent_control.rect_position.x
-	# Oval center y, - parent_control.rect_size.y * 0.25:This method ensures that the card is moved to the proper position
-	var center_y = parent_control.rect_size.y * 1.5 \
-			+ parent_control.rect_position.y \
-			- parent_control.rect_size.y * 0.25
-	card_position_x = (oval_angle_vector.x + center_x)
-	card_position_y = (oval_angle_vector.y + center_y)
-	return(Vector2(card_position_x, card_position_y) + delta_vector)
-
-
-# Calculate the position that use rectangle
+# Calculate the rect_position that use rectangle
 func _recalculate_position_use_rectangle(index_diff = null)-> Vector2:
 	var card_position_x: float = 0.0
 	var card_position_y: float = 0.0
@@ -2786,7 +2246,7 @@ func _recalculate_position_use_rectangle(index_diff = null)-> Vector2:
 			/ hand_size, card_gap_max), card_gap_min)
 	# The current width of all cards in hand together
 	var hand_width: float = (cards_gap * (hand_size-1)) + card_size.x
-	# The following just create the vector position to place this specific card
+	# The following just create the vector rect_position to place this specific card
 	# in the playspace.
 	card_position_x = (max_hand_size_width/2
 			- hand_width/2
@@ -2805,8 +2265,6 @@ func _recalculate_position_use_rectangle(index_diff = null)-> Vector2:
 # Calculates the rotation the card should have based on its parent.
 func _recalculate_rotation(index_diff = null)-> float:
 	var calculated_rotation := float(card_rotation)
-	if get_parent().is_in_group("hands") and cfc.game_settings.hand_use_oval_shape:
-		calculated_rotation = 90.0 - _get_oval_angle_by_index(null, index_diff)
 	return(calculated_rotation)
 
 

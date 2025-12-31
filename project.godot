@@ -94,7 +94,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/core/CardViewer/CVPreviewPopup.gd"
 }, {
-"base": "Area2D",
+"base": "Control",
 "class": "Card",
 "language": "GDScript",
 "path": "res://src/core/CardTemplate.gd"
@@ -234,7 +234,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/core/Card/ManipulationButtons.gd"
 }, {
-"base": "Area2D",
+"base": "Node",
 "class": "MousePointer",
 "language": "GDScript",
 "path": "res://src/core/MousePointer.gd"

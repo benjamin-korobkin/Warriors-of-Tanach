@@ -36,7 +36,7 @@ func _ready() -> void:
 	# We ensure the separation of the grid slots uses the configured separation
 	# or falls back to a minimum based on mouse pointer radius to ensure
 	# we don't highlight 2 slots at the same time.
-	var min_separation = MousePointer.MOUSE_RADIUS * 2 + 1
+	var min_separation = 2 #MousePointer.MOUSE_RADIUS * 2 + 1
 	var actual_separation = max(grid_separation, min_separation)
 	$GridContainer.set("custom_constants/vseparation", actual_separation)
 	$GridContainer.set("custom_constants/hseparation", actual_separation)

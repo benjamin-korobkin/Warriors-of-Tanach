@@ -38,9 +38,9 @@ func _ready() -> void:
 		container.re_place()
 
 
-func _process(_delta: float) -> void:
-	mouse_pointer.global_position = \
-			mouse_pointer.determine_global_mouse_pos()
+#func _process(_delta: float) -> void:
+#	mouse_pointer.global_position = \
+#			mouse_pointer.determine_global_mouse_pos()
 
 func _physics_process(delta) -> void:
 	if _UT_interpolation_requested:

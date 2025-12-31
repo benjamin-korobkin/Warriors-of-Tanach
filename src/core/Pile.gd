@@ -216,8 +216,8 @@ func reorganize_stack() -> void:
 #	while are_cards_still_animating():
 #		yield(get_tree().create_timer(0.3), "timeout")
 	for c in get_all_cards():
-		if c.position != get_stack_position(c):
-			c.position = get_stack_position(c)
+		if c.rect_position != get_stack_position(c):
+			c.rect_position = get_stack_position(c)
 	# The size of the panel has to be modified to be as large as the size
 	# of the card stack
 	# TODO: This logic has to be adapted depending on where on the viewport
@@ -227,7 +227,7 @@ func reorganize_stack() -> void:
 	$Control/Highlight.rect_size = $Control.rect_size
 	# The highlight has to also be shifted higher or else it will just extend
 	# below the viewport
-#	$Control/Highlight.rect_position.y = -get_card_count()
+#	$Control/Highlight.position.y = -get_card_count()
 	.re_place()
 	# since we're adding cards towards the top, we do not want the re_place()
 	# function to push the pile higher than the edge of the screen
@@ -309,7 +309,7 @@ func _slot_card_into_popup(card: Card) -> void:
 	card_slot.add_child(card)
 	# warning-ignore:return_value_discarded
 	card.set_is_faceup(true,true)
-	card.position = Vector2(0,0)
+	card.rect_position = Vector2(0,0)
 	card.state = card.CardState.IN_POPUP
 
 
@@ -333,7 +333,7 @@ func shuffle_cards(animate = true) -> void:
 		# We increase the intensity of the y direction, to make the shuffle
 		# position move higher up or down respective to its position.
 		shuffle_direction.y *= 2
-		# Position of the container when shuffling. This is just the default
+		# position of the container when shuffling. This is just the default
 		# It can be overriden in each shuffle definition
 		var shuffle_position = position + shuffle_direction * 300
 		# Angle of the container when shuffling

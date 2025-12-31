@@ -1,5 +1,8 @@
 extends Card
 
+signal hovered(card_data)
+signal unhovered()
+
 export(CardID.ID) var card_id := 0
 
 var board : Control
@@ -19,6 +22,9 @@ func _ready() -> void:
 	assert(card_id != 0, "CardID not set for card: " + name)
 	# warning-ignore:return_value_discarded
 	connect("gui_input", self, "_on_Card_gui_input")
+	connect("mouse_entered", self, "_on_mouse_entered")
+	connect("mouse_exited", self, "_on_mouse_exited")
+	mouse_filter = Control.MOUSE_FILTER_STOP
 
 
 func _on_Card_gui_input(event) -> void:

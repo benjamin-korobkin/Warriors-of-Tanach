@@ -34,7 +34,7 @@ func _on_ReshuffleAllDeck_pressed() -> void:
 
 func reshuffle_all_in_pile(pile = cfc.NMAP.deck):
 	for c in get_tree().get_nodes_in_group("cards"):
-		if c.get_parent() != pile and c.state != Card.CardState.DECKBUILDER_GRID:
+		if c.get_parent() != pile and c.state:
 			c.move_to(pile)
 			yield(get_tree().create_timer(0.1), "timeout")
 	# Last card in, is the top card of the pile
@@ -100,17 +100,9 @@ func load_test_cards(gut := true) -> void:
 		#card.set_is_faceup(false,true)
 		card._determine_idle_state()
 
-func _on_DeckBuilder_pressed() -> void:
-	cfc.game_paused = true
-	$DeckBuilderPopup.popup_centered_minsize()
-
-func _on_DeckBuilder_hide() -> void:
-	cfc.game_paused = false
-
 func _on_BackToMain_pressed() -> void:
 	cfc.quit_game()
 	get_tree().change_scene("res://src/custom/MainMenu.tscn")
 
 func _on_ActionsMenu_index_pressed(index: int) -> void:
 	print(index)
-	
