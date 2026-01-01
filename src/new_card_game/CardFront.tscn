@@ -30,7 +30,7 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 
 [sub_resource type="DynamicFont" id=3]
-size = 24
+size = 18
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
@@ -88,7 +88,7 @@ autowrap = true
 [node name="Name" type="Label" parent="Margin/CardText"]
 margin_top = 30.0
 margin_right = 146.0
-margin_bottom = 62.0
+margin_bottom = 54.0
 grow_horizontal = 2
 rect_min_size = Vector2( 146, 13 )
 size_flags_vertical = 1
@@ -101,9 +101,9 @@ autowrap = true
 uppercase = true
 
 [node name="Description" type="Label" parent="Margin/CardText"]
-margin_top = 65.0
+margin_top = 57.0
 margin_right = 146.0
-margin_bottom = 92.0
+margin_bottom = 84.0
 grow_horizontal = 2
 rect_min_size = Vector2( 146, 14 )
 text = "Description"
