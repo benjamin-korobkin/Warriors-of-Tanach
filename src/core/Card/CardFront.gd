@@ -60,15 +60,8 @@ func set_label_text(node: Label, value, scale: float = 1):
 	if node in resizing_labels:
 		return
 	resizing_labels.append(node)
-	##value = _check_for_replacements(node, value)
+	value = _check_for_replacements(node, value)
 	var label_font :Font = get_card_label_font(node)
-#	if node.get_name() == "Effect" or node.get_name() == "Teaching":
-#		#var dynamic_font = DynamicFont.new()
-#		#dynamic_font.set_outline_color(Color(0,0,0,255))
-#		#dynamic_font.outline_size = 1
-#		#node.add_font_override("font", dynamic_font)
-#		label_font.font_data = roboto_font#.instance()
-#		label_font.set_spacing(DynamicFont.SPACING_CHAR, 1)
 #	print_debug(scaled_fonts.get(node.name, 1))
 	var cached_font_size = get_cached_font_size(node,value,scale)
 	if cached_font_size:
@@ -137,8 +130,8 @@ func set_card_label_font(label: Label, font: Font) -> void:
 # Typically each game would override this function to fit its layout.
 func scale_to(scale_multiplier: float) -> void:
 	for l in card_labels:
-		if l in original_font_sizes.keys():
-			font_sizes[l] = original_font_sizes.get(l) * scale_multiplier
+		#if l in original_font_sizes.keys():
+		font_sizes[l] = original_font_sizes.get(l) * scale_multiplier
 	for l in card_labels:
 		if scaled_fonts.get(l) != scale_multiplier:
 			scaled_fonts[l] = scale_multiplier
@@ -162,7 +155,7 @@ func set_rich_label_text(node: RichTextLabel, value: String, is_resize := false,
 	if node in resizing_labels:
 		return
 	resizing_labels.append(node)
-	##value = _check_for_replacements(node, value)
+	value = _check_for_replacements(node, value)
 	# This is used to hide a card with rich text while the rich text is resizing
 	# This is because richtext cannot resize properly while invisible
 	# Therefore we need to keep the front visible while the rich text label is resizing.

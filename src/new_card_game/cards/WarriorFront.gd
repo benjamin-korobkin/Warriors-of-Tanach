@@ -11,7 +11,7 @@ func _ready() -> void:
 	card_labels["BasePower"] = find_node("BasePower")
 	card_label_min_sizes["BasePower"] = Vector2(CFConst.CARD_SIZE.x - 4,STANDARD_FONT_SIZE)
 	card_labels["Description"] = find_node("Description")
-	card_label_min_sizes["Description"] = Vector2(CFConst.CARD_SIZE.x,STANDARD_FONT_SIZE + 2)
+	card_label_min_sizes["Description"] = Vector2(CFConst.CARD_SIZE.x,STANDARD_FONT_SIZE + 4)
 	card_labels["CardID"] = find_node("CardID")
 	card_label_min_sizes["CardID"] = Vector2(CFConst.CARD_SIZE.x - 4, 0)
 	

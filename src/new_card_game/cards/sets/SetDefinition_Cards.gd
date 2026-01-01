@@ -124,13 +124,7 @@ const CARDS := {
 		"Description": "+3 if opponent plays a General this turn"
 	},
 	
-	"Chizkiyahu HaMelech": {
-		"CardID": CardID.ID.KING_CHIZKIYAHU,
-		"Type": "King",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": "+3 for each General in your field\n-3 for each General in opponent field"
-	},
+	
 	
 	"Avner": {
 		"CardID": CardID.ID.GENERAL_AVNER,
@@ -247,5 +241,12 @@ const CARDS := {
 		"Power": 2,
 		"BasePower": 2,
 		"Description": "+5 if the only General in your field"
+	},
+	"Chizkiyahu": {
+		"CardID": CardID.ID.KING_CHIZKIYAHU,
+		"Type": "King",
+		"Power": 3,
+		"BasePower": 3,
+		"Description": "+3 for each General in your field\n-3 for each General in opponent field"
 	},
 }
