@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://fonts/IBM_Plex_Sans_Hebrew/IBMPlexSansHebrew-Light.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/new_card_game/cards/WarriorFront.gd" type="Script" id=2]
@@ -11,18 +11,6 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 anti_aliasing_size = 0.5
-
-[sub_resource type="DynamicFontData" id=4]
-font_path = "res://fonts/IBM_Plex_Sans_Hebrew/IBMPlexSansHebrew-Bold.ttf"
-
-[sub_resource type="DynamicFont" id=5]
-size = 20
-outline_size = 1
-outline_color = Color( 0, 0, 0, 1 )
-use_mipmaps = true
-use_filter = true
-extra_spacing_char = 1
-font_data = SubResource( 4 )
 
 [sub_resource type="StyleBoxFlat" id=2]
 border_color = Color( 0, 0, 0, 1 )
@@ -78,7 +66,6 @@ margin_bottom = 27.0
 grow_horizontal = 2
 rect_min_size = Vector2( 146, 19 )
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 5 )
 custom_styles/normal = SubResource( 2 )
 text = "Era / Tanach"
 align = 1
