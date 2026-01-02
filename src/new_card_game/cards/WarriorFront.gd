@@ -25,9 +25,3 @@ func _ready() -> void:
 	# and original_font_sizes iterables
 	set_card_rect_min_size()
 	attach_card_labels()
-
-# Override parent to set correct font sizes matching theme
-func attach_card_labels():
-	for label in card_labels:
-		# Set all fonts to STANDARD_FONT_SIZE (12) to match theme
-		original_font_sizes[label] = STANDARD_FONT_SIZE

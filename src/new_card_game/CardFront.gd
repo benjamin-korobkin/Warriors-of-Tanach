@@ -43,9 +43,9 @@ func attach_card_labels():
 
 # Putting this here to override parent function since we don't 
 # plan on shrinking font at all
-# func _adjust_font_size(
-# 		font: Font,
-# 		text: String,
-# 		label_size: Vector2,
-# 		line_spacing := 3) -> int:
-# 	return 0
+func _adjust_font_size(
+	font: Font,
+	text: String,
+	label_size: Vector2,
+	line_spacing := 3) -> int:
+	return 0
