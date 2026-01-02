@@ -1,6 +1,12 @@
 extends "res://src/new_card_game/CardFront.gd"
 
 
+func scale_to(scale_multiplier: float) -> void:
+	# Force reset scaled_fonts to trigger font updates
+	scaled_fonts.clear()
+	.scale_to(scale_multiplier)
+
+
 func _ready() -> void:
 	card_labels["Type"] = find_node("Type")
 	card_label_min_sizes["Type"] = Vector2(CFConst.CARD_SIZE.x - 4, STANDARD_FONT_SIZE)
@@ -19,3 +25,9 @@ func _ready() -> void:
 	# and original_font_sizes iterables
 	set_card_rect_min_size()
 	attach_card_labels()
+
+# Override parent to set correct font sizes matching theme
+func attach_card_labels():
+	for label in card_labels:
+		# Set all fonts to STANDARD_FONT_SIZE (12) to match theme
+		original_font_sizes[label] = STANDARD_FONT_SIZE

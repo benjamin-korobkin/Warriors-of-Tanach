@@ -8,11 +8,13 @@ func _ready() -> void:
 	# The card or filling up its text
 	card_labels["Name"] = find_node("Name")
 	card_labels["Type"] = find_node("Type")
+	card_labels["Description"] = find_node("Description")
 
 	# These set the max (min?) size of each label. This is used to calculate how much
 	# To shrink the font when it doesn't fit in the rect.
 	card_label_min_sizes["Name"] = Vector2(CFConst.CARD_SIZE.x - 4, STANDARD_FONT_SIZE)
 	card_label_min_sizes["Type"] = Vector2(CFConst.CARD_SIZE.x - 4, STANDARD_FONT_SIZE)
+	card_label_min_sizes["Description"] = Vector2(CFConst.CARD_SIZE.x - 4, STANDARD_FONT_SIZE)
 
 	set_card_rect_min_size()
 	attach_card_labels()
@@ -41,9 +43,9 @@ func attach_card_labels():
 
 # Putting this here to override parent function since we don't 
 # plan on shrinking font at all
-func _adjust_font_size(
-		font: Font,
-		text: String,
-		label_size: Vector2,
-		line_spacing := 3) -> int:
-	return 0
+# func _adjust_font_size(
+# 		font: Font,
+# 		text: String,
+# 		label_size: Vector2,
+# 		line_spacing := 3) -> int:
+# 	return 0

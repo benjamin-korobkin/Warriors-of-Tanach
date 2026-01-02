@@ -85,7 +85,7 @@ func set_label_text(node: Label, value, scale: float = 1):
 			line_spacing = 3
 		var starting_font_size: int = font_sizes[node.name]
 		label_font.size = starting_font_size
-		var font_adjustment := _adjust_font_size(label_font, working_value, node.rect_min_size, line_spacing)
+		var font_adjustment := _adjust_font_size(label_font, working_value, node.rect_min_size * scale, line_spacing)
 	#	if  node.name == "Abilities": font_adjustment = -17
 		# We always start shrinking the size, starting from the original size.
 #		print_debug(scaled_fonts.get(node.name, 1))
