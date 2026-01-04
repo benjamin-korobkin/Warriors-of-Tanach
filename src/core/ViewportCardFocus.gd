@@ -97,14 +97,31 @@ func focus_card(card: Card, show_preview := true) -> void:
 		var dupe_focus: Card
 		if _previously_focused_cards.has(card) and is_instance_valid(_previously_focused_cards[card]):
 			dupe_focus = _previously_focused_cards[card]
-			# Not sure why, but sometimes the dupe card will report is_faceup
-			# while having the card back visible. Workaround until I figure it out.
-			if dupe_focus.get_node('Control/Back').visible == dupe_focus.is_faceup:
-				# warning-ignore:return_value_discarded
-				dupe_focus.set_is_faceup(!dupe_focus.is_faceup, true)
-			# warning-ignore:return_value_discarded
-			dupe_focus.set_is_faceup(card.is_faceup, true)
-			dupe_focus.is_viewed = card.is_viewed
+			# Check if the duplicate has its own properties dictionary (new duplicates)
+			# or shares one with the original (old duplicates created before the fix)
+			if dupe_focus.properties == card.properties:
+				# Old duplicate sharing properties - recreate it
+				dupe_focus.queue_free()
+				_previously_focused_cards.erase(card)
+				# Fall through to create a new duplicate
+				dupe_focus = card.duplicate(DUPLICATE_USE_INSTANCING)
+				dupe_focus.remove_from_group("cards")
+				_extra_dupe_preparation(dupe_focus, card)
+				dupe_focus.state = Card.CardState.VIEWPORT_FOCUS
+				_focus_viewport.add_child(dupe_focus)
+				_extra_dupe_ready(dupe_focus, card)
+				dupe_focus.is_faceup = card.is_faceup
+				dupe_focus.is_viewed = card.is_viewed
+			else:
+				# Update modifiers for next recalculation
+				# (Don't copy - keep as reference to original for real-time sync)
+				# Not sure why, but sometimes the dupe card will report is_faceup
+				# while having the card back visible. Workaround until I figure it out.
+				if dupe_focus.get_node('Control/Back').visible == dupe_focus.is_faceup:
+					# warning-ignore:return_value_discarded
+					dupe_focus.set_is_faceup(!dupe_focus.is_faceup, true)
+				dupe_focus.set_is_faceup(card.is_faceup, true)
+				dupe_focus.is_viewed = card.is_viewed
 		else:
 			dupe_focus = card.duplicate(DUPLICATE_USE_INSTANCING)
 			dupe_focus.remove_from_group("cards")
@@ -199,7 +216,8 @@ func unfocus_all() -> void:
 # before adding it to the scene
 func _extra_dupe_preparation(dupe_focus: Card, card: Card) -> void:
 	dupe_focus.canonical_name = card.canonical_name
-	#dupe_focus.properties = card.properties.duplicate()
+	# Share properties with the original card, don't copy
+	# This way when the original card's power changes, the duplicate automatically shows it
 	dupe_focus.properties = card.properties
 	focus_info.hide_all_info()
 
@@ -209,6 +227,16 @@ func _extra_dupe_preparation(dupe_focus: Card, card: Card) -> void:
 # warning-ignore:unused_argument
 # warning-ignore:unused_argument
 func _extra_dupe_ready(dupe_focus: Card, card: Card) -> void:
+	# Recalculate power to reflect current modifiers
+	var power = dupe_focus.get_property("BasePower")
+	if dupe_focus.get("modifiers"):
+		for v in dupe_focus.modifiers.values():
+			power += v
+	dupe_focus.properties["Power"] = power
+	if dupe_focus.card_front and dupe_focus.card_front.card_labels.has("Power"):
+		# Directly set the label text to bypass caching issues
+		dupe_focus.card_front.card_labels["Power"].text = str(power)
+	
 	if CFConst.VIEWPORT_FOCUS_ZOOM_TYPE == "scale":
 		dupe_focus.scale = Vector2(1,1) * dupe_focus.focused_scale * cfc.curr_scale
 	else:

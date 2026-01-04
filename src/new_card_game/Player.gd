@@ -170,11 +170,6 @@ func set_modifier(card, key, value):
 		card.modifiers[key] = value
 
 
-# func add_pow(card, add_power):
-# 	var p = card.get_property("Power")
-# 	var power = p + add_power
-# 	card.modify_property("Power", power)
-
 func king_effect(field_cards, opponent_cards, amt_add, amt_sub):
 	var king_bonus : int = 0
 	for card in field_cards:

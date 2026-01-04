@@ -611,10 +611,10 @@ func modify_property(
 		is_init = true
 	if not property in properties.keys() and not is_init:
 		retcode = CFConst.ReturnCode.FAILED
-	elif typeof(properties.get(property)) == typeof(value)\
-			and properties.get(property) == value\
-			and not is_init:
-		retcode = CFConst.ReturnCode.OK
+#	elif typeof(properties.get(property)) == typeof(value)\
+#			and properties.get(property) == value\
+#			and not is_init:
+#		retcode = CFConst.ReturnCode.OK
 	elif typeof(properties.get(property)) != typeof(value)\
 			and str(properties.get(property)) == str(value):
 		retcode = CFConst.ReturnCode.OK
@@ -695,8 +695,7 @@ func modify_property(
 						properties[property].append(value)
 			refresh_property_label(property)
 # Also refresh the viewport duplicate if it exists
-			if state != CardState.VIEWED_IN_PILE\
-					and cfc.NMAP.get("main", null)\
+			if cfc.NMAP.get("main", null)\
 					and cfc.NMAP.main._previously_focused_cards.has(self):
 				var dupe_card : Card = cfc.NMAP.main._previously_focused_cards[self]
 				if is_instance_valid(dupe_card):
