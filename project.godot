@@ -411,7 +411,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Warriors-of-Tanach"
-run/main_scene="res://src/new_card_game/Main.tscn"
+run/main_scene="res://src/custom/MainMenu.tscn"
 config/icon="res://assets/card_backs/Card_Back_WoT.png"
 
 [autoload]

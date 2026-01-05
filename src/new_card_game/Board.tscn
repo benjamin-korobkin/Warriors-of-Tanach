@@ -167,13 +167,6 @@ margin_bottom = 87.0
 z_index = 100
 script = ExtResource( 20 )
 placement = 7
-overlap_shift_direction = null
-index_shift_priority = null
-card_size = null
-show_manipulation_buttons = null
-excess_discard_pile_name = null
-hand_size = null
-excess_cards = null
 
 [node name="Control" parent="Hand1" index="0"]
 anchor_left = 0.5
@@ -186,13 +179,9 @@ visible = true
 
 [node name="Hand2" parent="." instance=ExtResource( 16 )]
 script = ExtResource( 20 )
-overlap_shift_direction = null
-index_shift_priority = null
-card_size = null
-show_manipulation_buttons = null
-excess_discard_pile_name = null
-hand_size = null
-excess_cards = null
+card_size = Vector2( 150, 200 )
+excess_discard_pile_name = ""
+excess_cards = 0
 
 [node name="Control" parent="Hand2" index="0"]
 anchor_left = 0.5

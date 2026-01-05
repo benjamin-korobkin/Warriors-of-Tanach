@@ -30,7 +30,9 @@ func play_turn():
 func finish_turn():
 	set_has_moved(true)
 	yield(get_tree().create_timer(0.7), "timeout")
-	get_hand().draw_card()
+	# Don't draw on the final round - game ends immediately after
+	if get_parent().current_round < get_parent().TOTAL_ROUNDS:
+		get_hand().draw_card()
 	get_parent().turn_over()
 	
 func draw_card():
@@ -151,7 +153,7 @@ func apply_shofet_effects(cc, field_cards) -> void:
 	if CardID.is_shofet(cc.card_id):
 		var bonus = shofet_bonus()
 		for card in field_cards:
-			if CardID.is_shofet(card.card_id) and card.card_id != CardID.ID.SHOFET_OSNIEL:
+			if CardID.is_shofet(card.card_id):
 				if cc.card_id == CardID.ID.SHOFET_OSNIEL and card != cc:
 					add_modifier(card, "osniel_bonus", 2)
 				set_modifier(card, "shofet_bonus", bonus)

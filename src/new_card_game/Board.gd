@@ -1,6 +1,7 @@
 extends Board
 
 
+var debug_mode = false
 onready var field_grid1 = $FieldContainer/FieldHBox1/FieldGrid1
 onready var field_grid2 = $FieldContainer/FieldHBox2/FieldGrid2
 onready var p1_points_label = field_grid1.get_node("Control/Label")
@@ -8,6 +9,7 @@ onready var p2_points_label = field_grid2.get_node("Control/Label")
 
 
 func _ready() -> void:
+	debug_mode = cfc._debug
 	cfc.map_node(self)
 	cfc.game_rng_seed = CFUtils.generate_random_seed()
 	cfc.game_settings.fancy_movement = false
@@ -62,7 +64,8 @@ func load_cards() -> void:
 	for c in card_options:
 		card_array.append(cfc.instance_card(c))
 	## Randomize card_array
-	#CFUtils.shuffle_array(card_array)
+	if not debug_mode:
+		CFUtils.shuffle_array(card_array)
 	for card in card_array:
 		cfc.NMAP.deck.add_child(card)
 		card._determine_idle_state()

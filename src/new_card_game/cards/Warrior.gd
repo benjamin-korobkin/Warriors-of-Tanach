@@ -18,7 +18,7 @@ func _ready() -> void:
 	._ready()
 	assert(card_id != 0, "CardID not set for card: " + name)
 	# warning-ignore:return_value_discarded
-	connect("gui_input", self, "_on_Card_gui_input")
+#	connect("gui_input", self, "_on_Card_gui_input")
 
 
 func _on_Card_gui_input(event) -> void:

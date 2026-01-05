@@ -146,7 +146,7 @@ const CARDS := {
 		"Type": "King",
 		"Power": 3,
 		"BasePower": 3,
-		"Description": "+2 for each General in your field\n-1 for each General in opponent field"
+		"Description": "+2 for each General in your field.\n-1 for each General in opponent field"
 	},
 
 	"David HaMelech": {
@@ -154,7 +154,7 @@ const CARDS := {
 		"Type": "King",
 		"Power": 5,
 		"BasePower": 5,
-		"Description": "+2 for each General in your field\n-2 for each General in opponent field"
+		"Description": "+2 for each General in your field.\n-2 for each General in opponent field"
 	},
 	
 	"Shamgar ben Anat": {
@@ -178,13 +178,6 @@ const CARDS := {
 		"Power": 2,
 		"BasePower": 2,
 		"Description": "+2 if you played a General last turn"
-	},
-	"Osniel ben Kenaz": {
-		"CardID": CardID.ID.SHOFET_OSNIEL,
-		"Type": "Shofet",
-		"Power": 0,
-		"BasePower": 0,
-		"Description": "+2 to each Shofet you played beforehand\n(Shofet effect does not apply to Osniel)"
 	},
 	"Amasa": {
 		"CardID": CardID.ID.GENERAL_AMASA,
@@ -228,13 +221,6 @@ const CARDS := {
 		"BasePower": 3,
 		"Description": ""
 	},
-	"Toleh ben Puah": {
-		"CardID": CardID.ID.SHOFET_TOLEH,
-		"Type": "Shofet",
-		"Power": 1,
-		"BasePower": 1,
-		"Description": "Shofet effect: +1 for each other Shofet in your field\nIf opponent plays a Shofet this round, +2"
-	},
 	"Elazar ben Dodo": {
 		"CardID": CardID.ID.GENERAL_ELAZAR,
 		"Type": "General",
@@ -247,6 +233,20 @@ const CARDS := {
 		"Type": "King",
 		"Power": 3,
 		"BasePower": 3,
-		"Description": "+3 for each General in your field\n-3 for each General in opponent field"
+		"Description": "+3 for each General in your field.\n-3 for each General in opponent field"
+	},
+	"Osniel ben Kenaz": {
+		"CardID": CardID.ID.SHOFET_OSNIEL,
+		"Type": "Shofet",
+		"Power": 0,
+		"BasePower": 0,
+		"Description": "Shofet effect: +1 for each other Shofet in your field.\n+2 to Shoftim you played beforehand"
+	},
+	"Toleh ben Puah": {
+		"CardID": CardID.ID.SHOFET_TOLEH,
+		"Type": "Shofet",
+		"Power": 1,
+		"BasePower": 1,
+		"Description": "Shofet effect: +1 per other Shofet in your field.\n+2 if opponent plays a Shofet this round"
 	},
 }
