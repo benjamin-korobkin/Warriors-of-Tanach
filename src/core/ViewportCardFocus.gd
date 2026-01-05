@@ -24,13 +24,29 @@ onready var world_environemt : WorldEnvironment = $WorldEnvironment
 func _ready():
 	cfc.map_node(self)
 	world_environemt.environment.glow_enabled = cfc.game_settings.get('glow_enabled', true)
+	
+	# Reduce viewport size on mobile to save screen space
+	if OS.has_feature("mobile"):
+		$VBC/Focus.rect_min_size = Vector2(200, 300)
+		$VBC/Focus/Viewport.size = Vector2(200, 300)
+		# Zoom OUT to fit the full card in the smaller viewport
+		# Original zoom was 0.75, 0.8 for 300x450 viewport
+		# For 200x300 (2/3 size), we need 1.5x zoom to see the same content
+		$VBC/Focus/Viewport/Camera2D.zoom = Vector2(1.125, 1.2)
+		# Force VBC to update its size
+		$VBC.rect_size = Vector2(200, 0)
+	
 	# We use the below while to wait until all the nodes we need have been mapped
 	# "hand" should be one of them.
 
 	var board = board_scene.instance()
 	$ViewportContainer/Viewport.add_child(board)
 	
-	$VBC.rect_position.x = get_viewport().size.x - $VBC.rect_size.x
+	# Wait for layout to update before positioning
+	yield(get_tree(), "idle_frame")
+	# Position with a small margin from the right edge to prevent cutoff
+	var margin = 10 if OS.has_feature("mobile") else 0
+	$VBC.rect_position.x = get_viewport().size.x - $VBC.rect_size.x - margin
 	$VBC.rect_position.y = 0
 	
 	if not cfc.are_all_nodes_mapped:
