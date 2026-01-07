@@ -9,13 +9,11 @@ script = ExtResource( 3 )
 card_front_design = ExtResource( 2 )
 card_id = 0
 
-[node name="CollisionShape2D" parent="." index="0"]
-position = Vector2( 78, 86.4 )
-
 [node name="Control" parent="." index="1"]
-margin_left = 0.0
-margin_top = 0.0
-margin_bottom = 177.0
+margin_top = 11.0
+margin_right = 182.0
+margin_bottom = 251.0
+rect_min_size = Vector2( 180, 240 )
 
 [node name="Highlight" parent="Control" index="0"]
 visible = false

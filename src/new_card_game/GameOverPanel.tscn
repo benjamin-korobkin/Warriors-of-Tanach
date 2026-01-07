@@ -1,55 +1,64 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/new_card_game/GameOverPanel.gd" type="Script" id=1]
+[ext_resource path="res://fonts/Heebo/static/Heebo-Bold.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+extra_spacing_space = 3
+font_data = ExtResource( 2 )
 
 [node name="GameOverPanel" type="Panel"]
-margin_right = 450.0
-margin_bottom = 150.0
+visible = false
+modulate = Color( 1, 1, 1, 0.811765 )
+margin_right = 500.0
+margin_bottom = 126.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource( 1 )
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
-margin_right = 446.0
+margin_right = 497.0
 margin_bottom = 40.0
 size_flags_horizontal = 7
 
 [node name="GameOverLabel" type="Label" parent="CenterContainer"]
-margin_left = 165.0
-margin_top = 13.0
-margin_right = 281.0
-margin_bottom = 27.0
+margin_left = 148.0
+margin_top = 1.0
+margin_right = 349.0
+margin_bottom = 38.0
+custom_fonts/font = SubResource( 1 )
 text = "Somebody won!"
 align = 3
 valign = 1
 uppercase = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_left = 14.2426
-margin_top = 86.4142
-margin_right = 429.243
-margin_bottom = 126.414
+margin_left = 9.0
+margin_top = 56.0
+margin_right = 494.0
+margin_bottom = 120.0
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="PlayAgainButton" type="Button" parent="HBoxContainer"]
-margin_right = 205.0
-margin_bottom = 39.0
+margin_right = 159.0
+margin_bottom = 64.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 text = "Play Again"
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
-visible = false
-margin_right = 205.0
-margin_bottom = 39.0
+margin_left = 163.0
+margin_right = 322.0
+margin_bottom = 64.0
 size_flags_horizontal = 3
 
 [node name="MenuButton" type="Button" parent="HBoxContainer"]
-margin_left = 209.0
-margin_right = 415.0
-margin_bottom = 39.0
+margin_left = 326.0
+margin_right = 485.0
+margin_bottom = 64.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 text = "Menu"

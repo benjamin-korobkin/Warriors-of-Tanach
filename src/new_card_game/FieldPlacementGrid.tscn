@@ -13,7 +13,7 @@ margin_top = -77.0
 margin_right = 187.0
 margin_bottom = 77.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 rect_min_size = Vector2( 150, 190 )
 
 [node name="GridContainer" parent="." index="0"]
