@@ -249,7 +249,7 @@ const CARDS := {
 		"BasePower": 1,
 		"Description": "+1 per other Shofet in your field.\n+2 if opponent plays a Shofet this round"
 	},
-	"Eliav": {
+	"Eliav": { # TODO: Implement condition
 		"CardID": CardID.ID.GENERAL_ELIAV,
 		"Type": "General",
 		"Power": 2,
@@ -263,7 +263,7 @@ const CARDS := {
 		"BasePower": 3,
 		"Description": ""
 	},
-	"Yehoshafat": {
+	"Yehoshafat": { # TODO: Implement condition
 		"CardID": CardID.ID.KING_YEHOSHAFAT,
 		"Type": "King",
 		"Power": 2,
