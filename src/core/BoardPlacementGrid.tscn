@@ -17,24 +17,25 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="DynamicFont" id=2]
+size = 18
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
 [node name="BoardPlacementGrid" type="PanelContainer" groups=["placement_grid"]]
 self_modulate = Color( 1, 1, 1, 0.121569 )
-margin_right = 150.0
-rect_min_size = Vector2( 150, 150 )
+margin_right = 164.0
+margin_bottom = 214.0
+rect_min_size = Vector2( 160, 210 )
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 3 )
-card_play_scale = 0.9
 
 [node name="GridContainer" type="GridContainer" parent="."]
 margin_left = 2.0
 margin_top = 2.0
-margin_right = 152.0
-margin_bottom = 152.0
-rect_min_size = Vector2( 150, 150 )
+margin_right = 162.0
+margin_bottom = 212.0
+rect_min_size = Vector2( 160, 210 )
 custom_constants/vseparation = 5
 custom_constants/hseparation = 5
 columns = 5
@@ -44,22 +45,20 @@ __meta__ = {
 }
 
 [node name="BoardPlacementSlot" parent="GridContainer" instance=ExtResource( 1 )]
-margin_right = 0.0
-margin_bottom = 120.0
 
 [node name="Control" type="Control" parent="."]
 margin_left = 2.0
 margin_top = 2.0
-margin_right = 152.0
-margin_bottom = 152.0
+margin_right = 162.0
+margin_bottom = 212.0
 rect_min_size = Vector2( 0, 120 )
 
 [node name="Label" type="Label" parent="Control"]
 modulate = Color( 1, 1, 1, 0.627451 )
-margin_left = -58.5
-margin_top = -21.5
-margin_right = 170.5
-margin_bottom = -1.5
+margin_left = -45.5
+margin_top = -22.5
+margin_right = 183.5
+margin_bottom = -0.5
 custom_fonts/font = SubResource( 2 )
 text = "Points: 0"
 uppercase = true

@@ -7,6 +7,7 @@ enum ID {
 	KING_CHIZKIYAHU     = 102
 	KING_DAVID          = 103
 	KING_SHAUL          = 104
+	KING_YEHOSHAFAT     = 105
 
 	# === Generals (200–299) ===
 	GENERAL_AMASA	    = 201
@@ -18,6 +19,8 @@ enum ID {
 	GENERAL_ITTAI       = 207
 	GENERAL_YOAV        = 208
 	GENERAL_YONATAN	    = 209
+	GENERAL_ELIAV       = 210
+	GENERAL_ZALMAN      = 211
 
 	# === Shoftim (300–399) ===
 	SHOFET_AVDON	    = 301

@@ -58,7 +58,7 @@ const CARDS := {
 		"Type": "Shofet",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "Shofet effect: +1 for each other Shofet in your field"
+		"Description": "+1 for each other Shofet in your field"
 	},
 	
 	"Gideon": {
@@ -66,7 +66,7 @@ const CARDS := {
 		"Type": "Shofet",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "Shofet effect: +1 for each other Shofet in your field"
+		"Description": "+1 for each other Shofet in your field"
 	},
 	
 	"Shimshon": {
@@ -74,7 +74,7 @@ const CARDS := {
 		"Type": "Shofet",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "Shofet effect: +1 for each other Shofet in your field"
+		"Description": "+1 for each other Shofet in your field"
 	},
 	
 	"Ehud ben Geira": {
@@ -82,7 +82,7 @@ const CARDS := {
 		"Type": "Shofet",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "Shofet effect: +1 for each other Shofet in your field"
+		"Description": "+1 for each other Shofet in your field"
 	},
 	
 	
@@ -162,7 +162,7 @@ const CARDS := {
 		"Type": "Shofet",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "Shofet effect: +1 for each other Shofet in your field"
+		"Description": "+1 for each other Shofet in your field"
 	},
 	"Barak": {
 		"CardID": CardID.ID.GENERAL_BARAK,
@@ -191,14 +191,14 @@ const CARDS := {
 		"Type": "Shofet",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "Shofet effect: +1 for each other Shofet in your field"
+		"Description": "+1 for each other Shofet in your field"
 	},
 	"Yair HaGiladi": {
 		"CardID": CardID.ID.SHOFET_YAIR,
 		"Type": "Shofet",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "Shofet effect: +1 for each other Shofet in your field"
+		"Description": "+1 for each other Shofet in your field"
 	},
 	"Avishai": {
 		"CardID": CardID.ID.GENERAL_AVISHAI,
@@ -212,14 +212,14 @@ const CARDS := {
 		"Type": "Shofet",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "Shofet effect: +1 for each other Shofet in your field"
+		"Description": "+1 for each other Shofet in your field"
 	},
 	"Yonatan": {
 		"CardID": CardID.ID.GENERAL_YONATAN,
 		"Type": "General",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": ""
+		"Power": 2,
+		"BasePower": 2,
+		"Description": "+3 if opponent plays a Shofet this round"
 	},
 	"Elazar ben Dodo": {
 		"CardID": CardID.ID.GENERAL_ELAZAR,
@@ -240,13 +240,34 @@ const CARDS := {
 		"Type": "Shofet",
 		"Power": 0,
 		"BasePower": 0,
-		"Description": "Shofet effect: +1 for each other Shofet in your field.\n+2 to Shoftim you played beforehand"
+		"Description": "+1 for each other Shofet in your field.\n+2 to Shoftim you played beforehand"
 	},
 	"Toleh ben Puah": {
 		"CardID": CardID.ID.SHOFET_TOLEH,
 		"Type": "Shofet",
 		"Power": 1,
 		"BasePower": 1,
-		"Description": "Shofet effect: +1 per other Shofet in your field.\n+2 if opponent plays a Shofet this round"
+		"Description": "+1 per other Shofet in your field.\n+2 if opponent plays a Shofet this round"
 	},
+	"Eliav": {
+		"CardID": CardID.ID.GENERAL_ELIAV,
+		"Type": "General",
+		"Power": 2,
+		"BasePower": 2,
+		"Description": "+3 if opponent has at least 3 Shoftim in their field"
+	},
+	"Zalman": {
+		"CardID": CardID.ID.GENERAL_ZALMAN,
+		"Type": "General",
+		"Power": 3,
+		"BasePower": 3,
+		"Description": ""
+	},
+	"Yehoshafat": {
+		"CardID": CardID.ID.KING_YEHOSHAFAT,
+		"Type": "King",
+		"Power": 2,
+		"BasePower": 2,
+		"Description": "+3 for each General in your field.\n-2 for each General in opponent field"
+	}
 }
