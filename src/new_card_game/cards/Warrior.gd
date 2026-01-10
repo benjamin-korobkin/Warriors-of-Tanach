@@ -14,6 +14,9 @@ var modifiers = {
 	"king_bonus": 0,
 }
 
+# Track which round this card was played (for effects like Avner)
+var played_round : int = 0
+
 func _ready() -> void:
 	._ready()
 	assert(card_id != 0, "CardID not set for card: " + name)

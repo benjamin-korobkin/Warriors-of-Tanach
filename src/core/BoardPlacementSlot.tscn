@@ -34,9 +34,9 @@ corner_radius_bottom_left = 15
 extents = Vector2( 60, 75.4995 )
 
 [node name="BoardPlacementSlot" type="Control" groups=["placement_slot"]]
-margin_right = 120.0
-margin_bottom = 150.0
-rect_min_size = Vector2( 0, 120 )
+margin_right = 160.0
+margin_bottom = 210.0
+rect_min_size = Vector2( 160, 210 )
 script = ExtResource( 2 )
 
 [node name="Highlight" type="MarginContainer" parent="."]
@@ -51,8 +51,8 @@ __meta__ = {
 }
 
 [node name="LeftRight" type="Panel" parent="Highlight"]
-margin_right = 120.0
-margin_bottom = 150.0
+margin_right = 160.0
+margin_bottom = 210.0
 rect_min_size = Vector2( 120, 150 )
 mouse_filter = 2
 custom_styles/panel = SubResource( 1 )
@@ -62,8 +62,8 @@ __meta__ = {
 
 [node name="TopBottom" type="Panel" parent="Highlight"]
 modulate = Color( 1.8, 1.8, 1.8, 1 )
-margin_right = 120.0
-margin_bottom = 150.0
+margin_right = 160.0
+margin_bottom = 210.0
 rect_min_size = Vector2( 120, 150 )
 mouse_filter = 2
 custom_styles/panel = SubResource( 2 )

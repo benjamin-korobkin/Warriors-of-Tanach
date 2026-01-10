@@ -18,8 +18,6 @@ rect_min_size = Vector2( 150, 190 )
 
 [node name="GridContainer" parent="." index="0"]
 margin_right = 622.0
-margin_bottom = 194.0
-rect_min_size = Vector2( 0, 192 )
 
 [node name="BoardPlacementSlot" parent="GridContainer" index="0"]
 margin_right = 120.0
@@ -52,4 +50,3 @@ rect_min_size = Vector2( 120, 192 )
 
 [node name="Control" parent="." index="1"]
 margin_right = 622.0
-margin_bottom = 194.0

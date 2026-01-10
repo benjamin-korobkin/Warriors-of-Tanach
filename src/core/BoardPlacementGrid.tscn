@@ -45,8 +45,6 @@ __meta__ = {
 }
 
 [node name="BoardPlacementSlot" parent="GridContainer" instance=ExtResource( 1 )]
-margin_right = 0.0
-margin_bottom = 120.0
 
 [node name="Control" type="Control" parent="."]
 margin_left = 2.0

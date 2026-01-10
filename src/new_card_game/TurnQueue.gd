@@ -14,6 +14,9 @@ onready var is_first_turn = true
 onready var turn_over = false
 onready var current_round : int = 1
 
+# Track which round Avner was played (0 = not played, caps Shoftim in future rounds)
+var avner_played_round : int = 0
+
 
 func initialize():
 	for _i in range(CARDS_DRAWN_AT_START):

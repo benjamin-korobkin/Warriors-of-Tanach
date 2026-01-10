@@ -138,8 +138,10 @@ const THUMBNAIL_SCALE := 0.85
 # The scale of a card while on a larger preview following the mouse
 # You can adjust this for each different card type
 const PREVIEW_SCALE := 1.25
+const PREVIEW_SCALE := 1.25
 # The scale of a card while it's shown focused on the top right.
 # You can adjust this for each different card type
+const FOCUSED_SCALE := 1.25
 const FOCUSED_SCALE := 1.25
 # The margin towards the bottom of the viewport on which to draw the cards.
 #
