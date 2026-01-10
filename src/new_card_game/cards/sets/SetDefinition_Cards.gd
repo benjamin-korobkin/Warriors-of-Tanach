@@ -266,8 +266,8 @@ const CARDS := {
 	"Shammah ben Agay": {
 		"CardID": CardID.ID.GENERAL_SHAMMAH,
 		"Type": "General",
-		"Power": 1,
-		"BasePower": 1,
+		"Power": 3,
+		"BasePower": 3,
 		"Description": "+1 if Adino was played beforehand in your field"
 	},
 	"Adino HaEtzni": {
