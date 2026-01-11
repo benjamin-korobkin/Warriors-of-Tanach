@@ -28,7 +28,7 @@ const CARDS := {
 	# 	"CardID": CardID.ID.PROPHET_YEHOSHUA,
 	# 	"Type": "Prophet",
 	# 	"Power": 0,
-	# 	"Description": "Draw an extra card from the deck. Use it by the end of next round or it will be discarded."
+	# 	"Description": "Swap a card from your hand with a card in your field"
 	# },
 	
 	# "Natan": {
@@ -152,8 +152,8 @@ const CARDS := {
 	"David HaMelech": {
 		"CardID": CardID.ID.KING_DAVID,
 		"Type": "King",
-		"Power": 5,
-		"BasePower": 5,
+		"Power": 4,
+		"BasePower": 4,
 		"Description": "+2 for each General in your field.\n-2 for each General in opponent field"
 	},
 	
@@ -175,16 +175,16 @@ const CARDS := {
 	"Ittai": {
 		"CardID": CardID.ID.GENERAL_ITTAI,
 		"Type": "General",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "+2 if you played a general last turn"
+		"Power": 3,
+		"BasePower": 3,
+		"Description": ""
 	},
 	"Amasa": {
 		"CardID": CardID.ID.GENERAL_AMASA,
 		"Type": "General",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": "If opponent has 3 or more Shoftim, ALL Shoftim receive -1 Power"
+		"Power": 2,
+		"BasePower": 2,
+		"Description": "If opponent has 3 or more Shoftim, -1 to all Shoftim on board (only once)"
 	},
 	"Yiftach ben Gilad": {
 		"CardID": CardID.ID.SHOFET_YIFTACH,
@@ -203,9 +203,9 @@ const CARDS := {
 	"Avishai": {
 		"CardID": CardID.ID.GENERAL_AVISHAI,
 		"Type": "General",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": "+1 if Yoav was played beforehand in your field"
+		"Power": 2,
+		"BasePower": 2,
+		"Description": "+2 if you played a General last turn. If that General is Yoav, +3"
 	},
 	"Avdon ben Hillel": {
 		"CardID": CardID.ID.SHOFET_AVDON,
@@ -231,9 +231,9 @@ const CARDS := {
 	"Chizkiyahu": {
 		"CardID": CardID.ID.KING_CHIZKIYAHU,
 		"Type": "King",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": "+3 for each General in your field.\n-3 for each General in opponent field"
+		"Power": 2,
+		"BasePower": 2,
+		"Description": "+2 for each general in your field.\nIf opponent has a King, your power is capped at 5"
 	},
 	"Osniel ben Kenaz": {
 		"CardID": CardID.ID.SHOFET_OSNIEL,
@@ -249,36 +249,8 @@ const CARDS := {
 		"BasePower": 1,
 		"Description": "+1 per other Shofet in your field.\n+2 if opponent plays a Shofet this round"
 	},
-	"Eliav": {
-		"CardID": CardID.ID.GENERAL_ELIAV,
-		"Type": "General",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": ""
-	},
 	"Zalman": {
 		"CardID": CardID.ID.GENERAL_ZALMAN,
-		"Type": "General",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": ""
-	},
-	"Shammah ben Agay": {
-		"CardID": CardID.ID.GENERAL_SHAMMAH,
-		"Type": "General",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": "+1 if Adino was played beforehand in your field"
-	},
-	"Adino HaEtzni": {
-		"CardID": CardID.ID.GENERAL_ADINO,
-		"Type": "General",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": "+1 if Shammah was played beforehand in your field"
-	},
-	"Asael": {
-		"CardID": CardID.ID.GENERAL_ASAEL,
 		"Type": "General",
 		"Power": 3,
 		"BasePower": 3,
@@ -291,18 +263,11 @@ const CARDS := {
 		"BasePower": 3,
 		"Description": ""
 	},
-	"Uriah HaChitti": {
-		"CardID": CardID.ID.GENERAL_URIAH,
-		"Type": "General",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": ""
-	},
 	"Yehoshafat": {
 		"CardID": CardID.ID.KING_YEHOSHAFAT,
 		"Type": "King",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "+3 for each General in your field.\n-2 for each General in opponent field"
+		"Description": "+3 for each Shofet in your field.\n-3 for each Shofet in opponent field"
 	}
 }
