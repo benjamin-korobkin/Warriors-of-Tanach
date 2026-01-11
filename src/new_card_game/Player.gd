@@ -60,11 +60,9 @@ func recalc_power(card):
 	for v in card.modifiers.values():
 		power += v
 	
-	## Apply Avner's effect: Only Shoftim played AFTER Avner get capped at 4 Power
-	if CardID.is_shofet(card.card_id) and get_parent().avner_played_round > 0:
-		if card.played_round > get_parent().avner_played_round:
-			if power > 4:
-				power = 4
+	# Apply max_power cap if set
+	if card.max_power != 0:
+		power = min(card.max_power, power)
 
 	card.modify_property("Power", power)
 
@@ -75,17 +73,16 @@ func implement_condition() -> void:
 	var field_cards = field.get_occupying_cards()
 	var opponent_cards = opponent.field.get_occupying_cards()
 
-	apply_general_auras(cc, field_cards, opponent_cards)
-	apply_named_card_effects(cc, field_cards, opponent_cards)
+	apply_aura_effects(cc, field_cards, opponent_cards)
+	apply_self_effects(cc, field_cards, opponent_cards)
 	apply_shofet_effects(cc, field_cards)
 
 	for card in field_cards:
 		recalc_power(card)
 	for card in opponent_cards:
 		recalc_power(card)
-
 	
-func apply_general_auras(cc, field_cards, opponent_cards) -> void:
+func apply_aura_effects(cc, field_cards, opponent_cards) -> void:
 	## General to King Effect
 	if is_general(cc):
 		for card in field_cards:
@@ -97,9 +94,10 @@ func apply_general_auras(cc, field_cards, opponent_cards) -> void:
 				CardID.ID.KING_ASA:
 					add_modifier(card, "king_bonus", 1)
 				CardID.ID.KING_CHIZKIYAHU:
-					add_modifier(card, "king_bonus", 3)
+					add_modifier(card, "king_bonus", 2)
 				CardID.ID.KING_YEHOSHAFAT:
-					add_modifier(card, "king_bonus", 3)
+					# Yehoshafat now affects Shoftim, not Generals
+					pass
 				## If Elazar plus another general is in the field, remove Elazar bonus
 				CardID.ID.GENERAL_ELAZAR:
 					if is_only_general_on_field(card, field_cards):
@@ -114,12 +112,14 @@ func apply_general_auras(cc, field_cards, opponent_cards) -> void:
 						add_modifier(card, "king_bonus", -2)
 					CardID.ID.KING_SHAUL:
 						add_modifier(card, "king_bonus", -1)
-					CardID.ID.KING_CHIZKIYAHU:
-						add_modifier(card, "king_bonus", -3)
-					CardID.ID.KING_YEHOSHAFAT:
-						add_modifier(card, "king_bonus", -2)
+	
+	## If opponent plays a King, apply Chizkiyahu's power cap
+	if is_king(cc):
+		for card in opponent_cards:
+			if card.card_id == CardID.ID.KING_CHIZKIYAHU:
+				cap_power(card, 5)
 
-func apply_named_card_effects(cc, field_cards, opponent_cards) -> void:
+func apply_self_effects(cc, field_cards, opponent_cards) -> void:
 	var card_id = cc.card_id
 	if card_id == 0:
 		push_error("CardID not set for card: " + cc.name)
@@ -135,14 +135,17 @@ func apply_named_card_effects(cc, field_cards, opponent_cards) -> void:
 		CardID.ID.KING_ASA:
 			king_effect(field_cards, opponent_cards, 1, 0)
 		CardID.ID.KING_CHIZKIYAHU:
-			king_effect(field_cards, opponent_cards, 3, -3)
+			king_effect(field_cards, opponent_cards, 2, 0)
+			# Power cap at 5 if opponent has a king
+			if opp_has_king(opponent_cards):
+				cap_power(cc, 5)
 		CardID.ID.KING_YEHOSHAFAT:
-			king_effect(field_cards, opponent_cards, 3, -2)
+			king_effect(field_cards, opponent_cards, 3, -3, "shofet")
 		CardID.ID.GENERAL_YOAV:
-			if CardID.is_king(opp_card.card_id):
+			if is_king(opp_card):
 				set_modifier(cc, "Yoav_bonus", 4)
 		CardID.ID.GENERAL_BARAK:
-			if prev_card != null and CardID.is_shofet(prev_card.card_id):
+			if prev_card != null and is_shofet(prev_card):
 				if prev_card.card_id == CardID.ID.SHOFET_DEVORAH:
 					add_modifier(cc, "Barak_bonus", 3)
 				else:
@@ -152,24 +155,18 @@ func apply_named_card_effects(cc, field_cards, opponent_cards) -> void:
 				set_modifier(cc, "Elazar_bonus", ONLY_GENERAL_BONUS)
 			else:
 				set_modifier(cc, "Elazar_bonus", 0)
-		CardID.ID.GENERAL_ITTAI:
-			if prev_card != null and CardID.is_general(prev_card.card_id):
-				add_modifier(cc, "Ittai_bonus", 2)
 		CardID.ID.GENERAL_BENAIAH:
-			if CardID.is_general(opp_card.card_id):
+			if is_general(opp_card):
 				add_modifier(cc, "Benaiah_bonus", 3)
 		CardID.ID.GENERAL_YONATAN:
-			if CardID.is_shofet(opp_card.card_id):
+			if is_shofet(opp_card):
 				add_modifier(cc, "Yonatan_bonus", 3)
 		CardID.ID.GENERAL_AVISHAI:
-			if has_card_in_field(CardID.ID.GENERAL_YOAV, field_cards):
-				set_modifier(cc, "Avishai_bonus", 1)
-		CardID.ID.GENERAL_SHAMMAH:
-			if has_card_in_field(CardID.ID.GENERAL_ADINO, field_cards):
-				set_modifier(cc, "Shammah_bonus", 1)
-		CardID.ID.GENERAL_ADINO:
-			if has_card_in_field(CardID.ID.GENERAL_SHAMMAH, field_cards):
-				set_modifier(cc, "Adino_bonus", 1)
+			if prev_card != null and is_general(prev_card):
+				if prev_card.card_id == CardID.ID.GENERAL_YOAV:
+					add_modifier(cc, "Avishai_bonus", 3)
+				else:
+					add_modifier(cc, "Avishai_bonus", 2)
 		CardID.ID.GENERAL_AMASA:
 			# If opponent has 3 or more Shoftim, all Shoftim receive -1 Power
 			var opp_shofet_count = count_shoftim(opponent_cards)
@@ -179,20 +176,24 @@ func apply_named_card_effects(cc, field_cards, opponent_cards) -> void:
 			# Record which round Avner was played - caps Shoftim in future rounds
 			get_parent().avner_played_round = get_parent().current_round
 		CardID.ID.SHOFET_TOLEH:
-			if CardID.is_shofet(opp_card.card_id):
+			if is_shofet(opp_card):
 				add_modifier(cc, "toleh_bonus", 2)
 		_:
 			pass
 	
 func apply_shofet_effects(cc, field_cards) -> void:
-	if CardID.is_shofet(cc.card_id):
+	if is_shofet(cc):
 		var bonus = shofet_bonus()
 		for card in field_cards:
-			if CardID.is_shofet(card.card_id):
+			if is_shofet(card):
 				if cc.card_id == CardID.ID.SHOFET_OSNIEL and card != cc:
 					add_modifier(card, "osniel_bonus", 2)
 				set_modifier(card, "shofet_bonus", bonus)
 
+		# Apply Avner's effect to current Shofet if played after Avner
+		if get_parent().avner_played_round > 0:
+			if cc.played_round > get_parent().avner_played_round:
+				cap_power(cc, 4)
 
 func get_prev_played_card() -> Card:
 	return field.get_previous_card(current_card)
@@ -207,19 +208,26 @@ func set_modifier(card, key, value):
 		card.modifiers[key] = value
 
 
-func king_effect(field_cards, opponent_cards, amt_add, amt_sub):
+func king_effect(field_cards, opponent_cards, amt_add, amt_sub, card_type := "general"):
 	var king_bonus : int = 0
 	for card in field_cards:
-		if is_general(card):
+		if card_type == "shofet" and is_shofet(card):
+			king_bonus += amt_add
+		elif card_type == "general" and is_general(card):
 			king_bonus += amt_add
 	for card in opponent_cards:
-		if is_general(card) and card.get_is_faceup():
+		if card_type == "shofet" and is_shofet(card) and card.get_is_faceup():
+			king_bonus += amt_sub
+		elif card_type == "general" and is_general(card) and card.get_is_faceup():
 			king_bonus += amt_sub
 	add_modifier(current_card, "king_bonus", king_bonus)
 
+func cap_power(card, max_power_value: int) -> void:
+	card.max_power = max_power_value
+
 func is_only_general_on_field(target, field_cards) -> bool:
 	for c in field_cards:
-		if c != target and CardID.is_general(c.card_id):
+		if c != target and is_general(c):
 			# Exception: Elchanan doesn't count for Elazar's ability
 			if target.card_id == CardID.ID.GENERAL_ELAZAR and c.card_id == CardID.ID.GENERAL_ELCHANAN:
 				continue
@@ -230,11 +238,23 @@ func is_only_general_on_field(target, field_cards) -> bool:
 func is_general(card) -> bool:
 	return CardID.is_general(card.card_id)
 
+func is_shofet(card) -> bool:
+	return CardID.is_shofet(card.card_id)
+
+func is_king(card) -> bool:
+	return CardID.is_king(card.card_id)
+
+func opp_has_king(opponent_cards: Array) -> bool:
+	for card in opponent_cards:
+		if is_king(card) and card.get_is_faceup():
+			return true
+	return false
+
 
 func shofet_bonus() -> int:
 	var bonus = -1
 	for card in field.get_occupying_cards():
-		if CardID.is_shofet(card.card_id):
+		if is_shofet(card):
 			bonus += 1
 	return bonus
 
@@ -247,17 +267,17 @@ func has_card_in_field(card_id: int, field_cards: Array) -> bool:
 func count_shoftim(cards: Array) -> int:
 	var count = 0
 	for card in cards:
-		if CardID.is_shofet(card.card_id):
+		if is_shofet(card):
 			count += 1
 	return count
 
 func apply_amasa_debuff(field_cards: Array, opponent_cards: Array) -> void:
 	# Apply -1 to all Shoftim on both sides of the field
 	for card in field_cards:
-		if CardID.is_shofet(card.card_id):
+		if is_shofet(card):
 			set_modifier(card, "amasa_debuff", -1)
 	for card in opponent_cards:
-		if CardID.is_shofet(card.card_id):
+		if is_shofet(card):
 			set_modifier(card, "amasa_debuff", -1)
 
 func set_current_card(card):

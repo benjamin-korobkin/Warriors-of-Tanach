@@ -17,6 +17,9 @@ var modifiers = {
 # Track which round this card was played (for effects like Avner)
 var played_round : int = 0
 
+# Maximum power cap for this card (0 = no cap)
+var max_power : int = 0
+
 func _ready() -> void:
 	._ready()
 	assert(card_id != 0, "CardID not set for card: " + name)
