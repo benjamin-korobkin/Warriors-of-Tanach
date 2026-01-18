@@ -186,33 +186,12 @@ const CARDS := {
 		"BasePower": 2,
 		"Description": "If opponent has 3 or more Shoftim, -1 to all Shoftim on board (only once)"
 	},
-	"Yiftach ben Gilad": {
-		"CardID": CardID.ID.SHOFET_YIFTACH,
-		"Type": "Shofet",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "+1 for each other Shofet in your field"
-	},
-	"Yair HaGiladi": {
-		"CardID": CardID.ID.SHOFET_YAIR,
-		"Type": "Shofet",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "+1 for each other Shofet in your field"
-	},
 	"Avishai": {
 		"CardID": CardID.ID.GENERAL_AVISHAI,
 		"Type": "General",
 		"Power": 2,
 		"BasePower": 2,
 		"Description": "+2 if you played a General last turn. If that General is Yoav, +3"
-	},
-	"Avdon ben Hillel": {
-		"CardID": CardID.ID.SHOFET_AVDON,
-		"Type": "Shofet",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "+1 for each other Shofet in your field"
 	},
 	"Yonatan": {
 		"CardID": CardID.ID.GENERAL_YONATAN,
