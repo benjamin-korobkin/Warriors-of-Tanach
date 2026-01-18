@@ -21,14 +21,14 @@ const CARDS := {
 	# 	"CardID": CardID.ID.PROPHET_SHMUEL,
 	# 	"Type": "Prophet",
 	# 	"Power": 0,
-	# 	"Description": "The cards played in this round are swapped."
+	# 	"Description": "Any Shofet played this round onward may not exceed 3 Power"
 	# },
 	
 	# "Yehoshua": {
 	# 	"CardID": CardID.ID.PROPHET_YEHOSHUA,
 	# 	"Type": "Prophet",
 	# 	"Power": 0,
-	# 	"Description": "Swap a card from your hand with a card in your field"
+	# 	"Description": "The cards played in this round are swapped"
 	# },
 	
 	# "Natan": {
@@ -126,35 +126,35 @@ const CARDS := {
 	
 	
 	
-	"Avner": {
+	"Avner": { ## TODO
 		"CardID": CardID.ID.GENERAL_AVNER,
 		"Type": "General",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "Future Shoftim cannot exceed 4 Power after this round"
+		"Description": "+2 while you have more Generals than your opponent"
 	},
-	"Asa HaMelech": {
+	"Asa": {
 		"CardID": CardID.ID.KING_ASA,
 		"Type": "King",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": "+1 for each General in your field"
+		"Power": 2,
+		"BasePower": 2,
+		"Description": "+2 for each general in your field.\nIf opponent has a King, your power is capped at 5"
 	},
 	
-	"Shaul HaMelech": {
+	"Shaul": {
 		"CardID": CardID.ID.KING_SHAUL,
-		"Type": "King",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": "+2 for each General in your field.\n-1 for each General in opponent field"
-	},
-
-	"David HaMelech": {
-		"CardID": CardID.ID.KING_DAVID,
 		"Type": "King",
 		"Power": 4,
 		"BasePower": 4,
-		"Description": "+2 for each General in your field.\n-2 for each General in opponent field"
+		"Description": "+2 for each General in your field\n-2 for each General in opponent field"
+	},
+
+	"David": {
+		"CardID": CardID.ID.KING_DAVID,
+		"Type": "King",
+		"Power": 3,
+		"BasePower": 3,
+		"Description": "+2 for each general in your field\n-1 for each general in opponent field"
 	},
 	
 	"Shamgar ben Anat": {
@@ -184,14 +184,14 @@ const CARDS := {
 		"Type": "General",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "If opponent has 3 or more Shoftim, -1 to all Shoftim on board (only once)"
+		"Description": "If opponent has 3 or more Shoftim this turn, -1 to ALL Shoftim on board"
 	},
 	"Avishai": {
 		"CardID": CardID.ID.GENERAL_AVISHAI,
 		"Type": "General",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "+2 if you played a General last turn. If that General is Yoav, +3"
+		"Description": "+2 if you played a general last turn. +3 if that General is Yoav"
 	},
 	"Yonatan": {
 		"CardID": CardID.ID.GENERAL_YONATAN,
@@ -207,26 +207,19 @@ const CARDS := {
 		"BasePower": 2,
 		"Description": "+4 if this is the only general in your field, except Elchanan."
 	},
-	"Chizkiyahu": {
-		"CardID": CardID.ID.KING_CHIZKIYAHU,
-		"Type": "King",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "+2 for each general in your field.\nIf opponent has a King, your power is capped at 5"
-	},
-	"Osniel ben Kenaz": {
+	"Osniel ben Knaz": {
 		"CardID": CardID.ID.SHOFET_OSNIEL,
 		"Type": "Shofet",
 		"Power": 0,
 		"BasePower": 0,
-		"Description": "+1 for each other Shofet in your field.\n+2 to Shoftim you played beforehand"
+		"Description": "+1 for each other shofet in your field. +2 to each shofet you played before"
 	},
 	"Toleh ben Puah": {
 		"CardID": CardID.ID.SHOFET_TOLEH,
 		"Type": "Shofet",
 		"Power": 1,
 		"BasePower": 1,
-		"Description": "+1 per other Shofet in your field.\n+2 if opponent plays a Shofet this round"
+		"Description": "+1 for each other shofet in your field. +2 If opponent plays a shofet this round"
 	},
 	"Zalman": {
 		"CardID": CardID.ID.GENERAL_ZALMAN,
@@ -247,6 +240,13 @@ const CARDS := {
 		"Type": "King",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "+3 for each Shofet in your field.\n-3 for each Shofet in opponent field"
+		"Description": "+3 for each General in your field\n-3 for each General in opponent field"
+	},
+		"Chizkiyahu": {
+		"CardID": CardID.ID.KING_CHIZKIYAHU,
+		"Type": "King",
+		"Power": 3,
+		"BasePower": 3,
+		"Description": "+2 for each Shofet in your field\n-2 for each Shofet in opponent field"
 	}
 }
