@@ -113,10 +113,10 @@ func apply_aura_effects(cc, field_cards, opponent_cards) -> void:
 					CardID.ID.KING_SHAUL:
 						add_modifier(card, "king_bonus", -1)
 	
-	## If opponent plays a King, apply Chizkiyahu's power cap
+	## If opponent plays a King, apply King Asa's power cap
 	if is_king(cc):
 		for card in opponent_cards:
-			if card.card_id == CardID.ID.KING_CHIZKIYAHU:
+			if card.card_id == CardID.ID.KING_ASA:
 				cap_power(card, 5)
 
 func apply_self_effects(cc, field_cards, opponent_cards) -> void:
