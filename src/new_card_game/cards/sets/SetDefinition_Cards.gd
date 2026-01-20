@@ -84,6 +84,13 @@ const CARDS := {
 		"BasePower": 2,
 		"Description": "+1 for each other Shofet in your field"
 	},
+	"Yair HaGiladi": {
+		"CardID": CardID.ID.SHOFET_YAIR,
+		"Type": "Shofet",
+		"Power": 2,
+		"BasePower": 2,
+		"Description": "+1 for each other Shofet in your field"
+	},
 	
 	
 	

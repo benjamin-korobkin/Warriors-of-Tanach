@@ -33,9 +33,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -312.0
-margin_top = -270.0
+margin_top = -280.0
 margin_right = 312.0
-margin_bottom = 192.0
+margin_bottom = 182.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -101,7 +101,6 @@ position = Vector2( 0, 555 )
 scale = Vector2( 0.9, 0.9 )
 script = ExtResource( 4 )
 placement = 5
-card_size = Vector2( 160, 210 )
 show_manipulation_buttons = false
 
 [node name="Control" parent="Deck" index="0"]
@@ -179,6 +178,7 @@ anchor_bottom = 0.0
 visible = true
 
 [node name="Hand2" parent="." instance=ExtResource( 16 )]
+visible = false
 script = ExtResource( 20 )
 card_size = Vector2( 150, 200 )
 excess_discard_pile_name = ""

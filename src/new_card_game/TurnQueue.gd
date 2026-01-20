@@ -2,7 +2,7 @@ extends Node2D
 class_name TurnQueue
 
 const TOTAL_ROUNDS : int = 5
-const CARDS_DRAWN_AT_START : int = 3
+const CARDS_DRAWN_AT_START : int = 4
 
 signal game_won(player)
 

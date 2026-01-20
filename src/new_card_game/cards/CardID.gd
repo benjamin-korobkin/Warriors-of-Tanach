@@ -23,7 +23,6 @@ enum ID {
 	GENERAL_ZALMAN      = 210
 
 	# === Shoftim (300–399) ===
-	SHOFET_AVDON	    = 301
 	SHOFET_DEVORAH      = 302
 	SHOFET_EHUD         = 303
 	SHOFET_GIDEON       = 304
@@ -32,7 +31,6 @@ enum ID {
 	SHOFET_SHIMSHON	    = 307
 	SHOFET_TOLEH        = 308
 	SHOFET_YAIR	        = 309
-	SHOFET_YIFTACH	    = 310
 	
 
 	# === Prophets (400–499) ===
