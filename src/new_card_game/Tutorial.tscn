@@ -89,7 +89,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-card_size = Vector2( 150, 200 )
+card_size = Vector2( 225, 300 )
 
 [node name="FieldHBox1" type="HBoxContainer" parent="FieldContainer"]
 visible = false

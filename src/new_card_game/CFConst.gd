@@ -42,7 +42,7 @@ const GAME_VERSION := "1.1.0"
 # This will also adjust all CardContainers to match
 # If you modify this property, you **must** adjust
 # the min_rect of the various control nodes inside the card front and back scenes.
-const CARD_SIZE := Vector2(190,280) # 40% increase in x,y from default 150x200
+const CARD_SIZE := Vector2(225,300) # 50% increase in x,y from default 150x200
 # This is the resolution the game was developed in. It is used to adjust the card sizes
 # for smaller resolutions. Any lower resoluton will adjust its card sizes for previews/thumbnails
 # based on the percentage of difference between the two resolutions in absolute pixel number.
@@ -146,7 +146,7 @@ const FOCUSED_SCALE := 1.25
 # More than 0 and the card will appear hidden under the display area.
 #
 # Less than 0 and it will float higher than the bottom of the viewport
-const BOTTOM_MARGIN_MULTIPLIER := 0.1
+const BOTTOM_MARGIN_MULTIPLIER := 0.01
 # Here you can adjust the amount of offset towards a side of their host card
 # that attachments are placed.
 

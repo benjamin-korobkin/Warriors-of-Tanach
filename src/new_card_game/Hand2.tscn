@@ -10,7 +10,7 @@ font_data = ExtResource( 2 )
 [node name="Hand" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
 placement = 2
-card_size = Vector2( 150, 150 )
+card_size = Vector2( 225, 300 )
 excess_discard_pile_name = "discard"
 excess_cards = 2
 

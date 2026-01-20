@@ -28,7 +28,7 @@ margin_right = 150.0
 rect_min_size = Vector2( 190, 280 )
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 3 )
-card_size = Vector2( 190, 280 )
+card_size = Vector2( 225, 300 )
 
 [node name="GridContainer" type="GridContainer" parent="."]
 margin_left = 2.0

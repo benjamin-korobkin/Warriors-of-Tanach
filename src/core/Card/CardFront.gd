@@ -6,7 +6,7 @@
 class_name CardFront
 extends Panel
 
-const STANDARD_FONT_SIZE = 18
+const STANDARD_FONT_SIZE = 21
 
 # var roboto_font = preload("res://fonts/Roboto/Roboto-Regular.ttf")
 

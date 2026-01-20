@@ -45,7 +45,7 @@ visible = false
 margin_top = 1.0
 margin_right = 150.0
 margin_bottom = 181.0
-rect_min_size = Vector2( 150, 16 )
+rect_min_size = Vector2( 225, 24 )
 custom_colors/font_color = Color( 0.670588, 0.443137, 0.384314, 1 )
 custom_fonts/font = SubResource( 2 )
 text = "WARRIORS OF 
@@ -57,7 +57,7 @@ valign = 1
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 150, 150 )
+rect_min_size = Vector2( 225, 225 )
 mouse_filter = 2
 alignment = 1
 __meta__ = {
@@ -76,21 +76,21 @@ custom_constants/margin_top = 50
 margin_top = 93.0
 margin_right = 150.0
 margin_bottom = 133.0
-rect_min_size = Vector2( 150, 40 )
+rect_min_size = Vector2( 225, 60 )
 mouse_filter = 2
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
 margin_top = 137.0
 margin_right = 150.0
 margin_bottom = 140.0
-rect_min_size = Vector2( 150, 3 )
+rect_min_size = Vector2( 225, 5 )
 mouse_filter = 2
 custom_constants/margin_top = 3
 
 [node name="TextureRect" type="TextureRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 150, 150 )
+rect_min_size = Vector2( 225, 225 )
 texture = ExtResource( 4 )
 expand = true
 
@@ -99,6 +99,6 @@ visible = false
 modulate = Color( 2, 1, 1, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 150, 150 )
+rect_min_size = Vector2( 225, 225 )
 texture = ExtResource( 5 )
 expand = true

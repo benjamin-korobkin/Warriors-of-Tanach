@@ -31,7 +31,7 @@ margin_left = 2.0
 margin_top = 1.0
 margin_right = 152.0
 margin_bottom = 201.0
-rect_min_size = Vector2( 180, 240 )
+rect_min_size = Vector2( 270, 360 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -42,19 +42,19 @@ margin_left = 0.0
 margin_top = 0.0
 margin_right = 6.0
 margin_bottom = 76.0
-rect_min_size = Vector2( 156, 206 )
+rect_min_size = Vector2( 234, 309 )
 
 [node name="Back" type="MarginContainer" parent="Control"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 150, 200 )
+rect_min_size = Vector2( 225, 300 )
 mouse_filter = 2
 
 [node name="Front" type="MarginContainer" parent="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 150, 200 )
+rect_min_size = Vector2( 225, 300 )
 mouse_filter = 2
 
 [node name="Tokens" type="Node2D" parent="Control"]

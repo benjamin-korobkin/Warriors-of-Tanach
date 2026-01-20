@@ -40,8 +40,8 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="FieldHBox2" type="HBoxContainer" parent="FieldContainer"]
-margin_right = 624.0
-margin_bottom = 214.0
+margin_right = 924.0
+margin_bottom = 292.0
 grow_vertical = 2
 
 [node name="FieldGrid2" parent="FieldContainer/FieldHBox2" groups=["field"] instance=ExtResource( 8 )]
@@ -51,22 +51,22 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 0.0
 margin_top = 0.0
-margin_right = 624.0
-margin_bottom = 214.0
+margin_right = 924.0
+margin_bottom = 292.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MarginContainer2" type="MarginContainer" parent="FieldContainer"]
-margin_top = 217.0
-margin_right = 624.0
-margin_bottom = 227.0
+margin_top = 295.0
+margin_right = 924.0
+margin_bottom = 305.0
 rect_min_size = Vector2( 0, 10 )
 
 [node name="FieldHBox1" type="HBoxContainer" parent="FieldContainer"]
-margin_top = 230.0
-margin_right = 624.0
-margin_bottom = 444.0
+margin_top = 308.0
+margin_right = 924.0
+margin_bottom = 600.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -77,16 +77,16 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 0.0
 margin_top = 0.0
-margin_right = 624.0
-margin_bottom = 214.0
+margin_right = 924.0
+margin_bottom = 292.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="FieldContainer"]
-margin_top = 447.0
-margin_right = 624.0
-margin_bottom = 462.0
+margin_top = 603.0
+margin_right = 924.0
+margin_bottom = 618.0
 rect_min_size = Vector2( 0, 15 )
 
 [node name="TurnQueue" type="Node2D" parent="."]
@@ -167,6 +167,8 @@ margin_bottom = 87.0
 z_index = 100
 script = ExtResource( 20 )
 placement = 7
+card_size = Vector2( 225, 300 )
+hand_size = 5
 
 [node name="Control" parent="Hand1" index="0"]
 anchor_left = 0.5
@@ -180,7 +182,6 @@ visible = true
 [node name="Hand2" parent="." instance=ExtResource( 16 )]
 visible = false
 script = ExtResource( 20 )
-card_size = Vector2( 150, 200 )
 excess_discard_pile_name = ""
 hand_size = 5
 excess_cards = 0
@@ -274,7 +275,6 @@ margin_bottom = 74.0
 layer = 128
 
 [node name="GameOverPanel" parent="CanvasLayer" instance=ExtResource( 23 )]
-visible = false
 self_modulate = Color( 1, 1, 1, 0.588235 )
 anchor_left = 0.5
 anchor_top = 0.5
