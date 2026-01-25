@@ -17,7 +17,7 @@ func play_turn():
 
 func action():
 	# Put in random card from hand
-	set_current_card(hand.get_rightmost_card())
+	set_current_card(hand.get_leftmost_card())
 	put_in_field(get_current_card())
 
 

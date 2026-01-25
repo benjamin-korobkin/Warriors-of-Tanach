@@ -132,14 +132,6 @@ const CARDS := {
 	},
 	
 	
-	
-	"Avner": { ## TODO
-		"CardID": CardID.ID.GENERAL_AVNER,
-		"Type": "General",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "+2 while you have more Generals than your opponent"
-	},
 	"Asa": {
 		"CardID": CardID.ID.KING_ASA,
 		"Type": "King",
@@ -212,7 +204,7 @@ const CARDS := {
 		"Type": "General",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "+4 if this is the only general in your field, except Elchanan."
+		"Description": "+3 if this is the only general in your field, except Elchanan."
 	},
 	"Osniel ben Knaz": {
 		"CardID": CardID.ID.SHOFET_OSNIEL,
@@ -249,11 +241,18 @@ const CARDS := {
 		"BasePower": 2,
 		"Description": "+3 for each General in your field\n-3 for each General in opponent field"
 	},
-		"Chizkiyahu": {
+	"Chizkiyahu": {
 		"CardID": CardID.ID.KING_CHIZKIYAHU,
 		"Type": "King",
 		"Power": 3,
 		"BasePower": 3,
 		"Description": "+2 for each Shofet in your field\n-2 for each Shofet in opponent field"
+	},
+	"Avner": {
+		"CardID": CardID.ID.GENERAL_AVNER,
+		"Type": "General",
+		"Power": 2,
+		"BasePower": 2,
+		"Description": "+2 while you have more Generals than your opponent"
 	}
 }

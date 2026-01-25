@@ -4,7 +4,7 @@ extends Node2D
 signal points_updated(player, points)
 signal action_completed
 
-const ONLY_GENERAL_BONUS = 4
+const ONLY_GENERAL_BONUS = 3
 
 onready var board = get_parent().get_parent()
  
@@ -83,10 +83,11 @@ func implement_condition() -> void:
 		recalc_power(card)
 	
 func apply_aura_effects(cc, field_cards, opponent_cards) -> void:
-	## General to King Effect
+	
 	if is_general(cc):
 		for card in field_cards:
 			match card.card_id:
+				## General to King Effect
 				CardID.ID.KING_DAVID:
 					add_modifier(card, "king_bonus", 2)
 				CardID.ID.KING_SHAUL:
@@ -101,6 +102,9 @@ func apply_aura_effects(cc, field_cards, opponent_cards) -> void:
 						set_modifier(card, "Elazar_bonus", ONLY_GENERAL_BONUS)
 					else:
 						set_modifier(card, "Elazar_bonus", 0)
+				CardID.ID.GENERAL_AVNER:
+					if count_generals(field_cards) > count_generals(opponent_cards):
+						set_modifier(card, "avner_bonus", 2)
 		for card in opponent_cards:
 			# Only affect faceup Kings. Otherwise, effects get stacked.
 			if card.get_is_faceup():
@@ -111,6 +115,9 @@ func apply_aura_effects(cc, field_cards, opponent_cards) -> void:
 						add_modifier(card, "king_bonus", -2)
 					CardID.ID.KING_YEHOSHAFAT:
 						add_modifier(card, "king_bonus", -3)
+					CardID.ID.GENERAL_AVNER:
+						if count_generals(field_cards) >= count_generals(opponent_cards):
+							set_modifier(card, "avner_bonus", 0)
 	
 	## Shofet to King Effect
 	if is_shofet(cc):
@@ -185,7 +192,7 @@ func apply_self_effects(cc, field_cards, opponent_cards) -> void:
 			var my_general_count = count_generals(field_cards)
 			var opp_general_count = count_generals(opponent_cards)
 			if my_general_count > opp_general_count:
-				add_modifier(cc, "avner_bonus", 2)
+				set_modifier(cc, "avner_bonus", 2)
 		CardID.ID.SHOFET_TOLEH:
 			if is_shofet(opp_card):
 				add_modifier(cc, "toleh_bonus", 2)
