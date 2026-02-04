@@ -87,15 +87,6 @@ func apply_aura_effects(cc, field_cards, opponent_cards) -> void:
 	if is_general(cc):
 		for card in field_cards:
 			match card.card_id:
-				## General to King Effect
-				CardID.ID.KING_DAVID:
-					add_modifier(card, "king_bonus", 2)
-				CardID.ID.KING_SHAUL:
-					add_modifier(card, "king_bonus", 2)
-				CardID.ID.KING_ASA:
-					add_modifier(card, "king_bonus", 2)
-				CardID.ID.KING_YEHOSHAFAT:
-					add_modifier(card, "king_bonus", 3)
 				## If Elazar plus another general is in the field, remove Elazar bonus
 				CardID.ID.GENERAL_ELAZAR:
 					if is_only_general_on_field(card, field_cards):
@@ -106,33 +97,13 @@ func apply_aura_effects(cc, field_cards, opponent_cards) -> void:
 					if count_generals(field_cards) > count_generals(opponent_cards):
 						set_modifier(card, "avner_bonus", 2)
 		for card in opponent_cards:
-			# Only affect faceup Kings. Otherwise, effects get stacked.
+			# Only affect faceup cards. Otherwise, effects get stacked.
 			if card.get_is_faceup():
 				match card.card_id:
-					CardID.ID.KING_DAVID:
-						add_modifier(card, "king_bonus", -1)
-					CardID.ID.KING_SHAUL:
-						add_modifier(card, "king_bonus", -2)
-					CardID.ID.KING_YEHOSHAFAT:
-						add_modifier(card, "king_bonus", -3)
 					CardID.ID.GENERAL_AVNER:
 						if count_generals(field_cards) >= count_generals(opponent_cards):
 							set_modifier(card, "avner_bonus", 0)
 	
-	## Shofet to King Effect
-	if is_shofet(cc):
-		for card in opponent_cards:
-			# Only affect faceup Kings. Otherwise, effects get stacked.
-			if card.get_is_faceup():
-				match card.card_id:
-					CardID.ID.KING_CHIZKIYAHU:
-						add_modifier(card, "king_bonus", -2)
-	
-	## If opponent plays a King, apply King Asa's power cap
-	if is_king(cc):
-		for card in opponent_cards:
-			if card.card_id == CardID.ID.KING_ASA:
-				cap_power(card, 5)
 
 func apply_self_effects(cc, field_cards, opponent_cards) -> void:
 	var card_id = cc.card_id
@@ -142,23 +113,55 @@ func apply_self_effects(cc, field_cards, opponent_cards) -> void:
 	var opp_card = opponent.get_current_card()
 	var prev_card = get_prev_played_card()
 
+	# Check if current card should give bonus to previous King
+	if prev_card != null and is_king(prev_card):
+		match prev_card.card_id:
+			CardID.ID.KING_DAVID:
+				# David: If next card is a General, +2
+				if is_general(cc):
+					add_modifier(prev_card, "king_bonus", 2)
+			CardID.ID.KING_SHAUL:
+				# Shaul: If next card is a Shofet, +2
+				if is_shofet(cc):
+					add_modifier(prev_card, "king_bonus", 2)
+			CardID.ID.KING_ASA:
+				# Asa: If at least one card on either side is a General, +3
+				if is_general(cc):
+					set_modifier(prev_card, "king_bonus", 3)
+			CardID.ID.KING_CHIZKIYAHU:
+				# Chizkiyahu: If next card is a Shofet, +2
+				if is_shofet(cc):
+					add_modifier(prev_card, "king_bonus", 2)
+			CardID.ID.KING_YEHOSHAFAT:
+				# Yehoshafat: If next card is a General, +2
+				if is_general(cc):
+					add_modifier(prev_card, "king_bonus", 2)
+
 	match card_id:
 		CardID.ID.KING_DAVID:
-			king_effect(field_cards, opponent_cards, 2, -1)
+			# If previous card is a General, +1. If next card is a General, +2
+			if prev_card != null and is_general(prev_card):
+				add_modifier(cc, "king_bonus", 1)
 		CardID.ID.KING_SHAUL:
-			king_effect(field_cards, opponent_cards, 2, -2)
+			# If previous card is General, +1. If next card is a Shofet, +3
+			if prev_card != null and is_general(prev_card):
+				add_modifier(cc, "king_bonus", 1)
 		CardID.ID.KING_ASA:
-			king_effect(field_cards, opponent_cards, 2, 0)
-			# Power cap at 5 if opponent has a king
-			if opp_has_king(opponent_cards):
-				cap_power(cc, 5)
+			# If at least one card on either side is a General, +3
+			if prev_card != null and (is_general(prev_card)):
+				set_modifier(cc, "king_bonus", 3)
+
 		CardID.ID.KING_CHIZKIYAHU:
-			king_effect(field_cards, opponent_cards, 2, -1, "shofet")
+			# If previous card is a Shofet, +1. If next card is a Shofet, +2
+			if prev_card != null and is_shofet(prev_card):
+				add_modifier(cc, "king_bonus", 1)
 		CardID.ID.KING_YEHOSHAFAT:
-			king_effect(field_cards, opponent_cards, 3, -3)
+			# If previous card is a Shofet +1. If next card is a General, +2
+			if prev_card != null and is_shofet(prev_card):
+				add_modifier(cc, "king_bonus", 1)
 		CardID.ID.GENERAL_YOAV:
 			if is_king(opp_card):
-				set_modifier(cc, "Yoav_bonus", 4)
+				set_modifier(cc, "Yoav_bonus", 3)
 		CardID.ID.GENERAL_BARAK:
 			if prev_card != null and is_shofet(prev_card):
 				if prev_card.card_id == CardID.ID.SHOFET_DEVORAH:
@@ -178,10 +181,7 @@ func apply_self_effects(cc, field_cards, opponent_cards) -> void:
 				add_modifier(cc, "Yonatan_bonus", 3)
 		CardID.ID.GENERAL_AVISHAI:
 			if prev_card != null and is_general(prev_card):
-				if prev_card.card_id == CardID.ID.GENERAL_YOAV:
-					add_modifier(cc, "Avishai_bonus", 3)
-				else:
-					add_modifier(cc, "Avishai_bonus", 2)
+				add_modifier(cc, "Avishai_bonus", 2)
 		CardID.ID.GENERAL_AMASA:
 			# If opponent has 3 or more Shoftim, all Shoftim receive -1 Power
 			var opp_shofet_count = count_shoftim(opponent_cards)
@@ -219,21 +219,6 @@ func set_modifier(card, key, value):
 		card.modifiers.erase(key)
 	else:
 		card.modifiers[key] = value
-
-
-func king_effect(field_cards, opponent_cards, amt_add, amt_sub, card_type := "general"):
-	var king_bonus : int = 0
-	for card in field_cards:
-		if card_type == "shofet" and is_shofet(card):
-			king_bonus += amt_add
-		elif card_type == "general" and is_general(card):
-			king_bonus += amt_add
-	for card in opponent_cards:
-		if card_type == "shofet" and is_shofet(card) and card.get_is_faceup():
-			king_bonus += amt_sub
-		elif card_type == "general" and is_general(card) and card.get_is_faceup():
-			king_bonus += amt_sub
-	add_modifier(current_card, "king_bonus", king_bonus)
 
 func cap_power(card, max_power_value: int) -> void:
 	card.max_power = max_power_value
