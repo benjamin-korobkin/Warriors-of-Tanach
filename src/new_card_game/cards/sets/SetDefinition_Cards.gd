@@ -69,21 +69,9 @@ const CARDS := {
 		"Description": "+1 for each other Shofet in your field"
 	},
 	
-	"Shimshon": {
-		"CardID": CardID.ID.SHOFET_SHIMSHON,
-		"Type": "Shofet",
-		"Power": 0,
-		"BasePower": 0,
-		"Description": "+1 for EVERY other Shofet on board"
-	},
 	
-	"Ehud ben Geira": {
-		"CardID": CardID.ID.SHOFET_EHUD,
-		"Type": "Shofet",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "+1 for each other Shofet in your field"
-	},
+	
+	
 	
 	
 	
@@ -141,13 +129,7 @@ const CARDS := {
 		"Description": "If previous card is General, +1\nIf next card is a Shofet, +2"
 	},
 
-	"Shamgar ben Anat": {
-		"CardID": CardID.ID.SHOFET_SHAMGAR,
-		"Type": "Shofet",
-		"Power": 1,
-		"BasePower": 1,
-		"Description": "+1 for each other Shofet in your field\n If opponent plays a King this turn, +2"
-	},
+	
 	"Barak": {
 		"CardID": CardID.ID.GENERAL_BARAK,
 		"Type": "General",
@@ -163,13 +145,7 @@ const CARDS := {
 		"BasePower": 2,
 		"Description": "+3 if opponent played a King this round"
 	},
-	"Amasa": {
-		"CardID": CardID.ID.GENERAL_AMASA,
-		"Type": "General",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "If opponent has 3 or more Shoftim this turn, -1 to ALL Shoftim on board"
-	},
+	
 	"Avishai": {
 		"CardID": CardID.ID.GENERAL_AVISHAI,
 		"Type": "General",
@@ -219,6 +195,36 @@ const CARDS := {
 		"BasePower": 3,
 		"Description": "If previous card is a Shofet +1. If next card is a General, +2"
 	},
+	
+	"Avner": {
+		"CardID": CardID.ID.GENERAL_AVNER,
+		"Type": "General",
+		"Power": 2,
+		"BasePower": 2,
+		"Description": "+2 while you have more Generals than your opponent"
+	},
+	
+	"David": {
+		"CardID": CardID.ID.KING_DAVID,
+		"Type": "King",
+		"Power": 3,
+		"BasePower": 3,
+		"Description": "If previous card is General, +1\nIf next card is a General, +2"
+	},
+	"Shimshon": {
+		"CardID": CardID.ID.SHOFET_SHIMSHON,
+		"Type": "Shofet",
+		"Power": 0,
+		"BasePower": 0,
+		"Description": "+1 for EVERY other Shofet on board"
+	},
+	"Shamgar ben Anat": {
+		"CardID": CardID.ID.SHOFET_SHAMGAR,
+		"Type": "Shofet",
+		"Power": 1,
+		"BasePower": 1,
+		"Description": "+1 for each other Shofet in your field\n If opponent plays a King this turn, +2"
+	},
 	"Osniel ben Knaz": {
 		"CardID": CardID.ID.SHOFET_OSNIEL,
 		"Type": "Shofet",
@@ -226,12 +232,20 @@ const CARDS := {
 		"BasePower": 0,
 		"Description": "+1 for each other shofet in your field. +2 to each shofet you played before"
 	},
-	"Avner": {
-		"CardID": CardID.ID.GENERAL_AVNER,
-		"Type": "General",
+	"Ehud ben Geira": {
+		"CardID": CardID.ID.SHOFET_EHUD,
+		"Type": "Shofet",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "+2 while you have more Generals than your opponent"
+		"Description": "+1 for each other Shofet in your field"
+	},
+	
+	"Chizkiyahu": {
+		"CardID": CardID.ID.KING_CHIZKIYAHU,
+		"Type": "King",
+		"Power": 3,
+		"BasePower": 3,
+		"Description": "If previous card is a Shofet, +1. If next card is a Shofet, +2"
 	},
 	"Toleh ben Puah": {
 		"CardID": CardID.ID.SHOFET_TOLEH,
@@ -240,18 +254,11 @@ const CARDS := {
 		"BasePower": 1,
 		"Description": "+1 for each other shofet in your field. +2 If opponent plays a shofet this round"
 	},
-	"David": {
-		"CardID": CardID.ID.KING_DAVID,
-		"Type": "King",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": "If previous card is General, +1\nIf next card is a General, +2"
-	},
-	"Chizkiyahu": {
-		"CardID": CardID.ID.KING_CHIZKIYAHU,
-		"Type": "King",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": "If previous card is a Shofet, +1. If next card is a Shofet, +2"
+	"Amasa": {
+		"CardID": CardID.ID.GENERAL_AMASA,
+		"Type": "General",
+		"Power": 2,
+		"BasePower": 2,
+		"Description": "If opponent has 3 or more Shoftim this turn, -1 to ALL Shoftim on board"
 	}
 }
