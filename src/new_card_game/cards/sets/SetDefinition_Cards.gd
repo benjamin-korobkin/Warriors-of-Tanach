@@ -72,9 +72,9 @@ const CARDS := {
 	"Shimshon": {
 		"CardID": CardID.ID.SHOFET_SHIMSHON,
 		"Type": "Shofet",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "+1 for each other Shofet in your field"
+		"Power": 0,
+		"BasePower": 0,
+		"Description": "+1 for EVERY other Shofet on board"
 	},
 	
 	"Ehud ben Geira": {
@@ -159,9 +159,9 @@ const CARDS := {
 	"Shamgar ben Anat": {
 		"CardID": CardID.ID.SHOFET_SHAMGAR,
 		"Type": "Shofet",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "+1 for each other Shofet in your field"
+		"Power": 1,
+		"BasePower": 1,
+		"Description": "+1 for each other Shofet in your field\n If opponent plays a King this turn, +2"
 	},
 	"Barak": {
 		"CardID": CardID.ID.GENERAL_BARAK,
