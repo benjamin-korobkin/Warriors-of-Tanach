@@ -21,6 +21,7 @@ enum ID {
 	GENERAL_YOAV        = 208
 	GENERAL_YONATAN	    = 209
 	GENERAL_ZALMAN      = 210
+	GENERAL_SIBCHAI	 	= 211
 
 	# === Shoftim (300–399) ===
 	SHOFET_DEVORAH      = 302

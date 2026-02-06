@@ -198,7 +198,13 @@ const CARDS := {
 		"BasePower": 2,
 		"Description": "+3 if this is the only general in your field, except Elchanan."
 	},
-	
+	"Sibchai HaChushati": {
+		"CardID": CardID.ID.GENERAL_SIBCHAI,
+		"Type": "General",
+		"Power": 3,
+		"BasePower": 3,
+		"Description": ""
+	},
 	"Zalman": {
 		"CardID": CardID.ID.GENERAL_ZALMAN,
 		"Type": "General",
