@@ -84,13 +84,6 @@ const CARDS := {
 		"BasePower": 2,
 		"Description": "+1 for each other Shofet in your field"
 	},
-	"Yair HaGiladi": {
-		"CardID": CardID.ID.SHOFET_YAIR,
-		"Type": "Shofet",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "+1 for each other Shofet in your field"
-	},
 	
 	
 	
@@ -128,7 +121,7 @@ const CARDS := {
 		"Type": "General",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "+3 if opponent plays a general this turn"
+		"Description": "+2 if opponent plays a general this turn"
 	},
 	
 	
@@ -137,7 +130,7 @@ const CARDS := {
 		"Type": "King",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "If at least one card on either side is a General, +3"
+		"Description": "If next card is a General, +3"
 	},
 	
 	"Shaul": {
@@ -166,9 +159,9 @@ const CARDS := {
 	"Ittai": {
 		"CardID": CardID.ID.GENERAL_ITTAI,
 		"Type": "General",
-		"Power": 3,
-		"BasePower": 3,
-		"Description": ""
+		"Power": 2,
+		"BasePower": 2,
+		"Description": "+3 if opponent played a King this round"
 	},
 	"Amasa": {
 		"CardID": CardID.ID.GENERAL_AMASA,
@@ -180,9 +173,9 @@ const CARDS := {
 	"Avishai": {
 		"CardID": CardID.ID.GENERAL_AVISHAI,
 		"Type": "General",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "+2 if you played a general last turn"
+		"Power": 3,
+		"BasePower": 3,
+		"Description": ""
 	},
 	"Yonatan": {
 		"CardID": CardID.ID.GENERAL_YONATAN,
