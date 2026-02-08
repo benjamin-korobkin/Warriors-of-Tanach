@@ -1,9 +1,11 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://src/new_card_game/ActionsMenu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/core/Pile.tscn" type="PackedScene" id=2]
+[ext_resource path="res://BigFontTheme.tres" type="Theme" id=3]
 [ext_resource path="res://src/new_card_game/Deck.gd" type="Script" id=4]
 [ext_resource path="res://src/new_card_game/Board.gd" type="Script" id=5]
+[ext_resource path="res://src/custom/DetailsFont.tres" type="DynamicFont" id=6]
 [ext_resource path="res://src/new_card_game/FieldPlacementGrid.tscn" type="PackedScene" id=8]
 [ext_resource path="res://themes/darktheme/darktheme.theme" type="Theme" id=12]
 [ext_resource path="res://src/new_card_game/Player2.tscn" type="PackedScene" id=13]
@@ -228,10 +230,12 @@ __meta__ = {
 [node name="Exit Game" type="Button" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -160.0
-margin_top = 25.0
-margin_right = -10.0
-margin_bottom = 90.0
+margin_left = -187.0
+margin_top = 26.0
+margin_right = -37.0
+margin_bottom = 91.0
+theme = ExtResource( 3 )
+custom_fonts/font = ExtResource( 6 )
 text = "Exit Game"
 icon_align = 1
 
