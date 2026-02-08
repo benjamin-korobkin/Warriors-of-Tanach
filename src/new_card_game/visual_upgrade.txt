@@ -1,0 +1,47 @@
+From ChatGPT:
+
+CARD SIZE
+Card Design size (canonical)
+	- 600 × 840 px
+	- Aspect ratio: 5:7
+	- All typography, icons, borders tuned at this size.
+Board (up to 6 cards in a row)
+	- Scale: 0.32
+	- Render size: ~192 × 269
+Hand (up to 5 cards)
+	- Scale: 0.40
+	- Render size: 240 × 336
+Hover / focused card
+	- Scale: 0.50–0.55
+	- Render size: ~300 × 420
+Spacing standards
+	- Horizontal card gap: 16 px
+	- Minimum zone padding: 32–40 px
+
+FONT SIZE
+Card name
+	• 42 px
+	• Tracking: +2% to +4%
+	• Line height: tight, single line
+	• Text box height: 56–60 px
+	• Horizontal padding: 24 px
+	• 
+	
+Role text
+	• 24 px
+	• All caps
+	• Tracking: +6% to +8%
+	• Text box height: 32–36 px
+	• Horizontal padding: 20 px
+	• ALL CAPS
+Power number
+	• 64–72 px
+	• Depends on medallion size
+	• Optically centered, not mathematically centered
+Rules/Effects text
+	• 26 px
+	• Line height: 1.45–1.55
+	• Max line length: ~40–45 characters
+	• Text box width: 520–540 px
+	• Horizontal padding: 30–40 px
+	• Vertical padding (inside box): 20–24 px

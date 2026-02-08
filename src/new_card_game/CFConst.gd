@@ -42,11 +42,11 @@ const GAME_VERSION := "1.1.0"
 # This will also adjust all CardContainers to match
 # If you modify this property, you **must** adjust
 # the min_rect of the various control nodes inside the card front and back scenes.
-const CARD_SIZE := Vector2(160,210)
+const CARD_SIZE := Vector2(150,200)
 # This is the resolution the game was developed in. It is used to adjust the card sizes
 # for smaller resolutions. Any lower resoluton will adjust its card sizes for previews/thumbnails
 # based on the percentage of difference between the two resolutions in absolute pixel number.
-const DESIGN_RESOLUTION := Vector2(1280,720)
+const DESIGN_RESOLUTION := Vector2(720,1280)
 # Switch this off to disable fancy movement of cards during draw/discard
 const FANCY_MOVEMENT := false
 # The focus style selected for this game. See enum `FocusStyle`
@@ -131,7 +131,7 @@ const PATH_MOUSE_POINTER := PATH_CORE + "MousePointer.tscn"
 const NEIGHBOUR_PUSH := 0.7
 # The scale of a card while on the play area
 # You can adjust this for each different card type
-const PLAY_AREA_SCALE := 0.95 #0.85
+const PLAY_AREA_SCALE := 0.7 #0.85
 # The default scale of a card while on a thumbnail area such as the deckbuilder
 # You can adjust this for each different card type
 const THUMBNAIL_SCALE := 0.85

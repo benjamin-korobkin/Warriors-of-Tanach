@@ -411,7 +411,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Warriors-of-Tanach"
-run/main_scene="res://src/custom/MainMenu.tscn"
+run/main_scene="res://src/new_card_game/MainMenu.tscn"
 config/icon="res://assets/icons/icon_512x512x32.png"
 
 [autoload]
@@ -425,8 +425,11 @@ settings/fps/force_fps=60
 
 [display]
 
-window/size/width=1280
-window/size/height=720
+window/size/width=720
+window/size/height=1280
+window/handheld/orientation="sensor_portrait"
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
 
 [global]
 

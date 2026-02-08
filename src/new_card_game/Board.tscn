@@ -19,7 +19,7 @@
 [node name="Board" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 1280, 720 )
+rect_min_size = Vector2( 720, 1280 )
 mouse_filter = 2
 theme = ExtResource( 12 )
 script = ExtResource( 5 )
@@ -29,22 +29,25 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0705882, 0.203922, 0.254902, 0.156863 )
 
-[node name="FieldContainer" type="VBoxContainer" parent="."]
+[node name="FieldContainer" type="HBoxContainer" parent="."]
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 0.27
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -312.0
-margin_top = -280.0
-margin_right = 312.0
-margin_bottom = 182.0
+anchor_bottom = 0.65
+margin_left = -260.0
+margin_right = 260.0
 grow_horizontal = 2
 grow_vertical = 2
+custom_constants/separation = 20
+alignment = 1
 
 [node name="FieldHBox2" type="HBoxContainer" parent="FieldContainer"]
-margin_right = 624.0
-margin_bottom = 214.0
+margin_right = 210.0
+margin_bottom = 1050.0
+grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="FieldGrid2" parent="FieldContainer/FieldHBox2" groups=["field"] instance=ExtResource( 8 )]
 anchor_left = 0.0
@@ -53,24 +56,26 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 0.0
 margin_top = 0.0
-margin_right = 624.0
-margin_bottom = 214.0
+margin_right = 200.0
+margin_bottom = 1050.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MarginContainer2" type="MarginContainer" parent="FieldContainer"]
-margin_top = 217.0
-margin_right = 624.0
-margin_bottom = 227.0
-rect_min_size = Vector2( 0, 10 )
+margin_left = 230.0
+margin_right = 250.0
+margin_bottom = 1050.0
+rect_min_size = Vector2( 20, 0 )
 
 [node name="FieldHBox1" type="HBoxContainer" parent="FieldContainer"]
-margin_top = 230.0
-margin_right = 624.0
-margin_bottom = 444.0
+margin_left = 270.0
+margin_right = 480.0
+margin_bottom = 1050.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="FieldGrid1" parent="FieldContainer/FieldHBox1" groups=["field"] instance=ExtResource( 8 )]
 anchor_left = 0.0
@@ -79,17 +84,19 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 0.0
 margin_top = 0.0
-margin_right = 624.0
-margin_bottom = 214.0
+margin_right = 210.0
+margin_bottom = 1050.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="FieldContainer"]
-margin_top = 447.0
-margin_right = 624.0
-margin_bottom = 462.0
-rect_min_size = Vector2( 0, 15 )
+margin_left = 500.0
+margin_right = 520.0
+margin_bottom = 1050.0
+rect_min_size = Vector2( 20, 0 )
 
 [node name="TurnQueue" type="Node2D" parent="."]
 script = ExtResource( 17 )
@@ -99,7 +106,8 @@ script = ExtResource( 17 )
 [node name="Player2" parent="TurnQueue" instance=ExtResource( 13 )]
 
 [node name="Deck" parent="." instance=ExtResource( 2 )]
-position = Vector2( 0, 555 )
+visible = false
+position = Vector2( 640, 100 )
 scale = Vector2( 0.9, 0.9 )
 script = ExtResource( 4 )
 placement = 5
@@ -172,26 +180,27 @@ placement = 7
 
 [node name="Control" parent="Hand1" index="0"]
 anchor_left = 0.5
-anchor_top = 0.0
 anchor_right = 0.5
-anchor_bottom = 0.0
+margin_left = -150.0
+margin_top = -220.0
+margin_right = 150.0
 
 [node name="Cards" parent="Hand1/Counters" index="0"]
 visible = true
 
 [node name="Hand2" parent="." instance=ExtResource( 16 )]
-visible = false
 script = ExtResource( 20 )
-card_size = Vector2( 150, 200 )
-excess_discard_pile_name = ""
-hand_size = 5
-excess_cards = 0
+placement = 1
 
 [node name="Control" parent="Hand2" index="0"]
 anchor_left = 0.5
+anchor_top = 0.0
 anchor_right = 0.5
-margin_top = -100.0
-margin_bottom = -75.0
+anchor_bottom = 0.0
+margin_left = -150.0
+margin_top = 10.0
+margin_right = 150.0
+margin_bottom = 230.0
 
 [node name="ScalingFocusOptions" type="OptionButton" parent="."]
 visible = false

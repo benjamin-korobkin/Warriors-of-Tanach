@@ -11,6 +11,13 @@ export(PackedScene) var board_scene : PackedScene
 var _previously_focused_cards := {}
 # This var hold the currently focused card duplicate.
 var _current_focus_source : Card = null
+var _current_focus_dupe : Card = null
+
+func _set_visible_recursive(node: Node) -> void:
+	if node is CanvasItem:
+		node.visible = true
+	for child in node.get_children():
+		_set_visible_recursive(child)
 
 onready var card_focus := $VBC/Focus
 onready var focus_info := $VBC/FocusInfo
@@ -22,6 +29,7 @@ onready var world_environemt : WorldEnvironment = $WorldEnvironment
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print("=== ViewportCardFocus _ready called ===")
 	cfc.map_node(self)
 	world_environemt.environment.glow_enabled = cfc.game_settings.get('glow_enabled', true)
 	# We use the below while to wait until all the nodes we need have been mapped
@@ -30,8 +38,8 @@ func _ready():
 	var board = board_scene.instance()
 	$ViewportContainer/Viewport.add_child(board)
 	
-	$VBC.rect_position.x = get_viewport().size.x - $VBC.rect_size.x
-	$VBC.rect_position.y = 0
+	# Position VBC at top-center (anchors are already set to 0.5, so just ensure it's visible)
+	$VBC.margin_top = 10
 	
 	if not cfc.are_all_nodes_mapped:
 		yield(cfc, "all_nodes_mapped")
@@ -87,14 +95,24 @@ func _process(_delta) -> void:
 
 # Displays the card closeup in the Focus viewport
 func focus_card(card: Card, show_preview := true) -> void:
+	# Force preview visible for now to debug missing viewport card
+	show_preview = true
+	# Debug prints can be re-enabled later if needed
+	# print("=== FOCUS_CARD CALLED ===")
+	# print("Card: ", card.name if card else "null")
+	# print("Show preview: ", show_preview)
+	# print("Current focus source: ", _current_focus_source)
+	var dupe_focus: Card = null
+	
 	# We check if we're already focused on this card, to avoid making duplicates
 	# the whole time
 	if not _current_focus_source:
+		# print("Creating new focus card duplicate...")
 		# We make a duplicate of the card to display and add it on its own in
 		# our viewport world
 		# This way we can standardize its scale and look and not worry about
 		# what happens on the table.
-		var dupe_focus: Card
+		# dupe_focus assigned below
 		if _previously_focused_cards.has(card) and is_instance_valid(_previously_focused_cards[card]):
 			dupe_focus = _previously_focused_cards[card]
 			# Check if the duplicate has its own properties dictionary (new duplicates)
@@ -141,6 +159,7 @@ func focus_card(card: Card, show_preview := true) -> void:
 				else:
 					dupe_focus._flip_card(dupe_focus._card_front_container,dupe_focus._card_back_container, true)
 		_current_focus_source = card
+		_current_focus_dupe = dupe_focus
 		for c in _previously_focused_cards.values():
 			if not is_instance_valid(c):
 				continue
@@ -148,20 +167,41 @@ func focus_card(card: Card, show_preview := true) -> void:
 				c.visible = false
 			else:
 				c.visible = true
-		# If the card is facedown, we don't want the info panels
-		# giving away information
+	else:
+		# Card already focused, use the cached duplicate
+		dupe_focus = _current_focus_dupe
+	
+	# This code runs whether we created a new card or are using an existing one
+	if is_instance_valid(dupe_focus):
+		# print("Positioning card: ", dupe_focus.name)
+		
+		# Center card in focus viewport
+		var card_size: Vector2 = dupe_focus.get_node("Control").rect_size
+		# Reset transform to avoid inherited scaling/rotation
+		dupe_focus.scale = Vector2(1.0, 1.0)
+		dupe_focus.rotation = 0.0
+		dupe_focus.position = Vector2(0, 0)
+		dupe_focus.visible = true
+		card_focus.visible = true
+		
+		# Make sure card and all children are visible
+		_set_visible_recursive(dupe_focus)
+		
+		# Center camera on card
+		if is_instance_valid($VBC/Focus/Viewport/Camera2D):
+			$VBC/Focus/Viewport/Camera2D.current = true
+			$VBC/Focus/Viewport/Camera2D.position = card_size / 2
+			$VBC/Focus/Viewport/Camera2D.zoom = Vector2(1.0, 1.0)
+			# print("Camera positioned at: ", $VBC/Focus/Viewport/Camera2D.position)
+		
+		# Update info panels
 		if not dupe_focus.is_faceup:
 			focus_info.visible = false
 		else:
-			cfc.ov_utils.populate_info_panels(card,focus_info)
+			cfc.ov_utils.populate_info_panels(card, focus_info)
 			focus_info.visible = true
-		# We store all our previously focused cards in an array, and clean them
-		# up when they're not focused anymore
-		_previously_focused_cards[card] = dupe_focus
-		# We have to copy these internal vars because they are reset
-		# see https://github.com/godotengine/godot/issues/3393
-		# We make the viewport camera focus on it
-		$VBC/Focus/Viewport/Camera2D.position = dupe_focus.global_position
+		
+		# print("Card visible: ", dupe_focus.visible, " at ", dupe_focus.position)
 		# We always make sure to clean tweening conflicts
 #		$VBC/Focus/Tween.remove_all()
 		# We do a nice alpha-modulate tween
@@ -184,8 +224,8 @@ func focus_card(card: Card, show_preview := true) -> void:
 		# we need to set their parent container size to 0 here
 		# To ensure they are shown as expected on the screen
 		# I.e. the card doesn't appear mid-screen for no reason etc
-		card_focus.rect_size = Vector2(0,0)
-		$VBC.rect_size = Vector2(0,0)
+		# card_focus.rect_size = Vector2(0,0)
+		# $VBC.rect_size = Vector2(0,0)
 
 
 
@@ -261,6 +301,9 @@ func _input(event):
 func _on_Viewport_size_changed() -> void:
 	if ProjectSettings.get("display/window/stretch/mode") == "disabled" and is_instance_valid(get_viewport()):
 		$ViewportContainer.rect_size = get_viewport().size
+	# Keep focus viewport container at the top
+	if is_instance_valid($VBC) and is_instance_valid(get_viewport()):
+		$VBC.margin_top = 10
 #		for c in _previously_focused_cards.values().duplicate():
 #			c.queue_free()
 
