@@ -146,10 +146,6 @@ func apply_self_effects(cc, field_cards, opponent_cards) -> void:
 			# If previous card is General, +1. If next card is a Shofet, +3
 			if prev_card != null and is_general(prev_card):
 				add_modifier(cc, "king_bonus", 1)
-		CardID.ID.KING_ASA:
-			# If at least one card on either side is a General, +3
-			if prev_card != null and (is_general(prev_card)):
-				set_modifier(cc, "king_bonus", 3)
 
 		CardID.ID.KING_CHIZKIYAHU:
 			# If previous card is a Shofet, +1. If next card is a Shofet, +2

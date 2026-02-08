@@ -123,8 +123,6 @@ const CARDS := {
 		"BasePower": 2,
 		"Description": "+2 if opponent plays a general this turn"
 	},
-	
-	
 	"Asa": {
 		"CardID": CardID.ID.KING_ASA,
 		"Type": "King",
