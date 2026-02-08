@@ -77,13 +77,8 @@ const CARDS := {
 		"Description": "+1 for EVERY other Shofet on board"
 	},
 	
-	"Ehud ben Geira": {
-		"CardID": CardID.ID.SHOFET_EHUD,
-		"Type": "Shofet",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "+1 for each other Shofet in your field"
-	},
+	
+	
 	
 	
 	
@@ -168,6 +163,7 @@ const CARDS := {
 		"BasePower": 2,
 		"Description": "If opponent has 3 or more Shoftim this turn, -1 to ALL Shoftim on board"
 	},
+	
 	"Avishai": {
 		"CardID": CardID.ID.GENERAL_AVISHAI,
 		"Type": "General",

@@ -125,7 +125,7 @@ func apply_self_effects(cc, field_cards, opponent_cards) -> void:
 				if is_shofet(cc):
 					add_modifier(prev_card, "king_bonus", 2)
 			CardID.ID.KING_ASA:
-				# Asa: If at least one card on either side is a General, +3
+				# Asa: If next card is a General, +3
 				if is_general(cc):
 					set_modifier(prev_card, "king_bonus", 3)
 			CardID.ID.KING_CHIZKIYAHU:
@@ -171,13 +171,13 @@ func apply_self_effects(cc, field_cards, opponent_cards) -> void:
 				set_modifier(cc, "Elazar_bonus", 0)
 		CardID.ID.GENERAL_BENAIAH:
 			if is_general(opp_card):
-				add_modifier(cc, "Benaiah_bonus", 3)
+				add_modifier(cc, "Benaiah_bonus", 2)
 		CardID.ID.GENERAL_YONATAN:
 			if is_shofet(opp_card):
 				add_modifier(cc, "Yonatan_bonus", 3)
-		CardID.ID.GENERAL_AVISHAI:
-			if prev_card != null and is_general(prev_card):
-				add_modifier(cc, "Avishai_bonus", 2)
+		CardID.ID.GENERAL_ITTAI:
+			if is_king(opp_card):
+				set_modifier(cc, "Ittai_bonus", 3)
 		CardID.ID.GENERAL_AMASA:
 			# If opponent has 3 or more Shoftim, all Shoftim receive -1 Power
 			var opp_shofet_count = count_shoftim(opponent_cards)
@@ -192,17 +192,26 @@ func apply_self_effects(cc, field_cards, opponent_cards) -> void:
 		CardID.ID.SHOFET_TOLEH:
 			if is_shofet(opp_card):
 				add_modifier(cc, "toleh_bonus", 2)
+		CardID.ID.SHOFET_SHAMGAR:
+			if is_king(opp_card):
+				add_modifier(cc, "shamgar_bonus", 2)
 		_:
 			pass
 	
 func apply_shofet_effects(cc, field_cards) -> void:
 	if is_shofet(cc):
 		var bonus = shofet_bonus()
+		var opponent_cards = opponent.field.get_occupying_cards()
 		for card in field_cards:
 			if is_shofet(card):
 				if cc.card_id == CardID.ID.SHOFET_OSNIEL and card != cc:
 					add_modifier(card, "osniel_bonus", 2)
-				set_modifier(card, "shofet_bonus", bonus)
+				# Shimshon counts ALL Shoftim on board (both fields)
+				if card.card_id == CardID.ID.SHOFET_SHIMSHON:
+					var shimshon_bonus = count_shoftim(field_cards) + count_shoftim(opponent_cards) - 1
+					set_modifier(card, "shofet_bonus", shimshon_bonus)
+				else:
+					set_modifier(card, "shofet_bonus", bonus)
 	
 func get_prev_played_card() -> Card:
 	return field.get_previous_card(current_card)
