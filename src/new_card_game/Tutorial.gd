@@ -200,7 +200,7 @@ func advance_tutorial():
 		_adjust_tutorial_panel(tut_panel_pos)
 	else:
 		cfc.quit_game()
-		get_parent().get_tree().change_scene("res://src/custom/MainMenu.tscn")
+		get_parent().get_tree().change_scene("res://src/new_card_game/MainMenu.tscn")
 
 
 func _on_NextButton_pressed() -> void:
@@ -267,4 +267,4 @@ func _on_TurnQueue_turn_counter_updated(turn_counter) -> void:
 
 func _on_Exit_Game_pressed() -> void:
 	cfc.quit_game()
-	get_tree().change_scene("res://src/custom/MainMenu.tscn")
+	get_tree().change_scene("res://src/new_card_game/MainMenu.tscn")

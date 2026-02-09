@@ -1,8 +1,8 @@
 # Warriors of Tanach
 
-A fast, competitive digital card game built around characters from Tanach, with a primary focus on Shoftim and Melachim. Inspired by games like *Marvel Snap*.
+A short, quick, competitive digital card game built around characters from Tanach. Gameplay inspired by games like *Marvel Snap*.
 
-Play online or download (Windows, Mac, Android):
+Play online:
 https://korben12.itch.io/warriors-of-tanach
 
 (The game is in active development.)
@@ -12,49 +12,44 @@ https://korben12.itch.io/warriors-of-tanach
 ## How to Play
 
 - 2 players, **1 shared deck**
-- Each player starts with **4 cards**, including **1 random Prophet**
+- Each player starts with **4 cards**
 - The game lasts **5 turns**
 
 ### Turn Structure
 
-1. **Optional:** Play your Prophet face-down  
-   - Must be done *before* playing your Power card  
-   - Prophets are revealed **after both players play their Power card**
+1. Play **1 card** face-down
 
-2. Play **1 Power card**
+2. Cards are revealed simultaneously  
 
-3. Cards are revealed simultaneously  
-   - Unless modified by a Prophet effect
-
-4. Points are calculated based on power and conditions
+3. Points are calculated based on power and conditions
 
 After 5 turns, the player with the **highest total score wins**.
 
 ---
 
 ## Card Types
-
-### Power Cards
-- **Kings**
-- **Generals** – Can bolster or counter Kings
+- **Kings** - Bolstered by Generals & Shoftim
+- **Generals** - Base cards. Some have counter effects
 - **Shoftim** – Gain power through synergy
-
-### Prophets
-- Each player starts with one
-- Introduce tactical disruption
 
 ---
 
 ## Future Plans
 
+- Deeper gameplay elements with new mechanics - including new card type!
 - UI polish and clarity
-- Smarter, less predictable AI
-- Expanded card pool
+- Artwork for cards and background
 - Relevant pasuk displayed on each card
+- Smarter opponent
+- Audio (sound effects, background music)
+- Expanded card pool
 
 ---
 
-## Tech Notes
+## Tech
 
 - Built in **Godot 3.5**
-- Uses the **db0 card game framework** (link TBD)
+
+## Credits
+
+- Uses the ([db0 card game framework](https://github.com/db0/godot-card-game-framework))

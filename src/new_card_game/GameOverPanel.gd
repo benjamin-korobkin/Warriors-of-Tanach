@@ -15,7 +15,7 @@ func _on_game_won(player) -> void:
 
 func _on_MenuButton_pressed() -> void:
 	cfc.quit_game()
-	get_parent().get_tree().change_scene("res://src/custom/MainMenu.tscn")
+	get_parent().get_tree().change_scene("res://src/new_card_game/MainMenu.tscn")
 
 
 func _on_PlayAgainButton_pressed() -> void:

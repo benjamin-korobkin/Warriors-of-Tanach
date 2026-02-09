@@ -112,7 +112,7 @@ func _on_DeckBuilder_hide() -> void:
 
 func _on_BackToMain_pressed() -> void:
 	cfc.quit_game()
-	get_tree().change_scene("res://src/custom/MainMenu.tscn")
+	get_tree().change_scene("res://src/new_card_game/MainMenu.tscn")
 
 func _on_ActionsMenu_index_pressed(index: int) -> void:
 	print(index)

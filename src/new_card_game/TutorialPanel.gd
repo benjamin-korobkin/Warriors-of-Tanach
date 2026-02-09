@@ -79,7 +79,7 @@ func _advance_tutorial():
 		
 	else:
 		cfc.quit_game()
-		get_parent().get_tree().change_scene("res://src/custom/MainMenu.tscn")
+		get_parent().get_tree().change_scene("res://src/new_card_game/MainMenu.tscn")
 
 
 func _on_NextButton_pressed() -> void:
