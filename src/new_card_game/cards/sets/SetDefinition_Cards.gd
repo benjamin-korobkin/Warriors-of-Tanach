@@ -196,14 +196,6 @@ const CARDS := {
 		"Description": "If previous card is a Shofet +1. If next card is a General, +2"
 	},
 	
-	"Avner": {
-		"CardID": CardID.ID.GENERAL_AVNER,
-		"Type": "General",
-		"Power": 2,
-		"BasePower": 2,
-		"Description": "+2 while you have more Generals than your opponent"
-	},
-	
 	"David": {
 		"CardID": CardID.ID.KING_DAVID,
 		"Type": "King",
@@ -253,6 +245,13 @@ const CARDS := {
 		"Power": 1,
 		"BasePower": 1,
 		"Description": "+1 for each other shofet in your field. +2 If opponent plays a shofet this turn"
+	},
+	"Avner": {
+		"CardID": CardID.ID.GENERAL_AVNER,
+		"Type": "General",
+		"Power": 2,
+		"BasePower": 2,
+		"Description": "+2 while you have more Generals than your opponent"
 	},
 	"Amasa": {
 		"CardID": CardID.ID.GENERAL_AMASA,
