@@ -41,6 +41,34 @@ func choose_best_card() -> Card:
 	var field_cards = field.get_occupying_cards()
 	var opponent_cards = opponent.field.get_occupying_cards()
 	
+	# KING PRIORITY STRATEGY
+	# Check if we have any kings in hand or on field
+	var kings_in_hand = get_kings_in_hand(hand_cards)
+	var last_field_card = field_cards[-1] if field_cards.size() > 0 else null
+	
+	# Priority 1: If last card on field is a king, play the card it wants
+	if last_field_card and is_king(last_field_card):
+		var desired_type = get_king_desired_type(last_field_card)
+		var matching_card = find_card_of_type(hand_cards, desired_type)
+		if matching_card:
+			return matching_card
+	
+	# Priority 2: If we have a king in hand
+	if kings_in_hand.size() > 0:
+		for king in kings_in_hand:
+			var desired_type = get_king_desired_type(king, "previous")
+			# If last card on field matches what this king wants, play the king
+			if last_field_card and is_card_of_type(last_field_card, desired_type):
+				return king
+		
+		# Otherwise, try to play the card that sets up the king
+		for king in kings_in_hand:
+			var desired_type = get_king_desired_type(king, "previous")
+			var matching_card = find_card_of_type(hand_cards, desired_type)
+			if matching_card:
+				return matching_card
+	
+	# Fallback: Use scoring system
 	var best_card = hand_cards[0]
 	var best_score = score_card(best_card, field_cards, opponent_cards)
 	
@@ -165,3 +193,65 @@ func score_opponent_counters(card: Card, opponent_cards: Array) -> int:
 				bonus += 2
 	
 	return bonus
+
+
+# King Strategy Helper Methods
+
+func get_kings_in_hand(hand_cards: Array) -> Array:
+	var kings = []
+	for card in hand_cards:
+		if is_king(card):
+			kings.append(card)
+	return kings
+
+
+func get_king_desired_type(king: Card, position: String = "next") -> String:
+	# Returns the type of card that gives this king a bonus
+	# position can be "previous" (card before king) or "next" (card after king)
+	match king.card_id:
+		CardID.ID.KING_DAVID:
+			# Previous: General (+1), Next: General (+2)
+			return "general"
+		CardID.ID.KING_SHAUL:
+			# Previous: General (+1), Next: Shofet (+2)
+			if position == "previous":
+				return "general"
+			else:
+				return "shofet"
+		CardID.ID.KING_ASA:
+			# Previous: none, Next: General (+3)
+			if position == "previous":
+				return ""
+			else:
+				return "general"
+		CardID.ID.KING_CHIZKIYAHU:
+			# Previous: Shofet (+1), Next: Shofet (+2)
+			return "shofet"
+		CardID.ID.KING_YEHOSHAFAT:
+			# Previous: Shofet (+1), Next: General (+2)
+			if position == "previous":
+				return "shofet"
+			else:
+				return "general"
+		_:
+			return ""
+
+
+func find_card_of_type(cards: Array, card_type: String) -> Card:
+	# Find first card matching the desired type
+	for card in cards:
+		if is_card_of_type(card, card_type):
+			return card
+	return null
+
+
+func is_card_of_type(card: Card, card_type: String) -> bool:
+	match card_type:
+		"general":
+			return is_general(card)
+		"shofet":
+			return is_shofet(card)
+		"king":
+			return is_king(card)
+		_:
+			return false
