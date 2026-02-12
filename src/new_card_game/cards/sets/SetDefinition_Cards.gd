@@ -21,28 +21,28 @@ const CARDS := {
 	# 	"CardID": CardID.ID.PROPHET_SHMUEL,
 	# 	"Type": "Prophet",
 	# 	"Power": 0,
-	# 	"Description": "Any Shofet played this round onward may not exceed 3 Power"
+	# 	"Description": "Any Shofet played this turn onward may not exceed 3 Power"
 	# },
 	
 	# "Yehoshua": {
 	# 	"CardID": CardID.ID.PROPHET_YEHOSHUA,
 	# 	"Type": "Prophet",
 	# 	"Power": 0,
-	# 	"Description": "The cards played in this round are swapped"
+	# 	"Description": "The cards played in this turn are swapped"
 	# },
 	
 	# "Natan": {
 	# 	"CardID": CardID.ID.PROPHET_NATAN,
 	# 	"Type": "Prophet",
 	# 	"Power": 0,
-	# 	"Description": "No effects occur this round"
+	# 	"Description": "No effects occur this turn"
 	# },
 	
 	# "Hoshea": {
 	# 	"CardID": CardID.ID.PROPHET_HOSHEA,
 	# 	"Type": "Prophet",
 	# 	"Power": 0,
-	# 	"Description": "Next round, your opponent reveals their card before you select yours"
+	# 	"Description": "Next turn, your opponent reveals their card before you select yours"
 	# },
 	
 	
@@ -102,7 +102,7 @@ const CARDS := {
 		"Type": "General",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "+3 if opponent played a King this round"
+		"Description": "+3 if opponent plays a King this turn"
 	},
 	"Benaiah": {
 		"CardID": CardID.ID.GENERAL_BENAIAH,
@@ -143,7 +143,7 @@ const CARDS := {
 		"Type": "General",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "+3 if opponent played a King this round"
+		"Description": "+3 if opponent plays a King this turn"
 	},
 	
 	"Avishai": {
@@ -252,13 +252,13 @@ const CARDS := {
 		"Type": "Shofet",
 		"Power": 1,
 		"BasePower": 1,
-		"Description": "+1 for each other shofet in your field. +2 If opponent plays a shofet this round"
+		"Description": "+1 for each other shofet in your field. +2 If opponent plays a shofet this turn"
 	},
 	"Amasa": {
 		"CardID": CardID.ID.GENERAL_AMASA,
 		"Type": "General",
 		"Power": 2,
 		"BasePower": 2,
-		"Description": "If opponent has 3 or more Shoftim this turn, -1 to ALL Shoftim on board"
+		"Description": "+2 if opponent plays a General this turn"
 	}
 }

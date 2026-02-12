@@ -172,17 +172,15 @@ func apply_self_effects(cc, field_cards, opponent_cards) -> void:
 		CardID.ID.GENERAL_BENAIAH:
 			if is_general(opp_card):
 				add_modifier(cc, "Benaiah_bonus", 2)
+		CardID.ID.GENERAL_AMASA:
+			if is_general(opp_card):
+				add_modifier(cc, "Amasa_bonus", 2)
 		CardID.ID.GENERAL_YONATAN:
 			if is_shofet(opp_card):
 				add_modifier(cc, "Yonatan_bonus", 3)
 		CardID.ID.GENERAL_ITTAI:
 			if is_king(opp_card):
 				set_modifier(cc, "Ittai_bonus", 3)
-		CardID.ID.GENERAL_AMASA:
-			# If opponent has 3 or more Shoftim, all Shoftim receive -1 Power
-			var opp_shofet_count = count_shoftim(opponent_cards)
-			if opp_shofet_count >= 3:
-				apply_amasa_debuff(field_cards, opponent_cards)
 		CardID.ID.GENERAL_AVNER:
 			# +2 if you have more Generals than your opponent
 			var my_general_count = count_generals(field_cards)
